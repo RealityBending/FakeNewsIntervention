@@ -1,5 +1,5 @@
 // STAIT-5 (Zsido, 2020) ========================================================================
-var stai576_items = [
+var stai5_items = [
     "I feel that difficulties are piling up so that I cannot overcome them",
     "I worry too much over something that really doesn't matter",
     "Some unimportant thoughts run through my mind and bothers me",
