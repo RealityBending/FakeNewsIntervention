@@ -87,6 +87,93 @@ var VSA = {
     },
 }
 
+// RWAS (Right-Wing Authoritarianism Scale)
+var RWAS_items = [
+    'The established authorities generally turn out to be right about things, while the radicals and protestors are usually just "loud mouths" showing off their ignorance.',
+    "Women should have to promise to obey their husbands when they get married.",
+    "Our country desperately needs a mighty leader who will do what has to be done to destroy the radical new ways and sinfulness that are ruining us.",
+    "Gays and lesbians are just as healthy and moral as anybody else.", //reverse scored
+    "It is always better to trust the judgement of the proper authorities in government and religion than to listen to the noisy rabble-rousers in our society who are trying to create doubt in people's minds.",
+    "Atheists and others who have rebelled against the established religions are no doubt every bit as good and virtuous as those who attend church regularly.", //reverse scored
+    "The only way our country can get through the crisis ahead is to get back to our traditional values, put some tough leaders in power, and silence the troublemakers spreading bad ideas.",
+    "There is absolutely nothing wrong with nudist camps.", //reverse scored
+    "Our country needs free thinkers who have the courage to defy traditional ways, even if this upsets many people.", //reverse scored
+    "Our country will be destroyed someday if we do not smash the perversions eating away at our moral fiber and traditional beliefs.",
+    "Everyone should have their own lifestyle, religious beliefs, and sexual preferences, even if it makes them different from everyone else.", //reverse scored
+    'The "old-fashioned ways" and the "old-fashioned values" still show the best way to live.',
+    "You have to admire those who challenged the law and the majority's view by protesting for women's abortion rights, for animal rights, or to abolish school prayer.", //reverse scored
+    "What our country really needs is a strong, determined leader who will crush evil, and take us back to our true path.",
+    'Some of the best people in our country are those who are challenging our government, criticizing religion, and ignoring the "normal way things are supposed to be done."', //reverse scored
+    "God's laws about abortion, pornography and marriage must be strictly followed before it is too late, and those who break them must be strongly punished.",
+    "There are many radical, immoral people in our country today, who are trying to ruin it for their own godless purposes, whom the authorities should put out of action.",
+    'A "woman\'s place" should be wherever she wants to be. The days when women are submissive to their husbands and social conventions belong strictly in the past.', //reverse scored
+    "Our country will be great if we honor the ways of our forefathers, do what the authorities tell us to do, and get rid of the \"rotten apples\" who are ruining everything.",
+    "There is no \"one right way\" to live life; everybody has to create their own way.", //reverse scored
+    "Homosexuals and feminists should be praised for being brave enough to defy \"traditional family values.\"", //reverse scored
+    "This country would work a lot better if certain groups of troublemakers would just shut up and accept their group's traditional place in society.",
+]
+
+var RWAS_dimensions = [
+    "RWAS_1",
+    "RWAS_2",
+    "RWAS_3",
+    "RWAS_4",
+    "RWAS_5",
+    "RWAS_6",
+    "RWAS_7",
+    "RWAS_8",
+    "RWAS_9",
+    "RWAS_10",
+    "RWAS_11",
+    "RWAS_12",
+    "RWAS_13",
+    "RWAS_14",
+    "RWAS_15",
+    "RWAS_16",
+    "RWAS_17",
+    "RWAS_18",
+    "RWAS_19",
+    "RWAS_20",
+    "RWAS_21",
+    "RWAS_22",
+]
+    
+
+RWAS_questions = []
+for (const [index, element] of RWAS_items.entries()) {
+    RWAS_questions.push({
+        prompt: "<b>" + element + "</b>",
+        name: RWAS_dimensions[index],
+        labels: [
+            "<br>Very strongly disagree",
+            "<br>Strongly disagree",
+            "<br>Moderately disagree",
+            "<br>Slightly disagree",
+            "<br>Feel neutral",
+            "<br>Slightly agree",
+            "<br>Moderately agree",
+            "<br>Strongly agree",
+            "<br>Very strongly agree",
+        ],
+        required: true,
+    })
+}
+
+var RWAS = {
+    type: jsPsychSurveyLikert,
+    css_classes: ["narrow-text"],
+    questions: RWAS_questions,
+    randomize_question_order: false,
+    preamble:
+        "<p style='text-align: left;'>The test consists of twenty two opinions and for each you must indicate how much you agree with it. The test should take 3 - 5 minutes to complete." +
+        // "HOW YOU FEEL RIGHT NOW. " +
+        // "how you have been feeling <b>during the past two weeks</b>. " +
+        // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
+    data: {
+        screen: "questionnaire_RWAS",
+    },
+}
+
 // IAS questionnaire ========================================================================
 var IAS_items = [
     "I can always accurately perceive when my heart is beating fast",
