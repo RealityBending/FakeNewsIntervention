@@ -39,6 +39,45 @@ var stai5 = {
     },
 }
 
+// Political self-identification (ANES)
+var ANES = {
+    type: jsPsychSurveyMultiChoice,
+    css_classes: ["narrow-text"],
+    preamble:
+        "<p style='text-align: left;'>This questionnaire consists of 2 groups of statements. Please read each group of statements carefully. And then pick out the one statement in each group that best describes the way you have been feeling <b>during the past two weeks</b>, including today. If several statements in the group seem to apply equally well, circle the highest number for that group.</p>",
+    questions: [
+        {
+            prompt: "<b>1. Liberal-Conservative Self-Identification</b>",
+            options: [
+                "0. Extremely Liberal",
+                "1. Liberal",
+                "2. Slightly Liberal",
+                "3. Moderate, Middle of Road",
+                "4. Don't Know, Haven't Thought",
+                "5. slightly Convervative",
+                "6. Conservative",
+                "7. Extremely Conservative",
+            ],
+            name: "ANES_1",
+            required: true,
+        },
+        {
+            prompt: "<b>2. Political party of Registration</b>",
+            options: [
+                "0. Democratic Party",
+                "1. Republican Party",
+                "2. None or /'independent/'",
+                "3. Other",
+            ],
+            name: "ANES_2",
+            required: true,
+        },
+    ],
+    data: {
+        screen: "questionnaire_ANES",
+    },
+}
+
 // BFI-10 (Rammstedt & John 2007)
 // Scoring the BFI-10 scales: Extraversion: 1R, 6; Agreeableness: 2, 7R; Conscientiousness: 3R, 8; Neuroticism: 4R, 9; Openness: 5R; 10 (R = item is reversed-scored).
 
