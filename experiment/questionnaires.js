@@ -39,6 +39,54 @@ var stai5 = {
     },
 }
 
+// VSA (Very Short Authoritarianism) Scale [LOOK HERE DOM]
+var VSA_items = [
+    "It’s great that many young people today are prepared to defy authority.", // reverse scored
+    "What our country needs most is discipline, with everyone following our leaders in unity.", 
+    "God’s laws about abortion, pornography, and marriage must be strictly followed before it is too late.",
+    "There is nothing wrong with premarital sexual intercourse.", // reverse scored
+    "Our society does NOT need tougher government and stricter laws.", //reverse scored
+    "The facts on crime and the recent public disorders show we have to crack down harder on troublemakers if we are going to preserve law and order.",
+    
+]
+
+var VSA_dimensions = ["VSA_1", "VSA_2", "VSA_3", "VSA_4", "VSA_5", "VSA_6"]
+
+VSA_questions = []
+for (const [index, element] of VSA_items.entries()) {
+    VSA_questions.push({
+        prompt: "<b>" + element + "</b>",
+        name: VSA_dimensions[index],
+        labels: [
+            "<br>Very strongly disagree",
+            "<br>Strongly disagree",
+            "<br>Somewhat disagree",
+            "<br>Slightly disagree",
+            "<br>Unsure or neutral",
+            "<br>Slightly agree",
+            "<br>Somewhat agree",
+            "<br>Strongly agree",
+            "<br>Very strongly agree",
+        ],
+        required: true,
+    })
+}
+
+var VSA = {
+    type: jsPsychSurveyLikert,
+    css_classes: ["narrow-text"],
+    questions: VSA_questions,
+    randomize_question_order: false,
+    preamble:
+        "<p style='text-align: left;'>Please read each statement in the following list and mark your agreement or disagreement with each statement" +
+        // "HOW YOU FEEL RIGHT NOW. " +
+        // "how you have been feeling <b>during the past two weeks</b>. " +
+        "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
+    data: {
+        screen: "questionnaire_VSA",
+    },
+}
+
 // IAS questionnaire ========================================================================
 var IAS_items = [
     "I can always accurately perceive when my heart is beating fast",
