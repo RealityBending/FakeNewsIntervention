@@ -39,7 +39,9 @@ var stai5 = {
     },
 }
 
-// Political self-identification (ANES)
+
+
+// Political self-identification (ANES) 
 var ANES = {
     type: jsPsychSurveyMultiChoice,
     css_classes: ["narrow-text"],
