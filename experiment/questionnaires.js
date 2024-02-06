@@ -39,7 +39,68 @@ var stai5 = {
     },
 }
 
-// VSA (Very Short Authoritarianism) Scale [LOOK HERE DOM]
+// BFI-10 (Rammstedt & John 2007)
+// Scoring the BFI-10 scales: Extraversion: 1R, 6; Agreeableness: 2, 7R; Conscientiousness: 3R, 8; Neuroticism: 4R, 9; Openness: 5R; 10 (R = item is reversed-scored).
+
+var BFI10_items = [
+    "I see myself as someone who is reserved", //reverse scored
+    "I see myself as someone who is generally trusting", 
+    "I see myself as someone who tends to be lazy", //reverse scored
+    "I see myself as someone who is relaxed, handles stress well", //reverse scored
+    "I see myself as someone who has few artistic interests", //reverse scored
+    "I see myself as someone who is outgoing, sociable", 
+    "I see myself as someone who tends to find fault with others", //reverse scored
+    "I see myself as someone who does a thorough job", 
+    "I see myself as someone who gets nervous easily", 
+    "I see myself as someone who has an active imagination", 
+]
+
+var BFI10_dimensions = [
+    "BFI10_1",
+    "BFI10_2",
+    "BFI10_3",
+    "BFI10_4",
+    "BFI10_5",
+    "BFI10_6",
+    "BFI10_7",
+    "BFI10_8",
+    "BFI10_9",
+    "BFI10_10",
+]
+
+BFI10_questions = []
+for (const [index, element] of BFI10_items.entries()) {
+    BFI10_questions.push({
+        prompt: "<b>" + element + "</b>",
+        name: BFI10_dimensions[index],
+        labels: [
+            "<br>Disagree strongly",
+            "<br>Disagree a little",
+            "<br>Neither agree or disagree",
+            "<br>Agree a little",
+            "<br>Agree Strongly",
+        ],
+        required: true,
+    })
+}
+
+var BFI10 = {
+    type: jsPsychSurveyLikert,
+    css_classes: ["narrow-text"],
+    questions: BFI10_questions,
+    randomize_question_order: false,
+    preamble:
+        "<p style='text-align: left;'>How well do the following statements describe your personality?" +
+        // "HOW YOU FEEL RIGHT NOW. " +
+        // "how you have been feeling <b>during the past two weeks</b>. " +
+        // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
+    data: {
+        screen: "questionnaire_BFI10",
+    },
+}
+
+
+// VSA (Very Short Authoritarianism) Scale (Bizuimic & Duckitt 2018)
 var VSA_items = [
     "It’s great that many young people today are prepared to defy authority.", // reverse scored
     "What our country needs most is discipline, with everyone following our leaders in unity.", 
@@ -87,7 +148,7 @@ var VSA = {
     },
 }
 
-// RWAS (Right-Wing Authoritarianism Scale)
+// RWAS (Right-Wing Authoritarianism Scale) (Altemeyer 2007)
 var RWAS_items = [
     'The established authorities generally turn out to be right about things, while the radicals and protestors are usually just "loud mouths" showing off their ignorance.',
     "Women should have to promise to obey their husbands when they get married.",
