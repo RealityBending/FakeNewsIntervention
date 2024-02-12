@@ -65,7 +65,7 @@ function demographics_consent(experimenter = "DEFAULT") {
             "<h1>Informed Consent</h1>" +
             // Overview
             "<p align='left'><b>Invitation to Take Part</b><br>" +
-            "You are being invited to take part in a research study to further our understanding of Human psychology. Thank you for carefully reading this information sheet. This study is being conducted by Dr Dominique Makowski from the School of Psychology, University of Sussex, who is happy to be contacted (D.Makowski@sussex.ac.uk) if you have any questions.</p>" +
+            "You are being invited to take part in a research study to further our understanding of Human psychology. Thank you for carefully reading this information sheet. This study is being conducted by PhD candidate Robert Dickinson from the School of Psychology, University of Sussex, who is happy to be contacted (r.dickinson@sussex.ac.uk) if you have any questions.</p>" +
             // Description
             "<p align='left'><b>Why have I been invited and what will I do?</b><br>" +
             "We are surveying adults to understand how mood fluctuations and mood disorders symptoms (or absence thereof) are expressed and what difficulties they can generate. This study contains various questionnaires about your personality, feelings and current state of mind. The whole experiment will take you <b>about 10 min</b> to complete. Please make you sure that you are in a quiet environment, and that you have time to complete it in one go.</p>" +
