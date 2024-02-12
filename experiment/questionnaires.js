@@ -1,41 +1,195 @@
-// STAIT-5 (Zsido, 2020) ========================================================================
-var stai5_items = [
-    "I feel that difficulties are piling up so that I cannot overcome them",
-    "I worry too much over something that really doesn't matter",
-    "Some unimportant thoughts run through my mind and bothers me",
-    "I take disappointments so keenly that I can't put them out of my mind",
-    "I get in a state of tension or turmoil as I think over my recent concerns and interests",
+// MIST20 (Maertens et al. 2023)
+
+// ***NOTE*** it appears that some headlines in the MIST20 differ from the MIST16, meaning there are more than 20 total validated headlines
+// there appears to be a total of 31 headlines across the MIST20 and MIST16
+// this means we could perhaps split that 31 into two questionnaires for pre-post, with 15 in each or 16/15
+
+// We recommend to calculate and report all five scores of the Verification done framework:
+// - V (Veracity Discernment): V can be calculated by scoring each of the responses on a binary 0 (incorrect) or 1 (correct) metric and taking the sum of the score.
+// - r (Real News Detection): The sum of all scores for the real news items results in the r score.
+// - f (Fake News Detection): The sum of all scores for the fake news items results in the f score.
+// - d (Distrust): To calculate d, all responses must be scored on a binary 0 (not fake news) or 1 (fake news) metric, independent of whether the response is correct or incorrect. The sum of this amount of fake news judgements should then be subtracted by 10 (MIST-20), 8 (MIST-16), or 4 (MIST-8), and this results in the distrust score. If the resulting score is below 0, the score should be corrected to 0.
+// - n (Naïvité): To calculate n, all responses must be scored on a binary 0 (not real news) or 1 (real news), independent of whether the response is correct or incorrect. The sum of this amount of real news judgements should then be subtracted by 10 (MIST-20), 8 (MIST-16), or 4 (MIST-8), and this results in the naïvité score. If the resulting score is below 0, the score should be corrected to 0.
+
+// additional MIST questions noted here
+//     "US Hispanic Population Reached New High in 2018, But Growth Has Slowed", //real
+//    "Taiwan Seeks to Join Fight Against Global Warming", //real
+//    "About a Quarter of Large US Newspapers Laid off Staff in 2018", //real
+//    "Majority in US Still Want Abortion Legal, with Limits", //real
+//    "Most Americans Say It's OK for Professional Athletes to Speak out Publicly about Politics", //real
+//    "United Nations Gets Mostly Positive Marks from People Around the World", //real
+//     "The Government Is Actively Destroying Evidence Related to the JFK Assassination", //fake
+//    "A Small Group of People Control the World Economy by Manipulating the Price of Gold and Oil", //fake
+//    "The Government Is Conducting a Massive Cover-Up of Their Involvement in 9/11", //fake
+//     "Climate Scientists' Work Is 'Unreliable', a 'Deceptive Method of Communication'", //fake
+//    "Left-Wingers Are More Likely to Lie to Get a Good Grade", //fake
+
+
+var mist_items = [
+    "Democrats More Supportive than Republicans of Federal Spending for Scientific Research", //real
+    "International Relations Experts and US Public Agree: America Is Less Respected Globally", //real
+    "Reflecting a Demographic Shift, 109 US Counties Have Become Majority Nonwhite Since 2000", //real
+    "Government Officials Have Illegally Manipulated the Weather to Cause Devastating Storms", //fake
+    "Morocco's King Appoints Committee Chief to Fight Poverty and Inequality", //real
+    "Hyatt Will Remove Small Bottles from Hotel Bathrooms", //real
+    "The Government Is Knowingly Spreading Disease Through the Airwaves and Food Supply", //fake
+    "Government Officials Have Manipulated Stock Prices to Hide Scandals", //fake
+    "New Study: Left-Wingers Are More Likely to Lie to Get a Higher Salary", //fake
+    "US Support for Legal Marijuana Steady in Past Year", //real
+    "One-in-Three Worldwide Lack Confidence in Non-Governmental Organizations", //real
+    "New Study: Clear Relationship Between Eye Color and Intelligence", //fake
+    "The Corporate Media Is Controlled by the Military-Industrial Complex: The Major Oil Companies Own the Media and Control Their Agenda", //fake
+    "The Government Is Manipulating the Public's Perception of Genetic Engineering in Order to Make People More Accepting of Such Techniques", //fake
+    "Global Warming Age Gap: Younger Americans Most Worried", //real
+    "Ebola Virus 'Caused by US Nuclear Weapons Testing', New Study Says", //fake
+    "Republicans Divided in Views of Trump’s Conduct, Democrats Are Broadly Critical", //real
+    "Certain Vaccines Are Loaded with Dangerous Chemicals and Toxins", //fake
+    "Attitudes Toward EU Are Largely Positive, Both Within Europe and Outside It", //real
+    "Left-Wing Extremism Causes 'More Damage' to World Than Terrorism, Says UN Report", //fake
 ]
 
-var stai5_dimensions = ["STAI5_1", "STAI5_2", "STAI5_3", "STAI5_4", "STAI5_5"]
+let mist_dimensions = [
+    //this will need to be changed to reflect the dimensions of the MIST20, not sure how it's currently split into ABCD. May also need to extend to 31 and split
+    "MIST_Real_A_1",
+    "MIST_Real_A_2",
+    "MIST_Real_A_3",
+    "MIST_Real_A_4",
+    "MIST_Real_A_5",
+    "MIST_Real_B_6",
+    "MIST_Real_B_7",
+    "MIST_Real_B_8",
+    "MIST_Fake_C_9",
+    "MIST_Fake_C_10",
+    "MIST_Fake_C_11",
+    "MIST_Fake_C_12",
+    "MIST_Fake_C_13",
+    "MIST_Fake_D_14",
+    "MIST_Fake_D_15",
+    "MIST_Fake_D_16",
+    "MIST_Fake_C_17",
+    "MIST_Fake_D_18",
+    "MIST_Fake_D_19",
+    "MIST_Fake_D_20",
+]
 
-stai5_questions = []
-for (const [index, element] of stai5_items.entries()) {
-    stai5_questions.push({
-        prompt: "<b>" + element + "</b>",
-        name: stai5_dimensions[index],
-        labels: [
-            "<br>Not at all",
-            "<br>Somewhat",
-            "<br>Moderately so",
-            "<br>Very much so",
-        ],
-        required: true,
+var mist_questions = []
+for (const [index, element] of mist_items.entries()) {
+    mist_questions.push({
+        prompt: element,
+        name: mist_dimensions[index],
     })
 }
 
-var stai5 = {
-    type: jsPsychSurveyLikert,
-    css_classes: ["narrow-text"],
-    questions: stai5_questions,
+var mist_questionnaire = {
+    type: jsPsychSurvey,
+    pages: [
+        [
+            {
+                type: "html",
+                prompt:
+                    "<p><b>Please categorize the following news headlines as either 'Fake News' or'Real News'.</b></p>" +
+                    "<p><i>Some items may look credible or obviously false at first sight, but may actually fall in the opposite category. However, for each news headline, only one category is correct.</i></p>",
+            },
+            {
+                type: "likert-table",
+                prompt: " ",
+                statements: () => jsPsych.randomization.shuffle(mist_questions),
+                options: ["Real", "Fake"],
+
+                required: true,
+            },
+        ],
+    ],
+    data: {
+        screen: "questionnaire_mist",
+    },
+}
+
+
+// IPIP6 (Sibley 2011)
+
+var ipip6_items = [
+    "I am the life of the party",
+    "I sympathise with others' feelings",
+    "I get chores done right away",
+    "I have frequent mood swings",
+    "I have a vivid imagination",
+    "I feel entitled to more of everything",
+    "I don't talk a lot",
+    "I am not interested in other people's problems",
+    "I have difficulty understanding abstract ideas",
+    "I like order",
+    "I make a mess of things",
+    "I deserve more things in life",
+    "I do not have a good imagination",
+    "I feel others' emotions",
+    "I am relaxed most of the time",
+    "I get upset easily",
+    "I seldom feel blue",
+    "I would like to be seen driving around in a really expensive car",
+    "I keep in the background",
+    "I am not really interested in others",
+    "I am not interested in abstract ideas",
+    "I often forget to put things back in their proper place",
+    "I talk to a lot of different people at parties",
+    "I would get a lot of pleasure from owning expensive luxury goods",
+]
+var ipip6_dimensions = [
+    "Extraversion_1",
+    "Agreeableness_2",
+    "Conscientiousness_3",
+    "Neuroticism_4",
+    "Openness_5",
+    "HonestyHumility_6_R",
+    "Extraversion_7_R",
+    "Agreeableness_8_R",
+    "Openness_9_R",
+    "Conscientiousness_10",
+    "Conscientiousness_11_R",
+    "HonestyHumility_12_R",
+    "Openness_13_R",
+    "Agreeableness_14",
+    "Neuroticism_15_R",
+    "Neuroticism_16",
+    "Neuroticism_17_R",
+    "HonestyHumility_18_R",
+    "Extraversion_19_R",
+    "Agreeableness_20_R",
+    "Openness_21_R",
+    "Conscientiousness_22_R",
+    "Extraversion_23",
+    "HonestyHumility_24_R",
+]
+
+function format_questions_analog(items, dimensions, ticks = ["Inaccurate", "Accurate"]) {
+    var questions = []
+    for (const [index, element] of items.entries()) {
+        questions.push({
+            prompt: "<b>" + element + "</b>",
+            name: dimensions[index],
+            ticks: ticks,
+            required: true,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5,
+        })
+    }
+    return questions
+}
+
+// IPIP
+var ipip6_questionnaire = {
+    type: jsPsychMultipleSlider,
+    questions: format_questions_analog(ipip6_items, ipip6_dimensions),
     randomize_question_order: false,
     preamble:
-        "<p style='text-align: left;'>A number of statements which people have used to describe themselves are given below. Read each statement and then circle the number at the end of the statement that indicates " +
-        // "HOW YOU FEEL RIGHT NOW. " +
-        "how you have been feeling <b>during the past two weeks</b>. " +
-        "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
+        "<p><b>About your personality...</b></p>" +
+        "<p> Please answer the following questions based on how accurately each statement describes you in general.</p>",
+    require_movement: false,
+    slider_width: 600,
     data: {
-        screen: "questionnaire_stai5",
+        screen: "questionnaire_ipip6",
     },
 }
 
@@ -273,333 +427,5 @@ var RWAS = {
         // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
     data: {
         screen: "questionnaire_RWAS",
-    },
-}
-
-// IAS questionnaire ========================================================================
-var IAS_items = [
-    "I can always accurately perceive when my heart is beating fast",
-    "I can always accurately perceive when I am hungry",
-    "I can always accurately perceive when I am breathing fast",
-    "I can always accurately perceive when I am thirsty",
-    "I can always accurately perceive when I need to urinate",
-    "I can always accurately perceive when I need to defecate",
-    "I can always accurately perceive when I encounter different tastes",
-    "I can always accurately perceive when I am going to vomit",
-    "I can always accurately perceive when I am going to sneeze",
-    "I can always accurately perceive when I am going to cough",
-    "I can always accurately perceive when I am hot/cold",
-    "I can always accurately perceive when I am sexually aroused",
-    "I can always accurately perceive when I am going to pass wind",
-    "I can always accurately perceive when I am going to burp",
-    "I can always accurately perceive when my muscles are tired/sore",
-    "I can always accurately perceive when I am going to get a bruise",
-    "I can always accurately perceive when I am in pain",
-    "I can always accurately perceive when my blood sugar is low",
-    "I can always accurately perceive when someone is touching me affectionately rather than non-affectionately",
-    "I can always accurately perceive when something is going to be ticklish",
-    "I can always accurately perceive when something is going to be itchy",
-]
-var IAS_dimensions = [
-    "IAS_1",
-    "IAS_2",
-    "IAS_3",
-    "IAS_4",
-    "IAS_5",
-    "IAS_6",
-    "IAS_7",
-    "IAS_8",
-    "IAS_9",
-    "IAS_10",
-    "IAS_11",
-    "IAS_12",
-    "IAS_13",
-    "IAS_14",
-    "IAS_15",
-    "IAS_16",
-    "IAS_17",
-    "IAS_18",
-    "IAS_19",
-    "IAS_20",
-    "IAS_21",
-]
-
-var ias_questions = []
-for (const [index, element] of IAS_items.entries()) {
-    ias_questions.push({
-        prompt: "<b>" + element + "</b>",
-        name: IAS_dimensions[index],
-        ticks: ["Strongly Disagree", "Strongly Agree"],
-        required: true,
-        min: 0,
-        max: 1,
-        step: 0.01,
-        slider_start: 0.5,
-    })
-}
-
-var ias = {
-    type: jsPsychMultipleSlider,
-    questions: ias_questions,
-    randomize_question_order: true,
-    preamble:
-        "<h2>About your body sensations...</h2>" +
-        "<p style='text-align: left;'>Below are several statements regarding how accurately you can perceive specific bodily sensations. Please rate on the scale how well you believe you can perceive each specific signal.</p>" +
-        "<p style='text-align: left;'>For example, if you often feel you need to urinate and then realise you do not need to when you go to the toilet, you would rate your accuracy perceiving this bodily signal as low.</p>" +
-        "<p style='text-align: left;'>Please only rate how well you can perceive these signals without using external cues. For example, if you can only perceive how fast your heart is beating when you measure it by taking your pulse, this would <i>not</i> count as accurate internal perception.</p><br /><br/> ",
-    require_movement: false,
-    slider_width: 700,
-    data: {
-        screen: "questionnaire_ias",
-    },
-}
-
-// BDI-II ========================================================================
-var bdi2 = {
-    type: jsPsychSurveyMultiChoice,
-    css_classes: ["narrow-text"],
-    preamble:
-        "<p style='text-align: left;'>This questionnaire consists of 21 groups of statements. Please read each group of statements carefully. And then pick out the one statement in each group that best describes the way you have been feeling <b>during the past two weeks</b>, including today. If several statements in the group seem to apply equally well, circle the highest number for that group.</p>",
-    questions: [
-        {
-            prompt: "<b>1. Sadness</b>",
-            options: [
-                "0. I do not feel sad",
-                "1. I feel sad much of the time",
-                "2. I am sad all the time",
-                "3. I am so sad or unhappy that I can't stand it",
-            ],
-            name: "BDI2_1",
-            required: true,
-        },
-        {
-            prompt: "<b>2. Pessimism</b>",
-            options: [
-                "0. I am not discouraged about my future",
-                "1. I feel more discouraged about my future than I used to",
-                "2. I do not expect things to work out for me",
-                "3. I feel my future is hopeless and will only get worse",
-            ],
-            name: "BDI2_2",
-            required: true,
-        },
-        {
-            prompt: "<b>3. Past Failure</b>",
-            options: [
-                "0. I do not feel like a failure",
-                "1. I have failed more than I should have",
-                "2. As I look back, I see a lot of failures",
-                "3. I feel I am a total failure as a person",
-            ],
-            name: "BDI2_3",
-            required: true,
-        },
-        {
-            prompt: "<b>4. Loss of Pleasure</b>",
-            options: [
-                "0. I get as much pleasure as I ever did from the things I enjoy",
-                "1. I don't enjoy things as much as I used to",
-                "2. I get very little pleasure from the things I used to enjoy",
-                "3. I can't get any pleasure from the things I used to enjoy",
-            ],
-            name: "BDI2_4",
-            required: true,
-        },
-        {
-            prompt: "<b>5. Guilty Feelings</b>",
-            options: [
-                "0. I don't feel particularly guilty",
-                "1. I feel guilty over many things I have done or should have done",
-                "2. I feel quite guilty most of the time",
-                "3. I feel guilty all of the time",
-            ],
-            name: "BDI2_5",
-            required: true,
-        },
-        {
-            prompt: "<b>6. Punishment Feelings</b>",
-            options: [
-                "0. I don't feel I am being punished",
-                "1. I feel I may be punished",
-                "2. I expect to be punished",
-                "3. I feel I am being punished",
-            ],
-            name: "BDI2_6",
-            required: true,
-        },
-        {
-            prompt: "<b>7. Self-Dislike</b>",
-            options: [
-                "0. I feel the same about myself as ever",
-                "1. I have lost confidence in myself",
-                "2. I am disappointed in myself",
-                "3. I dislike myself",
-            ],
-            name: "BDI2_7",
-            required: true,
-        },
-        {
-            prompt: "<b>8. Self-Criticalness</b>",
-            options: [
-                "0. I don't criticize or blame myself more than usual",
-                "1. I am more critical of myself than I used to be",
-                "2. I criticize myself for all of my faults",
-                "3. I blame myself for everything bad that happens",
-            ],
-            name: "BDI2_8",
-            required: true,
-        },
-        {
-            prompt: "<b>9. Suicidal Thoughts or Wishes</b>",
-            options: [
-                "0. I don't have any thoughts of killing myself",
-                "1. I have thoughts of killing myself, but I would not carry them out",
-                "2. I would like to kill myself",
-                "3. I would kill myself if I had the chance",
-            ],
-            name: "BDI2_9",
-            required: true,
-        },
-        {
-            prompt: "<b>10. Crying</b>",
-            options: [
-                "0. I don't cry anymore than I used to",
-                "1. I cry more than I used to",
-                "2. I cry over every little thing",
-                "3. I feel like crying, but I can't",
-            ],
-            name: "BDI2_10",
-            required: true,
-        },
-        {
-            prompt: "<b>11. Agitation</b>",
-            options: [
-                "0. I am no more restless or wound up than usual",
-                "1. I feel more restless or wound up than usual",
-                "2. I am so restless or agitated, it's hard to stay still",
-                "3. I am so restless or agitated that I have to keep moving or doing something",
-            ],
-            name: "BDI2_11",
-            required: true,
-        },
-        {
-            prompt: "<b>12. Loss of Interest</b>",
-            options: [
-                "0. I have not lost interest in other people or activities",
-                "1. I am less interested in other people or things than before",
-                "2. I have lost most of my interest in other people or things",
-                "3. It's hard to get interested in anything",
-            ],
-            name: "BDI2_12",
-            required: true,
-        },
-        {
-            prompt: "<b>13. Indecisiveness</b>",
-            options: [
-                "0. I make decisions about as well as ever",
-                "1. I find it more difficult to make decisions than usual",
-                "2. I have much greater difficulty in making decisions than I used to",
-                "3. I have trouble making any decisions",
-            ],
-            name: "BDI2_13",
-            required: true,
-        },
-        {
-            prompt: "<b>14. Worthlessness</b>",
-            options: [
-                "0. I do not feel I am worthless",
-                "1. I don't consider myself as worthwhile and useful as I used to",
-                "2. I feel more worthless as compared to others",
-                "3. I feel utterly worthless",
-            ],
-            name: "BDI2_14",
-            required: true,
-        },
-        {
-            prompt: "<b>15. Loss of Energy</b>",
-            options: [
-                "0. I have as much energy as ever",
-                "1. I have less energy than I used to have",
-                "2. I don't have enough energy to do very much",
-                "3. I don't have enough energy to do anything",
-            ],
-            name: "BDI2_15",
-            required: true,
-        },
-        {
-            prompt: "<b>16. Changes in Sleeping Pattern</b>",
-            options: [
-                "0. I have not experienced any change in my sleeping pattern",
-                "1a. I sleep somewhat more than usual",
-                "1b. I sleep somewhat less than usual",
-                "2a. I sleep a lot more than usual",
-                "2b. I sleep a lot less than usual",
-                "3a. I sleep most of the day",
-                "3b. I wake up 1-2 hours early and can't get back to sleep",
-            ],
-            name: "BDI2_16",
-            required: true,
-        },
-        {
-            prompt: "<b>17. Irritability</b>",
-            options: [
-                "0. I am not more irritable than usual",
-                "1. I am more irritable than usual",
-                "2. I am much more irritable than usual",
-                "3. I am irritable all the time",
-            ],
-            name: "BDI2_17",
-            required: true,
-        },
-        {
-            prompt: "<b>18. Changes in Appetite</b>",
-            options: [
-                "0. I have not experienced any change in my appetite",
-                "1a. My appetite is somewhat less than usual",
-                "1b. My appetite is somewhat greater than usual",
-                "2a. My appetite is much less than before",
-                "2b. My appetite is much greater than usual",
-                "3a. I have no appetite at all",
-                "3b. I crave food all the time",
-            ],
-            name: "BDI2_18",
-            required: true,
-        },
-        {
-            prompt: "<b>19. Concentration Difficulty</b>",
-            options: [
-                "0. I can concentrate as well as ever",
-                "1. I can't concentrate as well as usual",
-                "2. It's hard to keep my mind on anything for very long",
-                "3. I find I can't concentrate on anything",
-            ],
-            name: "BDI2_19",
-            required: true,
-        },
-        {
-            prompt: "<b>20. Tiredness or Fatigue</b>",
-            options: [
-                "0. I am no more tired or fatigued than usual",
-                "1. I get more tired or fatigued more easily than usual",
-                "2. I am too tired or fatigued to do a lot of the things I used to do",
-                "3. I am too tired or fatigued to do most of the things I used to do",
-            ],
-            name: "BDI2_20",
-            required: true,
-        },
-        {
-            prompt: "<b>21. Loss of Interest in Sex</b>",
-            options: [
-                "0. I have not noticed any recent change in my interest in sex",
-                "1. I am less interested in sex than I used to be",
-                "2. I am much less interested in sex now",
-                "3. I have lost interest in sex completely",
-            ],
-            name: "BDI2_21",
-            required: true,
-        },
-    ],
-    data: {
-        screen: "questionnaire_bdi2",
     },
 }
