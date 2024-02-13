@@ -24,7 +24,6 @@
 //     "Climate Scientists' Work Is 'Unreliable', a 'Deceptive Method of Communication'", //fake
 //    "Left-Wingers Are More Likely to Lie to Get a Good Grade", //fake
 
-
 var mist_items = [
     "Democrats More Supportive than Republicans of Federal Spending for Scientific Research", //real
     "International Relations Experts and US Public Agree: America Is Less Respected Globally", //real
@@ -42,7 +41,7 @@ var mist_items = [
     "The Government Is Manipulating the Public's Perception of Genetic Engineering in Order to Make People More Accepting of Such Techniques", //fake
     "Global Warming Age Gap: Younger Americans Most Worried", //real
     "Ebola Virus 'Caused by US Nuclear Weapons Testing', New Study Says", //fake
-    "Republicans Divided in Views of Trump’s Conduct, Democrats Are Broadly Critical", //real
+    "Republicans Divided in Views of Trump's Conduct, Democrats Are Broadly Critical", //real
     "Certain Vaccines Are Loaded with Dangerous Chemicals and Toxins", //fake
     "Attitudes Toward EU Are Largely Positive, Both Within Europe and Outside It", //real
     "Left-Wing Extremism Causes 'More Damage' to World Than Terrorism, Says UN Report", //fake
@@ -104,7 +103,6 @@ var mist_questionnaire = {
         screen: "questionnaire_mist",
     },
 }
-
 
 // IPIP6 (Sibley 2011)
 
@@ -193,9 +191,7 @@ var ipip6_questionnaire = {
     },
 }
 
-
-
-// Political self-identification (ANES) 
+// Political self-identification (ANES)
 var ANES = {
     type: jsPsychSurveyMultiChoice,
     css_classes: ["narrow-text"],
@@ -239,15 +235,15 @@ var ANES = {
 
 var BFI10_items = [
     "I see myself as someone who is reserved", //reverse scored
-    "I see myself as someone who is generally trusting", 
+    "I see myself as someone who is generally trusting",
     "I see myself as someone who tends to be lazy", //reverse scored
     "I see myself as someone who is relaxed, handles stress well", //reverse scored
     "I see myself as someone who has few artistic interests", //reverse scored
-    "I see myself as someone who is outgoing, sociable", 
+    "I see myself as someone who is outgoing, sociable",
     "I see myself as someone who tends to find fault with others", //reverse scored
-    "I see myself as someone who does a thorough job", 
-    "I see myself as someone who gets nervous easily", 
-    "I see myself as someone who has an active imagination", 
+    "I see myself as someone who does a thorough job",
+    "I see myself as someone who gets nervous easily",
+    "I see myself as someone who has an active imagination",
 ]
 
 var BFI10_dimensions = [
@@ -285,25 +281,23 @@ var BFI10 = {
     questions: BFI10_questions,
     randomize_question_order: false,
     preamble:
-        "<p style='text-align: left;'>How well do the following statements describe your personality?" +
-        // "HOW YOU FEEL RIGHT NOW. " +
-        // "how you have been feeling <b>during the past two weeks</b>. " +
-        // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
+        "<p style='text-align: left;'>How well do the following statements describe your personality?",
+    // "HOW YOU FEEL RIGHT NOW. " +
+    // "how you have been feeling <b>during the past two weeks</b>. " +
+    // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
     data: {
         screen: "questionnaire_BFI10",
     },
 }
 
-
 // VSA (Very Short Authoritarianism) Scale (Bizuimic & Duckitt 2018)
 var VSA_items = [
-    "It’s great that many young people today are prepared to defy authority.", // reverse scored
-    "What our country needs most is discipline, with everyone following our leaders in unity.", 
-    "God’s laws about abortion, pornography, and marriage must be strictly followed before it is too late.",
+    "It's great that many young people today are prepared to defy authority.", // reverse scored
+    "What our country needs most is discipline, with everyone following our leaders in unity.",
+    "God's laws about abortion, pornography, and marriage must be strictly followed before it is too late.",
     "There is nothing wrong with premarital sexual intercourse.", // reverse scored
     "Our society does NOT need tougher government and stricter laws.", //reverse scored
     "The facts on crime and the recent public disorders show we have to crack down harder on troublemakers if we are going to preserve law and order.",
-    
 ]
 
 var VSA_dimensions = ["VSA_1", "VSA_2", "VSA_3", "VSA_4", "VSA_5", "VSA_6"]
@@ -363,9 +357,9 @@ var RWAS_items = [
     "God's laws about abortion, pornography and marriage must be strictly followed before it is too late, and those who break them must be strongly punished.",
     "There are many radical, immoral people in our country today, who are trying to ruin it for their own godless purposes, whom the authorities should put out of action.",
     'A "woman\'s place" should be wherever she wants to be. The days when women are submissive to their husbands and social conventions belong strictly in the past.', //reverse scored
-    "Our country will be great if we honor the ways of our forefathers, do what the authorities tell us to do, and get rid of the \"rotten apples\" who are ruining everything.",
-    "There is no \"one right way\" to live life; everybody has to create their own way.", //reverse scored
-    "Homosexuals and feminists should be praised for being brave enough to defy \"traditional family values.\"", //reverse scored
+    'Our country will be great if we honor the ways of our forefathers, do what the authorities tell us to do, and get rid of the "rotten apples" who are ruining everything.',
+    'There is no "one right way" to live life; everybody has to create their own way.', //reverse scored
+    'Homosexuals and feminists should be praised for being brave enough to defy "traditional family values."', //reverse scored
     "This country would work a lot better if certain groups of troublemakers would just shut up and accept their group's traditional place in society.",
 ]
 
@@ -393,7 +387,6 @@ var RWAS_dimensions = [
     "RWAS_21",
     "RWAS_22",
 ]
-    
 
 RWAS_questions = []
 for (const [index, element] of RWAS_items.entries()) {
@@ -421,10 +414,10 @@ var RWAS = {
     questions: RWAS_questions,
     randomize_question_order: false,
     preamble:
-        "<p style='text-align: left;'>The test consists of twenty two opinions and for each you must indicate how much you agree with it. The test should take 3 - 5 minutes to complete." +
-        // "HOW YOU FEEL RIGHT NOW. " +
-        // "how you have been feeling <b>during the past two weeks</b>. " +
-        // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
+        "<p style='text-align: left;'>The test consists of twenty two opinions and for each you must indicate how much you agree with it. The test should take 3 - 5 minutes to complete.",
+    // "HOW YOU FEEL RIGHT NOW. " +
+    // "how you have been feeling <b>during the past two weeks</b>. " +
+    // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
     data: {
         screen: "questionnaire_RWAS",
     },

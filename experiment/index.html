@@ -12,6 +12,8 @@
         <script src="https://unpkg.com/@jspsych/plugin-survey-likert"></script>
         <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice"></script>
         <script src="https://unpkg.com/@jspsych/plugin-survey-multi-select"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-survey"></script>
+        <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey/css/survey.css" />
         <script src="https://realitybending.github.io/JSmisc/jspsych_extensions/plugin-multiple-slider.js"></script>
 
         <!-- To save data via DataPipe (for online experiments) -->
@@ -21,11 +23,7 @@
         <script src="demographics.js"></script>
         <script src="questionnaires.js"></script>
 
-        <link
-            href="https://unpkg.com/jspsych/css/jspsych.css"
-            rel="stylesheet"
-            type="text/css"
-        />
+        <link href="https://unpkg.com/jspsych/css/jspsych.css" rel="stylesheet" type="text/css" />
         <style>
             .narrow-text {
                 max-width: 50%;
@@ -52,7 +50,7 @@
         timeline.push(demographics_disorders)
 
         // Questionnaires =======================================================
-        var Qs = [bdi2, stai5, ias]
+        var Qs = [mist_questionnaire]
         Qs = jsPsych.randomization.shuffle(Qs) // Randomize
         for (var i = 0; i < Qs.length; i++) {
             timeline.push(Qs[i]) // Push each element to timeline
