@@ -104,92 +104,76 @@ var mist_questionnaire = {
     },
 }
 
-// IPIP6 (Sibley 2011)
+// GCBS15 (Brotherton et al. 2013)
 
-var ipip6_items = [
-    "I am the life of the party",
-    "I sympathise with others' feelings",
-    "I get chores done right away",
-    "I have frequent mood swings",
-    "I have a vivid imagination",
-    "I feel entitled to more of everything",
-    "I don't talk a lot",
-    "I am not interested in other people's problems",
-    "I have difficulty understanding abstract ideas",
-    "I like order",
-    "I make a mess of things",
-    "I deserve more things in life",
-    "I do not have a good imagination",
-    "I feel others' emotions",
-    "I am relaxed most of the time",
-    "I get upset easily",
-    "I seldom feel blue",
-    "I would like to be seen driving around in a really expensive car",
-    "I keep in the background",
-    "I am not really interested in others",
-    "I am not interested in abstract ideas",
-    "I often forget to put things back in their proper place",
-    "I talk to a lot of different people at parties",
-    "I would get a lot of pleasure from owning expensive luxury goods",
-]
-var ipip6_dimensions = [
-    "Extraversion_1",
-    "Agreeableness_2",
-    "Conscientiousness_3",
-    "Neuroticism_4",
-    "Openness_5",
-    "HonestyHumility_6_R",
-    "Extraversion_7_R",
-    "Agreeableness_8_R",
-    "Openness_9_R",
-    "Conscientiousness_10",
-    "Conscientiousness_11_R",
-    "HonestyHumility_12_R",
-    "Openness_13_R",
-    "Agreeableness_14",
-    "Neuroticism_15_R",
-    "Neuroticism_16",
-    "Neuroticism_17_R",
-    "HonestyHumility_18_R",
-    "Extraversion_19_R",
-    "Agreeableness_20_R",
-    "Openness_21_R",
-    "Conscientiousness_22_R",
-    "Extraversion_23",
-    "HonestyHumility_24_R",
+var GCBS15_items = [
+    "The government is involved in the murder of innocent citizens and/or well-known public figures, and keeps this a secret", 
+    "The power held by heads of state is second to that of small groups who really control world politics",
+    "Secret organizations communicate with extraterrestrials, but keep this fact from the public", 
+    "The spread of certain viruses and/or diseases is the result of the deliberate, concealed efforts of some organization", 
+    "Groups of scientists manipulate, fabricate, or suppress evidence in order to deceive the public", 
+    "The government permits or perpetrates acts of terrorism on its own soil, disguising its involvement",
+    "A small, secret group of people is responsible for making all major world decisions, such as going to war", 
+    "Evidence of alien contact is being concealed from the public",
+    "Technology with mind-control capacities is used on people without their knowledge",
+    "New and advanced technology which would harm current industry is being suppressed",
+    "The government uses people as patsies to hide its involvement in criminal activity",
+    "Certain significant events have been the result of the activity of a small group who secretly manipulates world events",
+    "Some UFO sightings and rumors are planned or staged in order to distract the public from real alien contact",
+    "Experiments involving new drugs or technologies are routinely carried out on the public without their knowledge or consent",
+    "A lot of important information is deliberately concealed from the public out of self-interest",
+
 ]
 
-function format_questions_analog(items, dimensions, ticks = ["Inaccurate", "Accurate"]) {
-    var questions = []
-    for (const [index, element] of items.entries()) {
-        questions.push({
-            prompt: "<b>" + element + "</b>",
-            name: dimensions[index],
-            ticks: ticks,
-            required: true,
-            min: 0,
-            max: 1,
-            step: 0.01,
-            slider_start: 0.5,
-        })
-    }
-    return questions
+var GCBS15_dimensions = [
+    "GCBS15_1",
+    "GCBS15_2",
+    "GCBS15_3",
+    "GCBS15_4",
+    "GCBS15_5",
+    "GCBS15_6",
+    "GCBS15_7",
+    "GCBS15_8",
+    "GCBS15_9",
+    "GCBS15_10",
+    "GCBS15_11",
+    "GCBS15_12",
+    "GCBS15_13",
+    "GCBS15_14",
+    "GCBS15_15",
+]
+
+GCBS15_questions = []
+for (const [index, element] of GCBS15_items.entries()) {
+    GCBS15_questions.push({
+        prompt: "<b>" + element + "</b>",
+        name: GCBS15_dimensions[index],
+        labels: [
+            "<br>Definitely not true",
+            "<br>Probably not true",
+            "<br>Not sure/cannot decide",
+            "<br>Probably true",
+            "<br>Definitely true",
+        ],
+        required: true,
+    })
 }
 
-// IPIP
-var ipip6_questionnaire = {
-    type: jsPsychMultipleSlider,
-    questions: format_questions_analog(ipip6_items, ipip6_dimensions),
-    randomize_question_order: false,
+var GCBS15 = {
+    type: jsPsychSurveyLikert,
+    css_classes: ["narrow-text"],
+    questions: GCBS15_questions,
+    randomize_question_order: true,
     preamble:
-        "<p><b>About your personality...</b></p>" +
-        "<p> Please answer the following questions based on how accurately each statement describes you in general.</p>",
-    require_movement: false,
-    slider_width: 600,
+        "<p style='text-align: left;'>Please indicate the degree to which you believe each statement is likely to be true on the following scale: Definitely not true; Probably not true; Not sure/cannot decide; Probably true; Definitely true",
+    // "HOW YOU FEEL RIGHT NOW. " +
+    // "how you have been feeling <b>during the past two weeks</b>. " +
+    // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
     data: {
-        screen: "questionnaire_ipip6",
+        screen: "questionnaire_GCBS15",
     },
 }
+
 
 // Political self-identification (ANES)
 var ANES = {
