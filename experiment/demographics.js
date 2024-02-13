@@ -143,6 +143,15 @@ var demographics_multichoice = {
         //     name: "student",
         // },
         {
+            prompt: "Did you receive a COVID-19 Vaccine?",
+            options: [
+                "Yes",
+                "No",
+                "Unsure/Refuse to answer",
+            ],
+            name: "COVID-19 vaccination status",
+        },
+        {
             prompt: "What is your highest completed education level?",
             options: [
                 "University (doctorate)",
