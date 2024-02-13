@@ -165,7 +165,7 @@ var GCBS15_questionnaire = {
     questions: GCBS15_questions,
     randomize_question_order: true,
     preamble:
-        "<p style='text-align: left;'>Please indicate the degree to which you believe each statement is likely to be true on the following scale: Definitely not true; Probably not true; Not sure/cannot decide; Probably true; Definitely true",
+        "<p style='text-align: left;'>There is often debate about whether or not the public is told the whole truth about various important issues. This brief survey is designed to assess your beliefs about some of these subjects. Please indicate the degree to which you believe each statement is likely to be true on the following scale: Definitely not true; Probably not true; Not sure/cannot decide; Probably true; Definitely true",
     // "HOW YOU FEEL RIGHT NOW. " +
     // "how you have been feeling <b>during the past two weeks</b>. " +
     // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
@@ -180,7 +180,7 @@ var ANES = {
     type: jsPsychSurveyMultiChoice,
     css_classes: ["narrow-text"],
     preamble:
-        "<p style='text-align: left;'>This questionnaire consists of 2 groups of statements. Please read each group of statements carefully. And then pick out the one statement in each group that best describes the way you have been feeling <b>during the past two weeks</b>, including today. If several statements in the group seem to apply equally well, circle the highest number for that group.</p>",
+        "<p style='text-align: left;'>This questionnaire consists of 2 forms of political ideology self-identification. Please read each prompt carefully, and then pick out the one identifier in each group that best describes your political ideology.</p>",
     questions: [
         {
             prompt: "<b>1. Liberal-Conservative Self-Identification</b>",
@@ -398,7 +398,7 @@ var RWAS = {
     questions: RWAS_questions,
     randomize_question_order: false,
     preamble:
-        "<p style='text-align: left;'>The test consists of twenty two opinions and for each you must indicate how much you agree with it. The test should take 3 - 5 minutes to complete.",
+        "<p style='text-align: left;'>This questionnaire consists of twenty two opinions and for each please indicate how much you agree with it.",
     // "HOW YOU FEEL RIGHT NOW. " +
     // "how you have been feeling <b>during the past two weeks</b>. " +
     // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
