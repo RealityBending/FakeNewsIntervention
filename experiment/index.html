@@ -50,7 +50,7 @@
         timeline.push(demographics_disorders)
 
         // Questionnaires =======================================================
-        var Qs = [mist_questionnaire]
+        var Qs = [mist_questionnaire, GCBS15_questionnaire, ANES, BFI10, VSA, RWAS]
         Qs = jsPsych.randomization.shuffle(Qs) // Randomize
         for (var i = 0; i < Qs.length; i++) {
             timeline.push(Qs[i]) // Push each element to timeline
