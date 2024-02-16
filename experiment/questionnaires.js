@@ -321,7 +321,7 @@ var VSA = {
     },
 }
 
-// RWAS (Right-Wing Authoritarianism Scale) (Altemeyer 2007)
+/* RWAS22 (Right-Wing Authoritarianism Scale) (Altemeyer 2007)
 var RWAS_items = [
     'The established authorities generally turn out to be right about things, while the radicals and protestors are usually just "loud mouths" showing off their ignorance.',
     "Women should have to promise to obey their husbands when they get married.",
@@ -405,4 +405,4 @@ var RWAS = {
     data: {
         screen: "questionnaire_RWAS",
     },
-}
+}*/ 
