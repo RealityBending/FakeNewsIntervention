@@ -47,7 +47,7 @@
         timeline.push(demographics_consent((experimenter = "Experimenter1")))
         timeline.push(demographics_browser_info)
         timeline.push(demographics_info)
-        
+
         // Questionnaires =======================================================
         var Qs = [mist_questionnaire, GCBS15_questionnaire, ANES, BFI10, VSA]
         Qs = jsPsych.randomization.shuffle(Qs) // Randomize
@@ -68,11 +68,7 @@
         //     data_string: () => jsPsych.data.get().csv(),
         // })
 
-        timeline.push(
-            demographics_endscreen(
-                "https://dominiquemakowski.github.io/PHQ4R/study2/experiment/experimenter1.html"
-            )
-        )
+        timeline.push(demographics_endscreen("Add new link"))
 
         /* ----------------- Run the timeline ----------------- */
         jsPsych.run(timeline)
