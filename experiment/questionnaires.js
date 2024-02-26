@@ -1,3 +1,38 @@
+//intervention freetext questionnaire
+
+var intervention_freetext = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: "Please enter the number of followers you got in your game (an estimate is fine)",
+            placeholder: "e.g., '100'",
+            name: "followers",
+        },
+        {
+            prompt: "What was your favorite aspect of the game?",
+            placeholder: "e.g., the funny prompts",
+            name: "favorite_part",
+        },
+        {
+            prompt: "Would you play this game again?",
+            placeholder: "e.g., yes",
+            name: "play_again",
+        },
+        {
+            prompt: "Would you recommend this game to friends or family?",
+            placeholder: "e.g., yes",
+            name: "recommend",
+        },
+    ],
+    data: {
+        screen: "intervention_freetext",
+    },
+}
+
+
+
+
+
 // MIST20 (Maertens et al. 2023)
 
 // ***NOTE*** it appears that some headlines in the MIST20 differ from the MIST16, meaning there are more than 20 total validated headlines

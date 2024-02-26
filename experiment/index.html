@@ -49,6 +49,7 @@
         timeline.push(demographics_info)
 
         // Questionnaires =======================================================
+       // how do I insert the intervention questionnaire without it randomizing?
         var Qs = [mist_questionnaire, GCBS15_questionnaire, ANES, BFI10, VSA]
         Qs = jsPsych.randomization.shuffle(Qs) // Randomize
         for (var i = 0; i < Qs.length; i++) {
