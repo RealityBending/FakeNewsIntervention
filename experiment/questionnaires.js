@@ -1,6 +1,22 @@
-//intervention freetext questionnaire
+//Post-intervention confidence questionnaire 
+var confidence_assessment = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: "<b>Please answer the following question:</b>",
+    questions: [
+        {
+            prompt: "How do you think playing the game impacted your overall confidence in your ability to discern real from fake news headlines?",
+            options: ["Greatly improved", "Improved", "Slightly improved", "No impact", "Unsure/refuse to answer", "Slightly declined", "Declined", "Greatly declined"],
+            name: "confidence",
+        },
+    ],
+    data: {
+        screen: "veracity_confidence",
+    },
+}
 
-var intervention_freetext = {
+//badnews freetext questionnaire
+
+var badnews_freetext = {
     type: jsPsychSurveyText,
     questions: [
         {
@@ -25,7 +41,38 @@ var intervention_freetext = {
         },
     ],
     data: {
-        screen: "intervention_freetext",
+        screen: "questionnaire_badnews",
+    },
+}
+
+//tetris freetext questionnaire
+
+var tetris_freetext = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: "Please enter the high score you achieved in your game (an estimate is fine)",
+            placeholder: "e.g., '10000'",
+            name: "high_score",
+        },
+        {
+            prompt: "What was your favorite aspect of the game?",
+            placeholder: "e.g., the pretty colours",
+            name: "favorite_part",
+        },
+        {
+            prompt: "Would you play this game again?",
+            placeholder: "e.g., yes",
+            name: "play_again",
+        },
+        {
+            prompt: "Would you recommend this game to friends or family?",
+            placeholder: "e.g., yes",
+            name: "recommend",
+        },
+    ],
+    data: {
+        screen: "questionnaire_tetris",
     },
 }
 
@@ -237,7 +284,7 @@ var ANES = {
             options: [
                 "0. Democratic Party",
                 "1. Republican Party",
-                "2. None or /'independent/'",
+                "2. None or 'independent'",
                 "3. Other",
             ],
             name: "ANES_2",
