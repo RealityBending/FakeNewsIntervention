@@ -96,33 +96,52 @@ function demographics_consent(experimenter = "DEFAULT") {
 }
 
 // Intervention ========================================================================
-function demographics_consent(experimenter = "DEFAULT") { //I can tell I need to somehow change this line, but not sure what exactly goes here. a new function named 'intervention'? a new variable for me to define like for the thank you screen?
-    return {
+    intervention_prompt= {
         type: jsPsychHtmlButtonResponse,
         css_classes: ["narrow-text"],
         stimulus:
             // Logo and title
             "<img src='https://www.medialiteracyireland.ie/wp-content/uploads/2023/04/bad-news-2.png' width='150px' align='right'/><br><br><br><br><br>" +
-            "<h1>Intervention: Bad News Game</h1>" +
+            "<h1>Let's play the game!</h1>" +
             // Overview
             "<p align='left'><b>Playing the Game</b><br>" +
             "After carefully reading the instructions on this page, please leave this page open and click on the link below to the Bad News Game. Please play the game for 15 minutes while leaving this tab open.</p>" +
             // Description
             "<p align='left'><b>What will I do?</b><br>" +
             "Please play the game for 15 minutes, then return to this page and hit 'continue'.</p>" +
-            
-            "<p align='left'><br><sub><sup>https://www.getbadnews.com/books/english/</sup></sub></p>",
+            // Modified link with bold, larger, and centered
+            "<p align='center'><br><sub><sup><a href='https://www.getbadnews.com/books/english/' target='_blank' style='font-size: 24px; font-weight: bold;'>https://www.getbadnews.com/books/english/</a></sup></sub></p>"
+            ,
 
         choices: ["I have played the Bad News Game for 15 minutes and am ready to continue"],
         data: { screen: "intervention" },
-        on_finish: function () {
-            jsPsych.data.addProperties({
-                experimenter: experimenter,
-            })
-        },
-    }
+  }
+
+
+// Control ============================================================================
+control_prompt= {
+    type: jsPsychHtmlButtonResponse,
+    css_classes: ["narrow-text"],
+    stimulus:
+        // Logo and title
+        "<img src='https://www.medialiteracyireland.ie/wp-content/uploads/2023/04/bad-news-2.png' width='150px' align='right'/><br><br><br><br><br>" +
+        "<h1>Let's play the game!</h1>" +
+        // Overview
+        "<p align='left'><b>Playing the Game</b><br>" +
+        "After carefully reading the instructions on this page, please leave this page open and click on the link below to Tetris. Please play the game for 15 minutes while leaving this tab open.</p>" +
+        // Description
+        "<p align='left'><b>What will I do?</b><br>" +
+        "Please play the game for 15 minutes, then return to this page and hit 'continue'.</p>" +
+        // Modified link with bold, larger, and centered
+        "<p align='center'><br><sub><sup><a href='https://tetris.com/play-tetris' target='_blank' style='font-size: 24px; font-weight: bold;'>https://www.getbadnews.com/books/english/</a></sup></sub></p>"
+        ,
+
+    choices: ["I have played tetris for 15 minutes and am ready to continue"],
+    data: { screen: "control" },
 }
 
+
+  
 
 // Thank you ========================================================================
 var demographics_waitdatasaving = {
@@ -178,7 +197,7 @@ var demographics_multichoice = {
                 "No",
                 "Unsure/Refuse to answer",
             ],
-            name: "COVID-19 vaccination status",
+            name: "vaccination_status",
         },
         {
             prompt: "What is your highest completed education level?",
