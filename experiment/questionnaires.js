@@ -93,18 +93,7 @@ var tetris_freetext = {
 // - d (Distrust): To calculate d, all responses must be scored on a binary 0 (not fake news) or 1 (fake news) metric, independent of whether the response is correct or incorrect. The sum of this amount of fake news judgements should then be subtracted by 10 (MIST-20), 8 (MIST-16), or 4 (MIST-8), and this results in the distrust score. If the resulting score is below 0, the score should be corrected to 0.
 // - n (Naïvité): To calculate n, all responses must be scored on a binary 0 (not real news) or 1 (real news), independent of whether the response is correct or incorrect. The sum of this amount of real news judgements should then be subtracted by 10 (MIST-20), 8 (MIST-16), or 4 (MIST-8), and this results in the naïvité score. If the resulting score is below 0, the score should be corrected to 0.
 
-// additional MIST questions noted here
-//     "US Hispanic Population Reached New High in 2018, But Growth Has Slowed", //real
-//    "Taiwan Seeks to Join Fight Against Global Warming", //real
-//    "About a Quarter of Large US Newspapers Laid off Staff in 2018", //real
-//    "Majority in US Still Want Abortion Legal, with Limits", //real
-//    "Most Americans Say It's OK for Professional Athletes to Speak out Publicly about Politics", //real
-//    "United Nations Gets Mostly Positive Marks from People Around the World", //real
-//     "The Government Is Actively Destroying Evidence Related to the JFK Assassination", //fake
-//    "A Small Group of People Control the World Economy by Manipulating the Price of Gold and Oil", //fake
-//    "The Government Is Conducting a Massive Cover-Up of Their Involvement in 9/11", //fake
-//     "Climate Scientists' Work Is 'Unreliable', a 'Deceptive Method of Communication'", //fake
-//    "Left-Wingers Are More Likely to Lie to Get a Good Grade", //fake
+
 
 var mist_items = [
     "Democrats More Supportive than Republicans of Federal Spending for Scientific Research", //real
@@ -127,9 +116,74 @@ var mist_items = [
     "Certain Vaccines Are Loaded with Dangerous Chemicals and Toxins", //fake
     "Attitudes Toward EU Are Largely Positive, Both Within Europe and Outside It", //real
     "Left-Wing Extremism Causes 'More Damage' to World Than Terrorism, Says UN Report", //fake
+    "US Hispanic Population Reached New High in 2018, But Growth Has Slowed", //real
+    "Taiwan Seeks to Join Fight Against Global Warming", //real
+    "About a Quarter of Large US Newspapers Laid off Staff in 2018", //real
+    "Majority in US Still Want Abortion Legal, with Limits", //real
+    "Most Americans Say It's OK for Professional Athletes to Speak out Publicly about Politics", //real
+    "United Nations Gets Mostly Positive Marks from People Around the World", //real
+    "The Government Is Actively Destroying Evidence Related to the JFK Assassination", //fake
+    "A Small Group of People Control the World Economy by Manipulating the Price of Gold and Oil", //fake
+    "The Government Is Conducting a Massive Cover-Up of Their Involvement in 9/11", //fake
+    "Climate Scientists' Work Is 'Unreliable', a 'Deceptive Method of Communication'", //fake
+    "Left-Wingers Are More Likely to Lie to Get a Good Grade", //fake
+]
+
+var mist_extension_items =[
+    "How a Covid Surge in Florida Became a Surge of the Vaccinated", //real
+    "COVID-19 and Chronic Stress: How the Pandemic Has Affected Mental Health", //real
+    "Misinformation Fueling Vaccine Hesitancy Among Young Adults", //real
+    "Mask Mandates Return Amidst Surge in COVID-19 Cases", //real
+    "In America's Covid hot spots, cases still high but hope is growing", //real
+    "Doctors brace for surge in hospitalizations as US reaches Covid-19 tipping point", //real
+    "False claims that COVID-19 is less deadly than reported", //real
+    "Social media giants face criticism for allowing spread of COVID-19 misinformation", //real
+    "COVID-19 Vaccine Mandates: Balancing Public Health and Individual Rights", //real
+    "COVID-19 pandemic has intensified conspiracies and digital deception: Report", //real
+    "New Study Shows Eating Chocolate Regularly Linked to Lower Risk of Heart Disease", //real
+    "NASA Scientists Discover New Potential for Life on Saturn's Moon Enceladus", //real
+    "AI Assistants Could Soon Understand Human Emotions, Researchers Say", //real
+    "Renowned Psychic Claims to Have Predicted Major Political Events with Accuracy", //real
+    "New Superfood from South America Found to Have Potent Anti-Inflammatory Properties", //real
+    "Study Finds Playing Video Games Can Improve Cognitive Function and Decision-Making Skills", //real
+    "Investigation Reveals Secretive Group Allegedly Experimenting with Human DNA in Remote Lab", //real
+    "Government Official Confirms Existence of UFOs, Releases Declassified Documents", //real
+    "Viral Video Shows Alleged UFO Sighting, Experts Analyze Footage", //real
+    "Viral TikTok Challenge Causes Nationwide Power Outage, Authorities Investigate", //real
+    "Experts Warn of Potential for Telepathic Surveillance by Government Agencies", //real
+    "Exclusive: Secret Moon Base Uncovered in Newly Declassified Documents", //real
+    "Renowned Physicist Claims to Have Solved Mystery of Bermuda Triangle", //real
+    "Experts Warn of Potential for Zombie Apocalypse, Call for Preparedness Measures", //real
+    "Study Shows Consuming Red Wine Regularly Can Lower Risk of Heart Disease", //real
+    "Breaking: COVID-19 Vaccine Causes Severe Allergic Reactions, Study Finds", //fake
+    "Social Media Scare: False Claims That COVID-19 Was Engineered as a Bioweapon", //fake
+    "Experts Warn: 5G Technology Linked to Spread of COVID-19", //fake
+    "Fact Check: No, Bill Gates Did Not Create COVID-19 to Microchip the Population", //fake
+    "Vaccine Skepticism Soars as Unverified Reports of Adverse Effects Circulate", //fake
+    "COVID-19 Party Invites Go Viral: Dangerous Trend Sparks Concern Among Health Experts", //fake
+    "Lab Leak Conspiracy Theories Gain Traction Among Student Protest Groups", //fake
+    "Pandemic Profiteering: Companies Peddle Fake COVID-19 Cures for Profit", //fake
+    "Misleading Headlines Exaggerate COVID-19 Risks, Undermine Trust in Authorities", //fake
+    "Online Rumors Mislead Public About Effectiveness of COVID-19 Masks", //fake
+    "Breaking: Scientists Discover Fountain of Youth in Remote Amazonian Village", //fake
+    "Exclusive: Elon Musk to Launch First Mars Colony by 2030, Claims Insider Source", //fake
+    "Investigation Uncovers Secret Society Controlling Global Economy", //fake
+    "Study Shows Drinking Coffee Before Bed Improves Sleep Quality", //fake
+    "Mysterious Crop Circles Found in Midwest Cornfield - Alien Connection Suspected", //fake
+    "Experts Warn of Impending Asteroid Collision with Earth, Urgent Action Needed", //fake
+    "New Superfood Found in Remote Himalayan Mountains - Promises to Cure All Ailments", //fake
+    "AI Breakthrough: Robot Learns to Experience Emotions, Raises Ethical Concerns", //fake
+    "Government Conspiracy: Chemtrails Revealed as Mind-Control Experiment", //fake
+    "Study Finds Playing Video Games Boosts Cognitive Function in Adults", //fake
+    "New Study Suggests Eating Ice Cream for Breakfast Improves Mental Acuity", //fake
+    "New Research Shows Listening to Classical Music Increases IQ", //fake
+    "Exclusive: Deep State Conspiracy Revealed in Classified Documents", //fake
+    "Exclusive: Area 51 Whistleblower Reveals Government Experiments on Aliens", //fake
+    "Experts Warn of Subliminal Messaging in Popular Music, Mind Control Suspected" //fake
 ]
 
 let mist_dimensions = [
+    // do we need this? Can I just get rid of it?
     //this will need to be changed to reflect the dimensions of the MIST20, not sure how it's currently split into ABCD. May also need to extend to 31 and split
     "MIST_Real_A_1",
     "MIST_Real_A_2",
@@ -161,18 +215,20 @@ for (const [index, element] of mist_items.entries()) {
     })
 }
 
+
+
+// this is clearly wrong but I think I have most of it where it needs to be, not sure how to insert the proper shuffling into this format
 var mist_questionnaire = {
-    type: jsPsychSurvey,
-    pages: [
+    type: jsPsychSurveySlider,
+    questions: [
         [
             {
-                type: "html",
                 prompt:
-                    "<p><b>Please categorize the following news headlines as either 'Fake News' or'Real News'.</b></p>" +
+                    "<p><b>Please categorize the following news headlines on a scale from 'Fake News' to 'Real News' based on your confidence in your answer.</b></p>" +
                     "<p><i>Some items may look credible or obviously false at first sight, but may actually fall in the opposite category. However, for each news headline, only one category is correct.</i></p>",
+                    ticks: ['Fake', 'uncertain', 'Real']
             },
             {
-                type: "likert-table",
                 prompt: " ",
                 statements: () => jsPsych.randomization.shuffle(mist_questions),
                 options: ["Real", "Fake"],
