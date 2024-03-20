@@ -13,10 +13,17 @@
         <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice"></script>
         <script src="https://unpkg.com/@jspsych/plugin-survey-multi-select"></script>
         <script src="https://unpkg.com/@jspsych/plugin-survey"></script>
-        <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey/css/survey.css" />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/@jspsych/plugin-survey/css/survey.css"
+        />
         <script src="https://realitybending.github.io/JSmisc/jspsych_extensions/plugin-multiple-slider.js"></script>
         <script src="../dist/index.browser.js"></script>
-        <link href="https://unpkg.com/jspsych/css/jspsych.css" rel="stylesheet" type="text/css">
+        <link
+            href="https://unpkg.com/jspsych/css/jspsych.css"
+            rel="stylesheet"
+            type="text/css"
+        />
         <script src="https://unpkg.com/@jspsych-contrib/plugin-survey-slider@1.0.0"></script>
 
         <!-- To save data via DataPipe (for online experiments) -->
@@ -25,8 +32,14 @@
         <!-- Load parameters here (always below the loading of the JsPsych) -->
         <script src="demographics.js"></script>
         <script src="questionnaires.js"></script>
+        <script src="intervention.js"></script>
+        <script src="mist.js"></script>
 
-        <link href="https://unpkg.com/jspsych/css/jspsych.css" rel="stylesheet" type="text/css" />
+        <link
+            href="https://unpkg.com/jspsych/css/jspsych.css"
+            rel="stylesheet"
+            type="text/css"
+        />
         <style>
             .narrow-text {
                 max-width: 50%;
@@ -46,20 +59,32 @@
             },
         })
 
+        // timeline.push(mist_questionnaire_pre())
+
+        // Shuffle list
+        var Qs = [GCBS15_questionnaire, ANES, BFI10, VSA]
+        Qs = jsPsych.randomization.shuffle(Qs) // Randomize
+
         // Session and Participant Info ----------------------------------------
-        timeline.push(control_prompt)
-        timeline.push(intervention_prompt)
-        timeline.push(demographics_consent((experimenter = "Experimenter1")))
+
+        // timeline.push(demographics_consent((experimenter = "Experimenter1")))
         timeline.push(demographics_browser_info)
         timeline.push(demographics_info)
 
-        // Questionnaires =======================================================
-       // how do I insert the intervention questionnaire without it randomizing?
-        var Qs = [mist_questionnaire, GCBS15_questionnaire, ANES, BFI10, VSA]
-        Qs = jsPsych.randomization.shuffle(Qs) // Randomize
-        for (var i = 0; i < Qs.length; i++) {
-            timeline.push(Qs[i]) // Push each element to timeline
-        }
+        // MIST pre
+        timeline.push(mist_questionnaire)
+        timeline.push(Qs[0])
+        timeline.push(Qs[1])
+        timeline.push(Qs[2])
+        timeline.push(Qs[3])
+
+        // Intervention
+        var condition = assign_condition()
+        timeline.push(intervention_screen(condition))
+
+        // Post game
+        // Add transition screen
+        timeline.push(mist_questionnaire)
 
         // End =================================================================
 
