@@ -95,7 +95,7 @@ var tetris_freetext = {
 
 
 
-var mist_items = [
+ var mist_items = [
     "Democrats More Supportive than Republicans of Federal Spending for Scientific Research", //real
     "International Relations Experts and US Public Agree: America Is Less Respected Globally", //real
     "Reflecting a Demographic Shift, 109 US Counties Have Become Majority Nonwhite Since 2000", //real
