@@ -1,37 +1,32 @@
 var mist_fake_covid = [
-    "fake covid 1",
-    "fake covid 2",
-    "fake covid 3",
-    "fake covid 4",
+    { item: "fake covid 1", name: "MIST_fake_covid_1" },
+    { item: "fake covid 2", name: "MIST_fake_covid_2" },
+    { item: "fake covid 3", name: "MIST_fake_covid_3" },
+    { item: "fake covid 4", name: "MIST_fake_covid_4" },
 ]
 
 var mist_real_covid = [
-    "real covid 1",
-    "real covid 2",
-    "real covid 3",
-    "real covid 4",
+    { item: "real covid 1", name: "MIST_real_covid_1" },
+    { item: "real covid 2", name: "MIST_real_covid_2" },
+    { item: "real covid 3", name: "MIST_real_covid_3" },
+    { item: "real covid 4", name: "MIST_real_covid_4" },
 ]
 
 var mist_fake_general = [
-    "fake general 1",
-    "fake general 2",
-    "fake general 3",
-    "fake general 4",
+    { item: "fake general 1", name: "MIST_fake_general_1" },
+    { item: "fake general 2", name: "MIST_fake_general_2" },
+    { item: "fake general 3", name: "MIST_fake_general_3" },
+    { item: "fake general 4", name: "MIST_fake_general_4" },
 ]
 
 var mist_real_general = [
-    "real general 1",
-    "real general 2",
-    "real general 3",
-    "real general 4",
+    { item: "real general 1", name: "MIST_real_general_1" },
+    { item: "real general 2", name: "MIST_real_general_2" },
+    { item: "real general 3", name: "MIST_real_general_3" },
+    { item: "real general 4", name: "MIST_real_general_4" },
 ]
 
-function mist_randomize(
-    mist_fake_covid,
-    mist_real_covid,
-    mist_fake_general,
-    mist_real_general
-) {
+function mist_randomize(mist_fake_covid, mist_real_covid, mist_fake_general, mist_real_general) {
     fake_covid = jsPsych.randomization.shuffle(mist_fake_covid)
     real_covid = jsPsych.randomization.shuffle(mist_real_covid)
     fake_general = jsPsych.randomization.shuffle(mist_fake_general)
@@ -46,15 +41,12 @@ function mist_randomize(
     post_fake_general = fake_general.slice(fake_general.length / 2)
     post_real_general = real_general.slice(real_general.length / 2)
 
-    pre = pre_fake_covid.concat(
-        pre_real_covid,
-        pre_fake_general,
-        pre_real_general
-    )
+    pre = pre_fake_covid.concat(pre_real_covid, pre_fake_covid, pre_real_general, post_fake_general)
     post = post_fake_covid.concat(
         post_real_covid,
-        post_fake_general,
-        post_real_general
+        post_fake_covid,
+        post_real_general,
+        post_fake_general
     )
 
     pre = jsPsych.randomization.shuffle(pre)
@@ -63,24 +55,15 @@ function mist_randomize(
     return { pre: pre, post: post }
 }
 
-// Make Mist Items
-function make_mist_questionnaire_pre(
-    mist_fake_covid,
-    mist_real_covid,
-    mist_fake_general,
-    mist_real_general
-) {
-    var mist_questions_pre = []
-    items = mist_randomize(
-        mist_fake_covid,
-        mist_real_covid,
-        mist_fake_general,
-        mist_real_general
-    )["pre"]
-    for (const [index, element] of items.entries()) {
-        mist_questions_pre.push({
-            prompt: "<b>" + element + "</b>",
-            // name: element,
+// Format MIST items
+function mist_format(mist_items) {
+    // Each mist_items is an object with 'item' and 'name' keys
+    var mist_questions = []
+    for (const [index, element] of mist_items.entries()) {
+        mist_questions.push({
+            prompt: "<b>" + element["item"] + "</b>",
+            name: element["name"],
+            labels: ["False", "True"], // Remove when slider is implemented
             // ticks: ["Strongly Disagree", "Strongly Agree"],
             // required: true,
             // min: 0,
@@ -89,21 +72,42 @@ function make_mist_questionnaire_pre(
             // slider_start: 0.5,
         })
     }
-    return mist_questions_pre
+    return mist_questions
 }
 
-function mist_questionnaire_pre() {
+function make_mist_questionnaire(
+    mist_fake_covid,
+    mist_real_covid,
+    mist_fake_general,
+    mist_real_general
+) {
+    items = mist_randomize(mist_fake_covid, mist_real_covid, mist_fake_general, mist_real_general)
+
+    mist_questions_pre = mist_format(items["pre"])
+    mist_questions_post = mist_format(items["post"])
+
     return {
-        type: jsPsychSurveySlider,
-        questions: function () {
-            return make_mist_questionnaire_pre()
+        pre: {
+            // type: jsPsychSurveySlider,
+            type: jsPsychSurveyLikert,
+            questions: mist_questions_pre,
+            preamble: "MIST PRE Instructions",
+            require_movement: false,
+            slider_width: 700,
+            data: {
+                screen: "questionnaire_mist_pre",
+            },
         },
-        // questions: [{ prompt: "blabla" }],
-        preamble: "Something somethign isntrctions",
-        require_movement: false,
-        slider_width: 700,
-        data: {
-            screen: "questionnaire_mist_pre",
+        post: {
+            // type: jsPsychSurveySlider,
+            type: jsPsychSurveyLikert,
+            questions: mist_questions_post,
+            preamble: "MIST POST Instructions",
+            require_movement: false,
+            slider_width: 700,
+            data: {
+                screen: "questionnaire_mist_post",
+            },
         },
     }
 }
