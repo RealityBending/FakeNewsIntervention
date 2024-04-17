@@ -450,7 +450,7 @@ var VSA = {
     questions: VSA_questions,
     randomize_question_order: false,
     preamble:
-        "<p style='text-align: left;'>Please read each statement in the following list and mark your agreement or disagreement with each statement" +
+        "<p style='text-align: left;'>Please read each statement in the following list and mark your agreement or disagreement with each statement. " +
         // "HOW YOU FEEL RIGHT NOW. " +
         // "how you have been feeling <b>during the past two weeks</b>. " +
         "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",

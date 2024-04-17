@@ -372,7 +372,7 @@ function make_mist_questionnaire(
         pre: {
             type: jsPsychSurveySlider,
             questions: mist_questions_pre,
-            preamble: "MIST PRE Instructions",
+            preamble: "Please read the following news headlines and rate them on a scale from 'Fake' to 'Real' with the middle meaning unsure and closer to each end of the scale indicating greater confidence in your answer",
             require_movement: false,
             slider_width: 700,
             data: {
@@ -382,7 +382,7 @@ function make_mist_questionnaire(
         post: {
             type: jsPsychSurveySlider,
             questions: mist_questions_post,
-            preamble: "MIST POST Instructions",
+            preamble: "Please read the following news headlines and rate them on a scale from 'Fake' to 'Real' with the middle meaning unsure and closer to each end of the scale indicating greater confidence in your answer",
             require_movement: false,
             slider_width: 700,
             data: {
