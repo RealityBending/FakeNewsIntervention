@@ -6,3 +6,4 @@ I will be attempting to store all relevant files here, with the possible excepti
 
 I am new to Github, so it is highly likely there will be mistakes as I get used to it. If you encounter something that should be here but isn't, or something that shouldn't be here but is, please get in touch with me. 
 
+- [try the experiment](https://realitybending.github.io/FakeNewsIntervention/experiment/)
