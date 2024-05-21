@@ -431,7 +431,7 @@ for (const [index, element] of GCBS15_items.entries()) {
 }
 
 
-var GCBS15 = {
+var GCBS15_questionnaire = {
     type: jsPsychSurveyLikert,
     css_classes: ["narrow-text"],
     questions: GCBS15_questions,

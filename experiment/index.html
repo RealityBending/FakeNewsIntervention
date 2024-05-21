@@ -53,7 +53,7 @@
         timeline.push(demographics_freetext)
 
         // Shuffle list
-        var Qs = [GCBS15, ANES, BFI10, VSA]
+        var Qs = [GCBS15_questionnaire, ANES, BFI10, VSA]
         Qs = jsPsych.randomization.shuffle(Qs) // Randomize
 
         timeline.push(Qs[0])
