@@ -676,5 +676,4 @@ var RWAS = {
     // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
     data: {
         screen: "questionnaire_RWAS",
-    },
-}*/ 
+    }
