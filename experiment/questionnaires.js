@@ -242,6 +242,137 @@ var mist_questionnaire = {
     },
 }
 
+// MOCRI 12 BOLD (Van der Linden et al. 2024)
+
+var MOCRI_BOLD_12_items = [
+    "Sigmund Freud was known for consuming industrial amounts of cocaine, so there's no point in reading his work in the 21st century.", //manipulative
+    "Airline's 'Christmas Miracle' video goes viral on social media.", //non-manipulative
+    "Nuclear energy supporters are the reason vast areas around Chernobyl are forever uninhabitable. And now they're saying we 'need' nuclear power to combat climate change? Ridiculous.", //manipulative
+    "Nutritionists remain divided over whether fried potatoes are good for your health or bad. Why is it so hard to settle the matter?", //non-manipulative
+    "The debate over whether to prioritize combating homelessness or poverty among immigrants continues. Just a thought: why can't we do both?", //non-manipulative
+    "You don't really care about lowering crime in the city, you just want people to vote for you.", //manipulative
+    "Improving salaries for workers may affect businesses' bottom line, study says. What's less clear is how much small vs. large businesses are impacted.", //non-manipulative
+    "The reason voter turnout is down is because Millennials refuse to leave the house to go vote.", //manipulative
+    "Despite what economists and TV pundits will tell you, the stock market is completely unpredictable. We are barrelling towards a market crash of epic proportions. #DOWJones", //manipulative
+    "Having trouble staying awake at work? Drinking coffee keeps you awake for about 45 minutes, but certain healthy snacks can provide an even longer energy boost.", //non-manipulative
+    "This whole debate about using goal line technology during soccer games is pointless. We wouldn't have a problem if referees knew how to do their job.", //manipulative
+    "Twitter has come under fire for having become a 'haven' for extremism. But who are these 'extremists', exactly? How should the word be defined?", //non-manipulative
+ 
+]
+
+var MOCRI_BOLD_12_dimensions = [
+    "MOCRI_BOLD_12_1",
+    "MOCRI_BOLD_12_2",
+    "MOCRI_BOLD_12_3",
+    "MOCRI_BOLD_12_4",
+    "MOCRI_BOLD_12_5",
+    "MOCRI_BOLD_12_6",
+    "MOCRI_BOLD_12_7",
+    "MOCRI_BOLD_12_8",
+    "MOCRI_BOLD_12_9",
+    "MOCRI_BOLD_12_10",
+    "MOCRI_BOLD_12_11",
+    "MOCRI_BOLD_12_12",
+
+]
+
+MOCRI_BOLD_12_questions = []
+for (const [index, element] of MOCRI_BOLD_12_items.entries()) {
+    MOCRI_BOLD_12_questions.push({
+        prompt: "<b>" + element + "</b>",
+        name: MOCRI_BOLD_12_dimensions[index],
+        labels: [
+
+            "<br>Manipulative",
+            "<br>Non-Manipulative",
+        ],
+        required: true,
+    })
+}
+
+var MOCRI_BOLD_12_questionnaire = {
+    type: jsPsychSurveyLikert,
+    css_classes: ["narrow-text"],
+    questions: MOCRI_BOLD_12_questions,
+    randomize_question_order: true,
+    preamble:
+    "<p style='text-align: left;'>In the following you will see a series of Twitter posts. We are interested in how far you think that the authors of the posts tried to manipulate their readers. If you think that this is the case for a given post, rate the post as 'manipulative', otherwise rate the post as 'non-manipulative'.",
+    // "HOW YOU FEEL RIGHT NOW. " +
+    // "how you have been feeling <b>during the past two weeks</b>. " +
+    // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
+    data: {
+        screen: "questionnaire_MOCRI_BOLD_12",
+    },
+}
+
+
+
+
+// MOCRI 12 NON-BOLD (Van der Linden et al. 2024)
+
+var MOCRI_NONBOLD_12_items = [
+    "Baby elephant overcomes tummy troubles, is learning new skills.", //non-manipulative
+    "Politicians and lawyers pretend they are important people doing important work, but often they're important because they are parasites. They feed off others, while creating no wealth of their own. Want to solve our problems? Start with them.", //manipulative
+    "University professors and their weird theories have poisoned any chance of engaging in substantial debate.", //manipulative
+    "Why smartphone batteries can sometimes explode, and what to do about it.", //non-manipulative
+    "Engaging in substantial debate between university professors and non-academics is becoming increasingly difficult.", //non-manipulative
+    "Amazing how saying 'restrict immigration' is now the equal of fascism, but regulations on speech, property rights, and gun ownership aren't.", //manipulative
+    "Want to know why Twitter has become a haven for extremists? Find the nearest self-proclaimed 'gamer' and look at what they're tweeting. There's your answer.", //manipulative
+    "Why are people who yell 'We should fund education!' always parka-wearing social workers who never bothered to take an economics class.", //manipulative
+    "This new study says the reasons why voter turnout is down among Millennials are varied.", //non-manipulative
+    "Climate change is impossible to predict (just look at how bad weather forecasts are). The world isn't warming. We're going into an ice age. #GlobalWarming", //manipulative
+    "Intelligence agencies claim to do internet surveillance to keep us safe, but some argue that the price of giving up privacy for security isn't worth it. What do you think?", //non-manipulative
+    "Some people argue that global warming has 'paused' in the last 23 years. Most temperature datasets, however, show a continued increase in temperature over this period.", //non-manipulative
+
+]
+
+var MOCRI_NONBOLD_12_dimensions = [
+    "MOCRI_NONBOLD_12_1",
+    "MOCRI_NONBOLD_12_2",
+    "MOCRI_NONBOLD_12_3",
+    "MOCRI_NONBOLD_12_4",
+    "MOCRI_NONBOLD_12_5",
+    "MOCRI_NONBOLD_12_6",
+    "MOCRI_NONBOLD_12_7",
+    "MOCRI_NONBOLD_12_8",
+    "MOCRI_NONBOLD_12_9",
+    "MOCRI_NONBOLD_12_10",
+    "MOCRI_NONBOLD_12_11",
+    "MOCRI_NONBOLD_12_12",
+
+]
+
+MOCRI_NONBOLD_12_questions = []
+for (const [index, element] of MOCRI_NONBOLD_12_items.entries()) {
+    MOCRI_NONBOLD_12_questions.push({
+        prompt: "<b>" + element + "</b>",
+        name: MOCRI_NONBOLD_12_dimensions[index],
+        labels: [
+
+            "<br>Manipulative",
+            "<br>Non-Manipulative",
+        ],
+        required: true,
+    })
+
+
+var MOCRI_NONBOLD_12_questionnaire = {
+    type: jsPsychSurveyLikert,
+    css_classes: ["narrow-text"],
+    questions: MOCRI_NONBOLD_12_questions,
+    randomize_question_order: true,
+    preamble:
+        "<p style='text-align: left;'>In the following you will see a series of Twitter posts. We are interested in how far you think that the authors of the posts tried to manipulate their readers. If you think that this is the case for a given post, rate the post as 'manipulative', otherwise rate the post as 'non-manipulative'.",
+    // "HOW YOU FEEL RIGHT NOW. " +
+    // "how you have been feeling <b>during the past two weeks</b>. " +
+    // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
+    data: {
+        screen: "questionnaire_MOCRI_NONBOLD_12",
+    },
+}
+
+
+
 // GCBS15 (Brotherton et al. 2013)
 
 var GCBS15_items = [
@@ -263,6 +394,7 @@ var GCBS15_items = [
 
 ]
 
+
 var GCBS15_dimensions = [
     "GCBS15_1",
     "GCBS15_2",
@@ -279,6 +411,7 @@ var GCBS15_dimensions = [
     "GCBS15_13",
     "GCBS15_14",
     "GCBS15_15",
+
 ]
 
 GCBS15_questions = []
@@ -296,6 +429,7 @@ for (const [index, element] of GCBS15_items.entries()) {
         required: true,
     })
 }
+
 
 var GCBS15_questionnaire = {
     type: jsPsychSurveyLikert,
