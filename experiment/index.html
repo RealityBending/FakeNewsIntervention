@@ -18,7 +18,7 @@
         <script src="https://unpkg.com/@jspsych-contrib/plugin-survey-slider@1.0.0"></script>
 
         <!-- To save data via DataPipe (for online experiments) -->
-        <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.3"></script>
+        <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script>
 
         <!-- Load parameters here (always below the loading of the JsPsych) -->
         <script src="demographics.js"></script>
@@ -80,7 +80,7 @@
 
         // feedback
         timeline.push(confidence_assessment)
-        if(condition == "BadNews"){
+        if (condition == "BadNews") {
             timeline.push(badnews_freetext)
         } else {
             timeline.push(tetris_freetext)
@@ -92,16 +92,16 @@
 
         // // End =================================================================
 
-         timeline.push(demographics_waitdatasaving)
+        timeline.push(demographics_waitdatasaving)
 
         // Save data via DataPipe
-        // timeline.push({
-        //     type: jsPsychPipe,
-        //     action: "save",
-        //     experiment_id: "aFDUfulnpbUg", // This in generated in the DataPipe interface
-        //     filename: `${jsPsych.randomization.randomID(10)}.csv`,
-        //     data_string: () => jsPsych.data.get().csv(),
-        // })
+        timeline.push({
+            type: jsPsychPipe,
+            action: "save",
+            experiment_id: "gqbd342PLQXd", // This in generated in the DataPipe interface
+            filename: `${jsPsych.randomization.randomID(10)}.csv`,
+            data_string: () => jsPsych.data.get().csv(),
+        })
 
         timeline.push(demographics_endscreen("Add new link"))
 
