@@ -328,7 +328,7 @@ function mist_randomize(mist_fake_covid, mist_real_covid, mist_fake_general, mis
     post_fake_general = fake_general.slice(fake_general.length / 2)
     post_real_general = real_general.slice(real_general.length / 2)
 
-    pre = pre_fake_covid.concat(pre_real_covid, pre_fake_covid, pre_real_general, post_fake_general)
+    pre = pre_fake_covid.concat(pre_real_covid, pre_fake_covid, pre_real_general, pre_fake_general)
     post = post_fake_covid.concat(
         post_real_covid,
         post_fake_covid,
@@ -372,7 +372,8 @@ function make_mist_questionnaire(
         pre: {
             type: jsPsychSurveySlider,
             questions: mist_questions_pre,
-            preamble: "The following news headlines are a combination of real, published headlines and fake headlines designed to look like real ones. Please read the following news headlines and rate them on a scale from 'Fake' to 'Real' with the middle meaning unsure and closer to each end of the scale indicating greater confidence in your answer.",
+            preamble:
+                "The following news headlines are a combination of real, published headlines and fake headlines designed to look like real ones. Please read the following news headlines and rate them on a scale from 'Fake' to 'Real' with the middle meaning unsure and closer to each end of the scale indicating greater confidence in your answer.",
             require_movement: false,
             slider_width: 700,
             data: {
@@ -382,7 +383,8 @@ function make_mist_questionnaire(
         post: {
             type: jsPsychSurveySlider,
             questions: mist_questions_post,
-            preamble: "The following news headlines are a combination of real, published headlines and fake headlines designed to look like real ones. Please read the following news headlines and rate them on a scale from 'Fake' to 'Real' with the middle meaning unsure and closer to each end of the scale indicating greater confidence in your answer",
+            preamble:
+                "The following news headlines are a combination of real, published headlines and fake headlines designed to look like real ones. Please read the following news headlines and rate them on a scale from 'Fake' to 'Real' with the middle meaning unsure and closer to each end of the scale indicating greater confidence in your answer",
             require_movement: false,
             slider_width: 700,
             data: {

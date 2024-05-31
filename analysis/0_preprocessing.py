@@ -34,7 +34,7 @@ def osf_listfiles(data_subproject="", token="", after_date=None):
 token = ""  # Paste OSF token here to access private repositories
 files = osf_listfiles(
     token=token,
-    data_subproject="sm4jc",  # Data subproject ID
+    data_subproject="maf92",  # Data subproject ID
     after_date="19/01/2024",
 )
 
@@ -58,4 +58,60 @@ for i, file in enumerate(files):
             download_ok = True
 
     # Participant ----------------------------------------------------------
-    # data["screen"].unique()
+    data["screen"].unique()
+
+    # Browser info -------------------------------------------------------
+    browser = data[data["screen"] == "browser_info"].iloc[0]
+
+    df = pd.DataFrame(
+        {
+            "Participant": file["name"],
+            "Experiment_Duration": data["time_elapsed"].max() / 1000 / 60,
+            "Date_OSF": file["date"],
+            "Date": browser["date"],
+            "Time": browser["time"],
+            "Browser": browser["browser"],
+            "Mobile": browser["mobile"],
+            "Platform": browser["os"],
+            "Screen_Width": browser["screen_width"],
+            "Screen_Height": browser["screen_height"],
+        },
+        index=[0],
+    )
+
+    # Demographics -------------------------------------------------------
+    demo1 = data[data["screen"] == "demographics_1"].iloc[0]
+    demo1 = json.loads(demo1["response"])
+
+    df["Gender"] = demo1["gender"]
+
+    # Education
+    edu = demo1["education"]
+    edu = "Bachelor" if "bachelor" in edu else edu
+    edu = "Master" if "master" in edu else edu
+    edu = "Doctorate" if "doctorate" in edu else edu
+    edu = "High School" if "High school" in edu else edu
+    df["Education"] = edu
+
+    # MIST ----------------------------------------------------------------
+    mist_pre = data[data["screen"] == "questionnaire_mist_pre"].iloc[0]
+
+    df["MIST_Duration_Pre"] = mist_pre["rt"] / 1000 / 60
+
+    mist_pre = json.loads(mist_pre["response"])
+    for item in mist_pre:
+        df[item] = float(mist_pre[item])
+
+    mist_post = data[data["screen"] == "questionnaire_mist_post"].iloc[0]
+
+    df["MIST_Duration_Post"] = mist_post["rt"] / 1000 / 60
+    mist_post = json.loads(mist_post["response"])
+    for item in mist_post:
+        df[item] = float(mist_post[item])
+
+    # Add to alldata
+    alldata = pd.concat([alldata, df], axis=0, ignore_index=True)
+
+# Save data ==============================================================
+
+alldata.to_csv("../data/rawdata.csv", index=False)
