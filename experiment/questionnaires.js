@@ -243,6 +243,63 @@ var mist_questionnaire = {
     },
 }
 
+// MOCRI 12 BOLD (Van der Linden et al. 2024) *DIFFERENT FROM THE NON-BOLD MOCRI********************************************************
+
+var MOCRI_BOLD_12_items = [
+    "Sigmund Freud was known for consuming industrial amounts of cocaine, so there's no point in reading his work in the 21st century.", //manipulative
+    "Airline's 'Christmas Miracle' video goes viral on social media", //non-manipulative
+    "Nuclear energy supporters are the reason vast areas around Chernobyl are forever uninhabitable. And now they're saying we 'need' nuclear power to combat climate change? Ridiculous.", //manipulative
+    "Nutritionists remain divided over whether fried potatoes are good for your health or bad. Why is it so hard to settle the matter?", //non-manipulative
+    "The debate over whether to prioritize combating homelessness or poverty among immigrants continues. Just a thought: why can't we do both? ", //non-manipulative
+    "You don't really care about lowering crime in the city, you just want people to vote for you.", //manipulative
+    "Improving salaries for workers may affect businesses' bottom line, study says. What's less clear is how much small vs. large businesses are impacted.", //non-manipulative
+    "The reason voter turnout is down is because Millennials refuse to leave the house to go vote.", //manipulative
+    "Having trouble staying awake at work? Drinking coffee keeps you awake for about 45 minutes, but certain healthy snacks can provide an even longer energy boost", //non-manipulative
+    "Despite what economists and TV pundits will tell you, the stock market is completely unpredictable. We are barrelling towards a market crash of epic proportions. #DOWJones", //manipulative
+    "Twitter has come under fire for having become a 'haven' for extremism. But who are these 'extremists', exactly? How should the word be defined?", //non-manipulative
+    "This whole debate about using goal line technology during soccer games is pointless. We wouldn't have a problem if referees knew how to do their job.", //manipulative
+]
+
+var MOCRI_BOLD_12_dimensions = [
+    "MOCRI_BOLD_1_Manipulative",
+    "MOCRI_BOLD_2_NonManipulative",
+    "MOCRI_BOLD_3_Manipulative",
+    "MOCRI_BOLD_4_NonManipulative",
+    "MOCRI_BOLD_5_NonManipulative",
+    "MOCRI_BOLD_6_Manipulative",
+    "MOCRI_BOLD_7_NonManipulative",
+    "MOCRI_BOLD_8_Manipulative",
+    "MOCRI_BOLD_9_NonManipulative",
+    "MOCRI_BOLD_10_Manipulative",
+    "MOCRI_BOLD_11_NonManipulative",
+    "MOCRI_BOLD_12_Manipulative",
+]
+
+var MOCRI_BOLD_12_questions = []
+for (const [index, element] of MOCRI_BOLD_12_items.entries()) {
+    MOCRI_BOLD_12_questions.push({
+        prompt: "<b>" + element + "</b>",
+        name: MOCRI_BOLD_12_dimensions[index],
+        labels: ["<br>Manipulative", "<br>Non-Manipulative"],
+        required: true,
+    })
+}
+
+var MOCRI_BOLD_12_questionnaire = {
+    type: jsPsychSurveyLikert,
+    css_classes: ["narrow-text"],
+    questions: MOCRI_BOLD_12_questions,
+    randomize_question_order: true,
+    preamble:
+        "<p style='text-align: left;'>In the following you will see a series of Twitter posts. We are interested in how far you think that the authors of the posts tried to manipulate their readers. If you think that this is the case for a given post, rate the post as 'manipulative', otherwise rate the post as 'non-manipulative'.",
+    // "HOW YOU FEEL RIGHT NOW. " +
+    // "how you have been feeling <b>during the past two weeks</b>. " +
+    // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
+    data: {
+        screen: "questionnaire_MOCRI_BOLD_12",
+    },
+}
+
 // MOCRI 12 NON-BOLD (Van der Linden et al. 2024)
 
 var MOCRI_NONBOLD_12_items = [
