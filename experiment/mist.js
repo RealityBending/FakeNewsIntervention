@@ -314,33 +314,35 @@ var mist_real_general = [
 ]
 
 function mist_randomize(mist_fake_covid, mist_real_covid, mist_fake_general, mist_real_general) {
-    fake_covid = jsPsych.randomization.shuffle(mist_fake_covid)
-    real_covid = jsPsych.randomization.shuffle(mist_real_covid)
-    fake_general = jsPsych.randomization.shuffle(mist_fake_general)
-    real_general = jsPsych.randomization.shuffle(mist_real_general)
+    // Shuffle each category
+    let fake_covid = jsPsych.randomization.shuffle(mist_fake_covid);
+    let real_covid = jsPsych.randomization.shuffle(mist_real_covid);
+    let fake_general = jsPsych.randomization.shuffle(mist_fake_general);
+    let real_general = jsPsych.randomization.shuffle(mist_real_general);
 
-    pre_fake_covid = fake_covid.slice(0, fake_covid.length / 2)
-    pre_real_covid = real_covid.slice(0, real_covid.length / 2)
-    pre_fake_general = fake_general.slice(0, fake_general.length / 2)
-    pre_real_general = real_general.slice(0, real_general.length / 2)
-    post_fake_covid = fake_covid.slice(fake_covid.length / 2)
-    post_real_covid = real_covid.slice(real_covid.length / 2)
-    post_fake_general = fake_general.slice(fake_general.length / 2)
-    post_real_general = real_general.slice(real_general.length / 2)
+    // Split each category into pre and post groups without overlap
+    let pre_fake_covid = fake_covid.slice(0, Math.floor(fake_covid.length / 2));
+    let post_fake_covid = fake_covid.slice(Math.floor(fake_covid.length / 2));
+    
+    let pre_real_covid = real_covid.slice(0, Math.floor(real_covid.length / 2));
+    let post_real_covid = real_covid.slice(Math.floor(real_covid.length / 2));
+    
+    let pre_fake_general = fake_general.slice(0, Math.floor(fake_general.length / 2));
+    let post_fake_general = fake_general.slice(Math.floor(fake_general.length / 2));
+    
+    let pre_real_general = real_general.slice(0, Math.floor(real_general.length / 2));
+    let post_real_general = real_general.slice(Math.floor(real_general.length / 2));
 
-    pre = pre_fake_covid.concat(pre_real_covid, pre_fake_covid, pre_real_general, pre_fake_general)
-    post = post_fake_covid.concat(
-        post_real_covid,
-        post_fake_covid,
-        post_real_general,
-        post_fake_general
-    )
+    // Combine and shuffle pre and post questions
+    let pre = pre_fake_covid.concat(pre_real_covid, pre_fake_general, pre_real_general);
+    let post = post_fake_covid.concat(post_real_covid, post_fake_general, post_real_general);
 
-    pre = jsPsych.randomization.shuffle(pre)
-    post = jsPsych.randomization.shuffle(post)
+    pre = jsPsych.randomization.shuffle(pre);
+    post = jsPsych.randomization.shuffle(post);
 
-    return { pre: pre, post: post }
+    return { pre: pre, post: post };
 }
+
 
 // Format MIST items
 function mist_format(mist_items) {
