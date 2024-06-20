@@ -47,19 +47,19 @@
         })
 
         timeline.push(demographics_browser_info)
-        // timeline.push(participant_id)
-       // timeline.push(demographics_consent)
-      //  timeline.push(demographics_multichoice)
-      //  timeline.push(demographics_freetext)
+        timeline.push(participant_id)
+        timeline.push(demographics_consent)
+        timeline.push(demographics_multichoice)
+        timeline.push(demographics_freetext)
 
         // Shuffle list
         var Qs = [GCBS15_questionnaire, ANES, BFI10, VSA]
         Qs = jsPsych.randomization.shuffle(Qs) // Randomize
 
-      //  timeline.push(Qs[0])
-      //  timeline.push(Qs[1])
-      //  timeline.push(Qs[2])
-       // timeline.push(Qs[3])
+       timeline.push(Qs[0])
+       timeline.push(Qs[1])
+       timeline.push(Qs[2])
+       timeline.push(Qs[3])
         
         timeline.push(MOCRI_BOLD_12_questionnaire)
 
@@ -79,7 +79,7 @@
         timeline.push(intervention_screen(condition))
 
         // feedback
-      //  timeline.push(confidence_assessment)
+       timeline.push(confidence_assessment)
         if (condition == "BadNews") {
             timeline.push(badnews_freetext)
         } else {
