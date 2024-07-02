@@ -41,6 +41,7 @@ files = osf_listfiles(
 # Loop through files ======================================================
 # Initialize empty dataframes
 alldata = pd.DataFrame()
+alldata_mist = pd.DataFrame()
 
 for i, file in enumerate(files):
     print(f"File N°{i+1}/{len(files)}")
@@ -93,25 +94,67 @@ for i, file in enumerate(files):
     edu = "High School" if "High school" in edu else edu
     df["Education"] = edu
 
+    demo2 = data[data["screen"] == "demographics_2"].iloc[0]
+    demo2 = json.loads(demo2["response"])
+    df["Age"] = demo2["age"]
+    df["Ethnicity"] = demo2["ethnicity"]
+
+    # Intervention ----------------------------------------------------------------
+    intervention = data[data["screen"] == "intervention"].iloc[0]
+    df["Intervention_Duration"] = intervention["rt"] / 1000 / 60
+
+    # BFI ----------------------------------------------------------------
+    bfi = data[data["screen"] == "questionnaire_BFI10"].iloc[0]
+
+    df["BFI_Duration"] = bfi["rt"] / 1000 / 60
+
+    bfi = json.loads(bfi["response"])
+    for item in bfi:
+        df[item] = float(bfi[item])
+
     # MIST ----------------------------------------------------------------
+
+    # Pre
+    df_mist_pre = pd.DataFrame({"Participant": df["Participant"].values[0]}, index=[0])
     mist_pre = data[data["screen"] == "questionnaire_mist_pre"].iloc[0]
 
     df["MIST_Duration_Pre"] = mist_pre["rt"] / 1000 / 60
 
     mist_pre = json.loads(mist_pre["response"])
     for item in mist_pre:
-        df[item] = float(mist_pre[item])
+        df_mist_pre[item] = float(mist_pre[item])
+    df_mist_pre = df_mist_pre.T
+    df_mist_pre = df_mist_pre.drop("Participant", axis=0)
+    df_mist_pre.columns = ["MIST"]  # Rename column
+    df_mist_pre["Condition"] = "Pretest"
 
+    # Post
+    df_mist_post = pd.DataFrame({"Participant": df["Participant"].values[0]}, index=[0])
     mist_post = data[data["screen"] == "questionnaire_mist_post"].iloc[0]
 
     df["MIST_Duration_Post"] = mist_post["rt"] / 1000 / 60
     mist_post = json.loads(mist_post["response"])
     for item in mist_post:
-        df[item] = float(mist_post[item])
+        df_mist_post[item] = float(mist_post[item])
+    df_mist_post = df_mist_post.T
+    df_mist_post = df_mist_post.drop("Participant", axis=0)
+    df_mist_post.columns = ["MIST"]  # Rename column
+    df_mist_post["Condition"] = "Posttest"
+
+    # Concatenate
+    df_mist = pd.concat([df_mist_pre, df_mist_post], axis=0, ignore_index=True)
+    df_mist["Participant"] = df["Participant"].values[0]
 
     # Add to alldata
     alldata = pd.concat([alldata, df], axis=0, ignore_index=True)
+    alldata_mist = pd.concat(
+        [alldata_mist, df_mist[["Participant", "Condition", "MIST"]]],
+        axis=0,
+        ignore_index=True,
+    )
+
 
 # Save data ==============================================================
 
 alldata.to_csv("../data/rawdata.csv", index=False)
+alldata_mist.to_csv("../data/rawdata_mist.csv", index=False)
