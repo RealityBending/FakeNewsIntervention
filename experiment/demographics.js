@@ -23,6 +23,27 @@ var demographics_browser_info = {
     },
 }
 
+// Participant ID ========================================================================
+var demographics_participant_id = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: "Enter participant ID:",
+            placeholder: "001",
+            name: "Participant_ID",
+        },
+    ],
+    data: {
+        screen: "participant_id",
+    },
+    on_finish: function () {
+        // Store `participant_id` so that it can be reused later
+        jsPsych.data.addProperties({
+            participant_id: jsPsych.data.get().last().values()[0]["response"]["Participant_ID"],
+        })
+    },
+}
+
 // Consent form ========================================================================
 var demographics_consent = {
     type: jsPsychHtmlButtonResponse,
@@ -36,7 +57,7 @@ var demographics_consent = {
         "You are being invited to take part in a research study to further our understanding of Human psychology. Thank you for carefully reading this information sheet. This study is being conducted by PhD candidate Robert Dickinson from the School of Psychology, University of Sussex, who is happy to be contacted (r.dickinson@sussex.ac.uk) if you have any questions.</p>" +
         // Description
         "<p align='left'><b>Why have I been invited and what will I do?</b><br>" +
-        "We are surveying adults to understand how personality traits and political ideology impact effectiveness of an intervention against misinformation. This study contains various questionnaires about your personality, beliefs and ability to judge accuracy of news headlines. The whole experiment will take you <b>about 20 min</b> to complete. Please make you sure that you are in a quiet environment, and that you have time to complete it in one go.</p>" +
+        "We are surveying adults to understand how personality traits and political ideology impact effectiveness of an intervention against misinformation. This study contains various questionnaires about your personality, beliefs and ability to judge accuracy of news headlines. Please note: these questionnaires include some questions that participants may find to be of a sensitive nature, including some questions about political and religious beliefs. Next, you will play a game for ~15 minutes, then answer a few more questionnaires. The whole experiment will take you <b>about 30 min</b> to complete. Please make you sure that you are in a quiet environment, and that you have time to complete it in one go.</p>" +
         // Results and personal information
         "<p align='left'><b>What will happen to the results and my personal information?</b><br>" +
         "The results of this research may be written into a scientific publication. Your anonymity will be ensured in the way described in the consent information below. Please read this information carefully and then, if you wish to take part, please acknowledge that you have fully understood this sheet, and that you consent to take part in the study as it is described here.</p>" +
@@ -45,13 +66,14 @@ var demographics_consent = {
         "<li align='left'>I understand that by signing below I am agreeing to take part in the University of Sussex research described here, and that I have read and understood this information sheet</li>" +
         "<li align='left'>I understand that my participation is entirely voluntary, that I can choose not to participate in part or all of the study, and that I can withdraw at any stage without having to give a reason and without being penalised in any way (e.g., if I am a student, my decision whether or not to take part will not affect my grades).</li>" +
         "<li align='left'>I understand that since the study is anonymous, it will be impossible to withdraw my data once I have completed it.</li>" +
-        "<li align='left'>I understand that my personal data will be used for the purposes of this research study and will be handled in accordance with Data Protection legislation. I understand that the University's Privacy Notice provides further information on how the University uses personal data in its research.</li>" +
+        "<li align='left'>I understand that my personal data will be used for the purposes of this research study and will be handled in accordance with Data Protection legislation. I understand that the University's Privacy Notice provides further information on how the University uses personal data in its research. More information available at the following links: https://www.sussex.ac.uk/ogs/documents/data-protection-policy.pdf | https://www.sussex.ac.uk/ogs/policies/information/dpa/research-and-gdpr </li>" +
         "<li align='left'>I understand that my collected data will be stored in a de-identified way. De-identified data may be made publically available through secured scientific online data repositories.</li>" +
+        "<li align='left'>I understand that the University of Sussex has insurance in place to cover its legal liabilities in respect of this study." +
         // Incentive
         "<li align='left'>Please note that various checks will be performed to ensure the validity of the data. We reserve the right to withhold credit awards or reimbursement should we detect non-valid responses (e.g., random patterns of answers, instructions not read, ...).</li>" +
         "<li align='left'>By participating, you agree to follow the instructions and provide honest answers. If you do not wish to participate, simply close your browser.</li>" +
         "</p>" +
-        "<p align='left'><br><sub><sup>For further information about this research, or if you have any concerns, please contact Robert Dickinson (r.dickinson@sussex.ac.uk). This research has been approved (*****BLANK*******) by the ethics board of the School of Psychology. The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.</sup></sub></p>",
+        "<p align='left'><br><sub><sup>For further information about this research, or if you have any concerns, please contact Robert Dickinson (r.dickinson@sussex.ac.uk). This research has been approved (*****BLANK*******) by the ethics board of the School of Psychology.</sup></sub></p>",
 
     choices: ["I read, understood, and I consent"],
     data: { screen: "consent" },
@@ -90,145 +112,77 @@ var demographics_endscreen = function (
 }
 
 // Demographic info ========================================================================
-var demographic_questions = {
-    type: jsPsychSurvey,
-    survey_json: {
-        title: "About yourself",
-        completeText: "Continue",
-        pageNextText: "Next",
-        pagePrevText: "Previous",
-        goNextPageAutomatic: false,
-        showQuestionNumbers: false,
-        showProgressBar: "aboveHeader",
-        pages: [
-            {
-                elements: [
-                    {
-                        title: "What is your gender?",
-                        name: "Gender",
-                        type: "radiogroup",
-                        choices: ["Male", "Female", "Other"],
-                        isRequired: true,
-                        colCount: 0,
-                    },
-                    {
-                        type: "text",
-                        title: "Please enter your age (in years)",
-                        name: "Age",
-                        isRequired: true,
-                        inputType: "number",
-                        min: 0,
-                        max: 100,
-                        placeholder: "e.g., 21",
-                    },
-                ],
-            },
-            {
-                elements: [
-                    {
-                        title: "What is your highest completed education level?",
-                        name: "Education",
-                        type: "radiogroup",
-                        choices: [
-                            {
-                                value: "Doctorate",
-                                text: "University (doctorate)",
-                            },
-                            {
-                                value: "Master",
-                                text: "University (master)", // "<sub><sup>or equivalent</sup></sub>",
-                            },
-                            {
-                                value: "Bachelor",
-                                text: "University (bachelor)", // "<sub><sup>or equivalent</sup></sub>",
-                            },
-                            {
-                                value: "High school",
-                                text: "High school",
-                            },
-                            {
-                                value: "Elementary school",
-                                text: "Elementary school",
-                            },
-                        ],
-                        showOtherItem: true,
-                        otherText: "Other",
-                        otherPlaceholder: "Please specify",
-                        isRequired: true,
-                        colCount: 1,
-                    },
-                    {
-                        visibleIf:
-                            "{Education} == 'Doctorate' || {Education} == 'Master' || {Education} == 'Bachelor'",
-                        title: "What is your discipline?",
-                        name: "Discipline",
-                        type: "radiogroup",
-                        choices: [
-                            "Arts and Humanities",
-                            "Literature, Languages",
-                            "History, Archaeology",
-                            "Sociology, Anthropology",
-                            "Political Science, Law",
-                            "Business, Economics",
-                            "Psychology, Neuroscience",
-                            "Medicine",
-                            "Biology, Chemistry, Physics",
-                            "Mathematics, Physics",
-                            "Engineering, Computer Science",
-                        ],
-                        showOtherItem: true,
-                        otherText: "Other",
-                        otherPlaceholder: "Please specify",
-                    },
-                    {
-                        visibleIf:
-                            "{Education} == 'High school' || {Education} == 'Master' || {Education} == 'Bachelor'",
-                        title: "Are you currrently a student?",
-                        name: "Student",
-                        type: "boolean",
-                        swapOrder: true,
-                        isRequired: true,
-                    },
-                ],
-            },
-            {
-                elements: [
-                    {
-                        title: "How would you describe your ethnicity?",
-                        name: "Ethnicity",
-                        type: "radiogroup",
-                        choices: [
-                            "White",
-                            "Black",
-                            "Hispanic/Latino",
-                            "Middle Eastern/North African",
-                            "South Asian",
-                            "East Asian",
-                            "Southeast Asian",
-                            "Mixed",
-                            "Prefer not to say",
-                        ],
-                        showOtherItem: true,
-                        otherText: "Other",
-                        otherPlaceholder: "Please specify",
-                        isRequired: false,
-                        colCount: 1,
-                    },
-                    {
-                        title: "In which country are you currently living?",
-                        name: "Country",
-                        type: "dropdown",
-                        choicesByUrl: {
-                            url: "https://surveyjs.io/api/CountriesExample",
-                        },
-                        placeholder: "e.g., France",
-                        isRequired: false,
-                    },
-                ],
-            },
-        ],
-    },
+var demographics_multichoice = {
+    type: jsPsychSurveyMultiChoice,
+    preamble: "<b>Please answer the following questions:</b>",
+    questions: [
+        {
+            prompt: "What is your gender?",
+            options: ["Man", "Woman", "Non-Binary", "Prefer not to answer"],
+            name: "gender",
+        },
+        // {
+        //     prompt: "Are you currently a student?",
+        //     options: ["Yes", "No"],
+        //     name: "student",
+        // },
+        {
+            prompt: "Did you receive a COVID-19 Vaccine?",
+            options: ["Yes", "No", "Unsure/Refuse to answer"],
+            name: "vaccination_status",
+        },
+        {
+            prompt: "How likely are you to believe a news headline you read?",
+            options: [
+                "very likely",
+                "likely",
+                "unlikely",
+                "very unlikely",
+                "Unsure/Refuse to answer",
+            ],
+            name: "vaccination_status",
+        },
+        {
+            prompt: "What is your highest completed education level?",
+            options: [
+                "University (doctorate)",
+                "University (master) <sub><sup>or equivalent</sup></sub>",
+                "University (bachelor) <sub><sup>or equivalent</sup></sub>",
+                "High school",
+                "Other",
+            ],
+            name: "education",
+        },
+        // {
+        //     prompt: "English level",
+        //     options: ["native", "fluent", "intermediate", "beginner"],
+        //     name: "english",
+        // },
+    ],
     data: {
-        screen: "demographic_questions",
+        screen: "demographics_1",
     },
+}
+
+var demographics_freetext = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: "Please enter your age (in years)",
+            placeholder: "e.g., '31'",
+            name: "age",
+        },
+        {
+            prompt: "Please enter your ethnicity",
+            placeholder: "e.g., Caucasian",
+            name: "ethnicity",
+        },
+    ],
+    data: {
+        screen: "demographics_2",
+    },
+}
+
+var demographics_info = {
+    timeline: [demographics_multichoice, demographics_freetext],
 }
