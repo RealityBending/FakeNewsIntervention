@@ -120,6 +120,8 @@ var demographics_multichoice = {
             prompt: "What is your gender?",
             options: ["Man", "Woman", "Non-Binary", "Prefer not to answer"],
             name: "gender",
+            required: true,
+
         },
         // {
         //     prompt: "Are you currently a student?",
@@ -130,6 +132,8 @@ var demographics_multichoice = {
             prompt: "Did you receive a COVID-19 Vaccine?",
             options: ["Yes", "No", "Unsure/Refuse to answer"],
             name: "vaccination_status",
+            required: true,
+
         },
         {
             prompt: "How likely are you to believe a news headline you read?",
@@ -140,7 +144,9 @@ var demographics_multichoice = {
                 "very unlikely",
                 "Unsure/Refuse to answer",
             ],
-            name: "vaccination_status",
+            name: "belief_likelihood_status",
+            required: true,
+
         },
         {
             prompt: "What is your highest completed education level?",
@@ -152,6 +158,8 @@ var demographics_multichoice = {
                 "Other",
             ],
             name: "education",
+            required: true,
+
         },
         // {
         //     prompt: "English level",
@@ -171,11 +179,15 @@ var demographics_freetext = {
             prompt: "Please enter your age (in years)",
             placeholder: "e.g., '31'",
             name: "age",
+            required: true,
+
         },
         {
             prompt: "Please enter your ethnicity",
             placeholder: "e.g., Caucasian",
             name: "ethnicity",
+            required: true,
+
         },
     ],
     data: {
