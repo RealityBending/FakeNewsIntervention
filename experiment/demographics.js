@@ -54,7 +54,7 @@ var demographics_consent = {
         "<h1>Informed Consent</h1>" +
         // Overview
         "<p align='left'><b>Invitation to Take Part</b><br>" +
-        "You are being invited to take part in a research study to further our understanding of Human psychology. Thank you for carefully reading this information sheet. This study is being conducted by PhD candidate Robert Dickinson from the School of Psychology, University of Sussex, who is happy to be contacted (r.dickinson@sussex.ac.uk) if you have any questions.</p>" +
+        "You are being invited to take part in a research study to further our understanding of Human psychology. Thank you for carefully reading this information sheet. This study is being conducted by PhD candidate Robert Dickinson from the School of Psychology, University of Sussex, who is happy to be contacted (r.dickinson@sussex.ac.uk) if you have any questions. Note: We recommend the use of a personal computer for participation in this experiment over the use of a mobile device, although the experiment is entirely functional through a mobile device.</p>" +
         // Description
         "<p align='left'><b>Why have I been invited and what will I do?</b><br>" +
         "We are surveying adults to understand how personality traits and political ideology impact effectiveness of an intervention against misinformation. This study contains various questionnaires about your personality, beliefs and ability to judge accuracy of news headlines. Please note: these questionnaires include some questions that participants may find to be of a sensitive nature, including some questions about political and religious beliefs. Next, you will play a game for ~15 minutes, then answer a few more questionnaires. The whole experiment will take you <b>about 30 min</b> to complete. Please make you sure that you are in a quiet environment, and that you have time to complete it in one go.</p>" +
@@ -73,7 +73,7 @@ var demographics_consent = {
         "<li align='left'>Please note that various checks will be performed to ensure the validity of the data. We reserve the right to withhold credit awards or reimbursement should we detect non-valid responses (e.g., random patterns of answers, instructions not read, ...).</li>" +
         "<li align='left'>By participating, you agree to follow the instructions and provide honest answers. If you do not wish to participate, simply close your browser.</li>" +
         "</p>" +
-        "<p align='left'><br><sub><sup>For further information about this research, or if you have any concerns, please contact Robert Dickinson (r.dickinson@sussex.ac.uk). This research has been approved (*****BLANK*******) by the ethics board of the School of Psychology.</sup></sub></p>",
+        "<p align='left'><br><sub><sup>For further information about this research, or if you have any concerns, please contact Robert Dickinson (r.dickinson@sussex.ac.uk). This research (ER/RD321/2) has been approved by the ethics board of the School of Psychology (Sciences & Technology C-REC) at the University of Sussex.</sup></sub></p>",
 
     choices: ["I read, understood, and I consent"],
     data: { screen: "consent" },
