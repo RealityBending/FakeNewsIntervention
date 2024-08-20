@@ -88,27 +88,36 @@ var demographics_waitdatasaving = {
     data: { screen: "waitdatasaving" },
 }
 
-var demographics_endscreen = function (
-    link = "https://dominiquemakowski.github.io/PHQ4R/study2/experiment/experimenter1.html"
-) {
-    return {
-        type: jsPsychHtmlButtonResponse,
-        css_classes: ["narrow-text"],
-        stimulus:
+var demographics_endscreen = {
+    type: jsPsychHtmlButtonResponse,
+    css_classes: ["narrow-text"],
+    stimulus: function () {
+        let text =
             "<h1>Thank you for participating</h1>" +
-            "<p>It means a lot to us. Don't hesitate to share the study by sending this link:</p>" +
-            "<p><b><a href='" +
-            link +
+            "<p>It means a lot to us. Don't hesitate to share the study by sending this link <i>(but please don't reveal the details of the experiment)</i>:</p>" +
+            "<p><a href='" +
+            "https://realitybending.github.io/FakeNewsIntervention/experiment/index?exp=snow" + // Modify this link to the actual experiment
             "'>" +
-            link +
-            "<a/></b></p><br>" +
-            "<h2>Information</h2>" +
-            "<p align='left'>The purpose of this study was for us to understand how personality traits and political ideology impact effectiveness of an intervention against misinformation. Your participation in this study will be kept completely confidential.</p>" +
-            "<p align='left'>If you have any questions about the project, please contact R.dickinson@sussex.ac.uk.</p>" +
-            "<p><b>You can safely close the tab now.</b></p>",
-        choices: ["End"],
-        data: { screen: "endscreen" },
-    }
+            "https://realitybending.github.io/FakeNewsIntervention/experiment/index?exp=snow" + // Modify this link to the actual experiment
+            "<a/></p>"
+
+        // Deal with Prolific/SurveyCircle/SurveySwap/SONA
+        // if (jsPsych.data.urlVariables()["exp"] == "surveycircle") {
+        //     text +=
+        //         "<p style='color:red;'><b>Click " +
+        //         "<a href='https://www.surveycircle.com/HZPT-7R9E-GVNM-PQ45/'>here<a/>" +
+        //         " to redeem your SurveyCircle participation</b><br>(in case the link doesn't work, the code is: HZPT-7R9E-GVNM-PQ45)</p>"
+        // }
+        // if (jsPsych.data.urlVariables()["exp"] == "surveyswap") {
+        //     text +=
+        //         "<p style='color:red;'><b>Click " +
+        //         "<a href='https://surveyswap.io/sr/E9XP-DWMS-BHA3'>here<a/>" +
+        //         " to redeem your SurveySwap participation</b><br>(in case the link doesn't work, the code is: E9XP-DWMS-BHA3)</p>"
+        // }
+        return text + "<p><b>You can safely close the tab now.</b></p>"
+    },
+    choices: ["End"],
+    data: { screen: "endscreen" },
 }
 
 // Demographic info ========================================================================
@@ -121,7 +130,6 @@ var demographics_multichoice = {
             options: ["Man", "Woman", "Non-Binary", "Prefer not to answer"],
             name: "gender",
             required: true,
-
         },
         // {
         //     prompt: "Are you currently a student?",
@@ -133,7 +141,6 @@ var demographics_multichoice = {
             options: ["Yes", "No", "Unsure/Refuse to answer"],
             name: "vaccination_status",
             required: true,
-
         },
         {
             prompt: "How likely are you to believe a news headline you read?",
@@ -146,7 +153,6 @@ var demographics_multichoice = {
             ],
             name: "belief_likelihood_status",
             required: true,
-
         },
         {
             prompt: "What is your highest completed education level?",
@@ -159,7 +165,6 @@ var demographics_multichoice = {
             ],
             name: "education",
             required: true,
-
         },
         // {
         //     prompt: "English level",
@@ -180,14 +185,12 @@ var demographics_freetext = {
             placeholder: "e.g., '31'",
             name: "age",
             required: true,
-
         },
         {
             prompt: "Please enter your ethnicity",
             placeholder: "e.g., Caucasian",
             name: "ethnicity",
             required: true,
-
         },
     ],
     data: {
