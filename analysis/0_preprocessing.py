@@ -177,7 +177,11 @@ def update_log(log, prolific_id, reject=False, alldata=alldata):
 
 # Load log and data
 log = pd.read_csv("../data/payment_log.csv")
-alldata.loc[~alldata.Prolific_ID.isna(), ["Prolific_ID", "Intervention_Duration"]]
+new = alldata.loc[~alldata.Prolific_ID.isna(),]
+new = new.loc[
+    ~new.Participant.isin(log.Participant), ["Prolific_ID", "Intervention_Duration"]
+]
+new
 
 # Update log manually
 log = update_log(log, "5e1f938b06121f2be0d1ead4", reject=False)
