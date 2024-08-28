@@ -67,6 +67,7 @@ for i, file in enumerate(files):
     df = pd.DataFrame(
         {
             "Participant": file["name"],
+            "Prolific_ID": browser["prolific_id"],
             "Experiment_Duration": data["time_elapsed"].max() / 1000 / 60,
             "Date_OSF": file["date"],
             "Date": browser["date"],
@@ -152,6 +153,34 @@ for i, file in enumerate(files):
         axis=0,
         ignore_index=True,
     )
+
+
+# Quality control =========================================================
+def update_log(log, prolific_id, reject=False, alldata=alldata):
+    ppt = alldata.loc[
+        (~alldata.Prolific_ID.isna()) & (alldata.Prolific_ID == prolific_id),
+    ]["Participant"].values[0]
+    if not isinstance(ppt, str):
+        raise ValueError(f"Participant {prolific_id} not found.")
+
+    ppt = pd.DataFrame(
+        {"Participant": [ppt], "Paid": [not reject], "Date": pd.Timestamp.now()}
+    )
+    log = pd.concat([log, ppt], axis=0, ignore_index=True)
+    log.to_csv("../data/payment_log.csv", index=False)
+    if reject:
+        print(f"X Participant {prolific_id} rejected.")
+    else:
+        print(f"V Participant {prolific_id} was paid.")
+    return log
+
+
+# Load log and data
+log = pd.read_csv("../data/payment_log.csv")
+alldata.loc[~alldata.Prolific_ID.isna(), ["Prolific_ID", "Intervention_Duration"]]
+
+# Update log manually
+log = update_log(log, "5e1f938b06121f2be0d1ead4", reject=False)
 
 
 # Save data ==============================================================
