@@ -1,5 +1,6 @@
 import json
 
+
 import numpy as np
 import pandas as pd
 
@@ -184,7 +185,7 @@ new = new.loc[
 new
 
 # Update log manually
-log = update_log(log, "583ef6f5ad2f4300014b358d", reject=False)
+log = update_log(log, "5e42fc295135b5000cd20d0b", reject=True)
 
 
 # Save data ==============================================================
