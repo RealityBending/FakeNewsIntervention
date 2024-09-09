@@ -114,6 +114,75 @@ for i, file in enumerate(files):
     for item in bfi:
         df[item] = float(bfi[item])
 
+    #VSA-----------------------------------------------------
+    vsa = data[data["screen"] == "questionnaire_VSA"].iloc[0]
+    df["VSA_Duration"] = vsa["rt"] / 1000 / 60
+
+    vsa = json.loads(vsa["response"])
+    for item in vsa:
+        df[item] = float(vsa[item])
+
+    #ANES-----------------------------------------------------
+    anes = data[data["screen"] == "questionnaire_ANES"].iloc[0]
+    df["ANES_Duration"] = anes["rt"] / 1000 / 60
+
+    #GCBS15-----------------------------------------------------
+    gcbs = data[data["screen"] == "questionnaire_GCBS15"].iloc[0]
+    df["GCBS_Duration"] = gcbs["rt"] / 1000 / 60
+
+    gcbs = json.loads(gcbs["response"])
+    for item in gcbs:
+        df[item] = float(gcbs[item])
+
+    #intervention-----------------------------------------------------
+    badnews = data[data["screen"] == "intervention"].iloc[0]
+    df["BadNews_Duration"] = badnews["rt"] / 1000 / 60
+
+    #veracity confidence-----------------------------------------------------
+    confidence = data[data["screen"] == "veracity_confidence"].iloc[0]
+    df["Confidence_Duration"] = confidence["rt"] / 1000 / 60
+
+    #badnews questions-----------------------------------------------------
+    if not data[data["screen"] == "questionnaire_badnews"].empty:
+        badnews_questions = data[data["screen"] == "questionnaire_badnews"].iloc[0]
+        df["Badnews_Questions_Duration"] = badnews_questions["rt"] / 1000 / 60
+    else:
+        df["Badnews_Questions_Duration"] = None  # or another placeholder value
+
+
+    #tetris-----------------------------------------------------
+    if not data[data["screen"] == "questionnaire_tetris"].empty:
+        tetris_questions = data[data["screen"] == "questionnaire_tetris"].iloc[0]
+        df["Tetris_Questions_Duration"] = tetris_questions["rt"] / 1000 / 60
+    else:
+        df["Tetris_Questions_Duration"] = None  # or another placeholder value
+
+
+    #consent-----------------------------------------------------
+    consent = data[data["screen"] == "consent"].iloc[0]
+    df["Consent_Duration"] = consent["rt"] / 1000 / 60
+
+    #waitdatasaving-----------------------------------------------------
+    wds = data[data["screen"] == "waitdatasaving"].iloc[0]
+    df["Waitdatasaving_Duration"] = wds["rt"] / 1000 / 60
+
+    # MOCRI BOLD------------------------------------------------
+    mocri_bold = data[data["screen"] == "questionnaire_MOCRI_BOLD"].iloc[0]
+    df["MOCRI_BOLD_Duration"] = mocri_bold["rt"] / 1000 / 60
+    
+    mocri_bold = json.loads(mocri_bold["response"])
+    for item in mocri_bold:
+        df[f"MOCRI_BOLD_{item}"] = float(mocri_bold[item])
+
+    # MOCRI NONBOLD
+    mocri_nonbold = data[data["screen"] == "questionnaire_MOCRI_NONBOLD"].iloc[0]
+    df["MOCRI_NONBOLD_Duration"] = mocri_nonbold["rt"] / 1000 / 60
+
+    mocri_nonbold = json.loads(mocri_nonbold["response"])
+    for item in mocri_nonbold:
+        df[f"MOCRI_NONBOLD_{item}"] = float(mocri_nonbold[item])
+
+
     # MIST ----------------------------------------------------------------
 
     # Pre
