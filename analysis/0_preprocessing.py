@@ -167,7 +167,7 @@ for i, file in enumerate(files):
     df["Waitdatasaving_Duration"] = wds["rt"] / 1000 / 60
 
     # MOCRI BOLD------------------------------------------------
-    mocri_bold = data[data["screen"] == "questionnaire_MOCRI_BOLD"].iloc[0]
+    mocri_bold = data[data["screen"] == "questionnaire_MOCRI_BOLD_12"].iloc[0]
     df["MOCRI_BOLD_Duration"] = mocri_bold["rt"] / 1000 / 60
     
     mocri_bold = json.loads(mocri_bold["response"])
@@ -175,7 +175,7 @@ for i, file in enumerate(files):
         df[f"MOCRI_BOLD_{item}"] = float(mocri_bold[item])
 
     # MOCRI NONBOLD
-    mocri_nonbold = data[data["screen"] == "questionnaire_MOCRI_NONBOLD"].iloc[0]
+    mocri_nonbold = data[data["screen"] == "questionnaire_MOCRI_NONBOLD_12"].iloc[0]
     df["MOCRI_NONBOLD_Duration"] = mocri_nonbold["rt"] / 1000 / 60
 
     mocri_nonbold = json.loads(mocri_nonbold["response"])
@@ -223,6 +223,7 @@ for i, file in enumerate(files):
         axis=0,
         ignore_index=True,
     )
+
 
 
 # Quality control =========================================================
