@@ -21,6 +21,7 @@ library(tidyverse)
 library(easystats)
 library(patchwork)
 library(ggside)
+library(modelsummary)
 ```
 
 
@@ -42,6 +43,7 @@ The initial sample consisted of `r report::report_participants(df, age="Age", ge
 ```{r}
 #| code-fold: false
 
+## this is creating the Big 5 scores out of the BFI data, but currently these are just assigned to random numbers, you'll need to check the questionnaire files to figure out which are which and assign them properly here
 df$BFI_Neuroticism <- (df$BFI10_1 + df$BFI10_2) / 2
 df$BFI_Extraversion <- (df$BFI10_3 + df$BFI10_4) / 2
 ```
