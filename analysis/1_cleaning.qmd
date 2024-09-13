@@ -1,0 +1,63 @@
+---
+title: "FaceNewsIntervention - Data Cleaning"
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: true
+    toc: true
+---
+
+
+## Data Preparation
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(easystats)
+library(patchwork)
+library(ggside)
+```
+
+
+```{r}
+#| code-fold: false
+
+df <- read.csv("../data/rawdata.csv")
+
+dfmist <- read.csv("../data/rawdata_mist.csv")
+```
+
+The initial sample consisted of `r report::report_participants(df, age="Age", gender="Gender", education="Education")`, for a total trial number of `r nrow(df)`.
+
+
+## Questionnaires
+
+### BFI
+
+```{r}
+#| code-fold: false
+
+df$BFI_Neuroticism <- (df$BFI10_1 + df$BFI10_2) / 2
+df$BFI_Extraversion <- (df$BFI10_3 + df$BFI10_4) / 2
+```
+
+```{r}
+bfi <- select(df, starts_with("BFI_"))
+
+modelsummary::datasummary_skim(bfi)
+```
+
+
+## Intervention
+
+```{r}
+
+```
+
+
+
