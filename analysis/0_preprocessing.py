@@ -65,6 +65,9 @@ for i, file in enumerate(files):
     # Browser info -------------------------------------------------------
     browser = data[data["screen"] == "browser_info"].iloc[0]
 
+    if isinstance(browser["prolific_id"], str) is False:
+        continue
+
     df = pd.DataFrame(
         {
             "Participant": file["name"],
