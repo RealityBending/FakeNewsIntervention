@@ -32,7 +32,7 @@ def osf_listfiles(data_subproject="", token="", after_date=None):
 
 
 # Connect to OSF and get files --------------------------------------------
-token = ""  # Paste OSF token here to access private repositories
+token = "zYboMoukFI8HKabenQ35DH6tESHJo6oZll5BvOPma6Dppjqc2jnIB6sPCERCuaqO0UrHAa"  # Paste OSF token here to access private repositories
 files = osf_listfiles(
     token=token,
     data_subproject="maf92",  # Data subproject ID
@@ -131,8 +131,9 @@ for i, file in enumerate(files):
 
     anes = json.loads(anes["response"])
     for item in anes:
-        df[item] = float(anes[item])
-
+        # Split the string at the first '.' and take the first part (the number), then convert it to float
+        numeric_part = anes[item].split('.')[0].strip()  # '2. Slightly Liberal' -> '2'
+        df[item] = float(numeric_part)
 
     #GCBS15-----------------------------------------------------
     gcbs = data[data["screen"] == "questionnaire_GCBS15"].iloc[0]

@@ -102,7 +102,32 @@ modelsummary::datasummary_skim(GCBS)
 # Print responses for both ANES questions
 print(df[, c("ANES_1", "ANES_2")])
 
+
+ANES <- select(df, starts_with("ANES_"))
+
+modelsummary::datasummary_skim(ANES)
+
 ```
+
+
+### VSA
+
+```{r}
+# Ensure columns exist
+print(names(df))
+
+# Select relevant columns
+VSA <- select(df, starts_with("VSA_"))
+
+# Inspect selected data
+print(head(VSA))
+
+# Apply modelsummary
+modelsummary::datasummary_skim(VSA)
+
+
+```
+
 
 
 ## Intervention
