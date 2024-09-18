@@ -100,7 +100,7 @@ modelsummary::datasummary_skim(GCBS)
 
 ```{r}
 # Print responses for both ANES questions
-print(df[, c("ANES_Q1", "ANES_Q2")])
+print(df[, c("ANES_1", "ANES_2")])
 
 ```
 

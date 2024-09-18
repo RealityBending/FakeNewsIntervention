@@ -129,6 +129,11 @@ for i, file in enumerate(files):
     anes = data[data["screen"] == "questionnaire_ANES"].iloc[0]
     df["ANES_Duration"] = anes["rt"] / 1000 / 60
 
+    anes = json.loads(anes["response"])
+    for item in anes:
+        df[item] = float(anes[item])
+
+
     #GCBS15-----------------------------------------------------
     gcbs = data[data["screen"] == "questionnaire_GCBS15"].iloc[0]
     df["GCBS_Duration"] = gcbs["rt"] / 1000 / 60
