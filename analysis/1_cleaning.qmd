@@ -43,9 +43,11 @@ The initial sample consisted of `r report::report_participants(df, age="Age", ge
 ```{r}
 #| code-fold: false
 
-## this is creating the Big 5 scores out of the BFI data, but currently these are just assigned to random numbers, you'll need to check the questionnaire files to figure out which are which and assign them properly here
-df$BFI_Neuroticism <- (df$BFI10_1 + df$BFI10_2) / 2
-df$BFI_Extraversion <- (df$BFI10_3 + df$BFI10_4) / 2
+df$BFI_Agreeableness <- (df$BFI10_2 + (6-df$BFI10_7)) / 2
+df$BFI_Extraversion <- (df$BFI10_6 + (6-df$BFI10_1)) / 2
+df$BFI_Conscientiousness <- (df$BFI10_8 + (6-df$BFI10_3)) / 2
+df$BFI_Neuroticism <- (df$BFI10_9 + (6-df$BFI10_4)) / 2
+df$BFI_Openness <- (df$BFI10_10 + (6-df$BFI10_5)) / 2
 ```
 
 ```{r}
@@ -58,7 +60,6 @@ modelsummary::datasummary_skim(bfi)
 ## Intervention
 
 ```{r}
-
 ```
 
 
