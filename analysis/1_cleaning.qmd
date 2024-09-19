@@ -14,6 +14,18 @@ format:
 ## Data Preparation
 
 ```{r}
+
+install.packages("devtools")
+install.packages(c("credentials", "bslib", "downlit", "httr2", "rlang"))
+
+Sys.getenv("PATH")
+
+
+install.packages("htmltools", dependencies=TRUE)
+install.packages("bslib", dependencies=TRUE)
+install.packages("rmarkdown", dependencies=TRUE)
+
+
 #| message: false
 #| warning: false
 
