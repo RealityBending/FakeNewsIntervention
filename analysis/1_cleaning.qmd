@@ -147,6 +147,8 @@ modelsummary::datasummary_skim(MOCRI)
 MIST <- select(df, starts_with("MIST_"))
 
 modelsummary::datasummary_skim(MIST)
+
+tidyr::separate()
 ```
 
 
