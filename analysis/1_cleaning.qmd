@@ -130,6 +130,24 @@ modelsummary::datasummary_skim(VSA)
 
 ```
 
+## MOCRI
+
+```{r}
+## does this give us useful data for both the pre- and post-intervention MOCRI, or do I need to split my coding to be between the bold and nonbold (as this is how the MOCRI is split pre- and post-)?
+MOCRI <- select(df, starts_with("MOCRI_"))
+
+modelsummary::datasummary_skim(MOCRI)
+```
+
+## MIST
+
+```{r}
+## the mist intimidates me, I think the dimensions need updating and i'm not entirely sure how to treat it, but i imagine once the dimensions are updated (need to ASK DOM about) then the following should work
+
+MIST <- select(df, starts_with("MIST_"))
+
+modelsummary::datasummary_skim(MIST)
+```
 
 
 ## Intervention
@@ -139,7 +157,7 @@ df$Condition <-   ifelse(!is.na(df$Badnews_Questions_Duration), "BadNews",
                          ifelse(!is.na(df$Tetris_Questions_Duration), "Tetris", NA))
 
 
-## I don't know if below is actually that useful, it just summarises the duration of the time spent answering the follow up questions
+## I don't know if below is actually that useful, it just summarises the duration of the time spent answering the follow up questions. Since the badnews and tetris follow-up questions are free text questions, i'm unsure if the way I've been treating other questionnaires still applies (because they don't have dimensions assigned to each question like e.g. the BFI)
 
 # Summary of Badnews group
 Badnews <- df %>% select(Badnews_Questions_Duration)
@@ -153,3 +171,4 @@ modelsummary::datasummary_skim(Tetris)
 
   
 ```
+
