@@ -139,7 +139,7 @@ df$Condition <-   ifelse(!is.na(df$Badnews_Questions_Duration), "BadNews",
                          ifelse(!is.na(df$Tetris_Questions_Duration), "Tetris", NA))
 
 
-## I don't know if below is actually that useful, it just summarises the duration of the time spent answering the follow up questions, but i'm completely overwhelmed and can't keep working on this right now
+## I don't know if below is actually that useful, it just summarises the duration of the time spent answering the follow up questions
 
 # Summary of Badnews group
 Badnews <- df %>% select(Badnews_Questions_Duration)
