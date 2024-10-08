@@ -117,7 +117,7 @@ for i, file in enumerate(files):
     for item in bfi:
         df[item] = float(bfi[item])
 
-    #VSA-----------------------------------------------------
+    # VSA-----------------------------------------------------
     vsa = data[data["screen"] == "questionnaire_VSA"].iloc[0]
     df["VSA_Duration"] = vsa["rt"] / 1000 / 60
 
@@ -125,17 +125,17 @@ for i, file in enumerate(files):
     for item in vsa:
         df[item] = float(vsa[item])
 
-    #ANES-----------------------------------------------------
+    # ANES-----------------------------------------------------
     anes = data[data["screen"] == "questionnaire_ANES"].iloc[0]
     df["ANES_Duration"] = anes["rt"] / 1000 / 60
 
     anes = json.loads(anes["response"])
     for item in anes:
         # Split the string at the first '.' and take the first part (the number), then convert it to float
-        numeric_part = anes[item].split('.')[0].strip()  # '2. Slightly Liberal' -> '2'
+        numeric_part = anes[item].split(".")[0].strip()  # '2. Slightly Liberal' -> '2'
         df[item] = float(numeric_part)
 
-    #GCBS15-----------------------------------------------------
+    # GCBS15-----------------------------------------------------
     gcbs = data[data["screen"] == "questionnaire_GCBS15"].iloc[0]
     df["GCBS_Duration"] = gcbs["rt"] / 1000 / 60
 
@@ -143,42 +143,40 @@ for i, file in enumerate(files):
     for item in gcbs:
         df[item] = float(gcbs[item])
 
-    #intervention-----------------------------------------------------
+    # intervention-----------------------------------------------------
     badnews = data[data["screen"] == "intervention"].iloc[0]
     df["BadNews_Duration"] = badnews["rt"] / 1000 / 60
 
-    #veracity confidence-----------------------------------------------------
+    # veracity confidence-----------------------------------------------------
     confidence = data[data["screen"] == "veracity_confidence"].iloc[0]
     df["Confidence_Duration"] = confidence["rt"] / 1000 / 60
 
-    #badnews questions-----------------------------------------------------
+    # badnews questions-----------------------------------------------------
     if not data[data["screen"] == "questionnaire_badnews"].empty:
         badnews_questions = data[data["screen"] == "questionnaire_badnews"].iloc[0]
         df["Badnews_Questions_Duration"] = badnews_questions["rt"] / 1000 / 60
     else:
         df["Badnews_Questions_Duration"] = None  # or another placeholder value
 
-
-    #tetris-----------------------------------------------------
+    # tetris-----------------------------------------------------
     if not data[data["screen"] == "questionnaire_tetris"].empty:
         tetris_questions = data[data["screen"] == "questionnaire_tetris"].iloc[0]
         df["Tetris_Questions_Duration"] = tetris_questions["rt"] / 1000 / 60
     else:
         df["Tetris_Questions_Duration"] = None  # or another placeholder value
 
-
-    #consent-----------------------------------------------------
+    # consent-----------------------------------------------------
     consent = data[data["screen"] == "consent"].iloc[0]
     df["Consent_Duration"] = consent["rt"] / 1000 / 60
 
-    #waitdatasaving-----------------------------------------------------
+    # waitdatasaving-----------------------------------------------------
     wds = data[data["screen"] == "waitdatasaving"].iloc[0]
     df["Waitdatasaving_Duration"] = wds["rt"] / 1000 / 60
 
     # MOCRI BOLD------------------------------------------------
     mocri_bold = data[data["screen"] == "questionnaire_MOCRI_BOLD_12"].iloc[0]
     df["MOCRI_BOLD_Duration"] = mocri_bold["rt"] / 1000 / 60
-    
+
     mocri_bold = json.loads(mocri_bold["response"])
     for item in mocri_bold:
         df[f"MOCRI_BOLD_{item}"] = float(mocri_bold[item])
@@ -190,7 +188,6 @@ for i, file in enumerate(files):
     mocri_nonbold = json.loads(mocri_nonbold["response"])
     for item in mocri_nonbold:
         df[f"MOCRI_NONBOLD_{item}"] = float(mocri_nonbold[item])
-
 
     # MIST ----------------------------------------------------------------
 
@@ -207,6 +204,7 @@ for i, file in enumerate(files):
     df_mist_pre = df_mist_pre.drop("Participant", axis=0)
     df_mist_pre.columns = ["MIST"]  # Rename column
     df_mist_pre["Condition"] = "Pretest"
+    df_mist_pre = df_mist_pre.reset_index(names="Item")
 
     # Post
     df_mist_post = pd.DataFrame({"Participant": df["Participant"].values[0]}, index=[0])
@@ -220,6 +218,7 @@ for i, file in enumerate(files):
     df_mist_post = df_mist_post.drop("Participant", axis=0)
     df_mist_post.columns = ["MIST"]  # Rename column
     df_mist_post["Condition"] = "Posttest"
+    df_mist_post = df_mist_post.reset_index(names="Item")
 
     # Concatenate
     df_mist = pd.concat([df_mist_pre, df_mist_post], axis=0, ignore_index=True)
@@ -234,7 +233,6 @@ for i, file in enumerate(files):
     )
 
 
-
 # Quality control =========================================================
 def update_log(log, prolific_id, reject=False, alldata=alldata):
     ppt = alldata.loc[
@@ -247,6 +245,8 @@ def update_log(log, prolific_id, reject=False, alldata=alldata):
         {"Participant": [ppt], "Paid": [not reject], "Date": pd.Timestamp.now()}
     )
     log = pd.concat([log, ppt], axis=0, ignore_index=True)
+    # Remove duplicates
+    log = log.drop_duplicates(subset="Participant", keep="first")
     log.to_csv("../data/payment_log.csv", index=False)
     if reject:
         print(f"X Participant {prolific_id} rejected.")
@@ -264,7 +264,7 @@ new = new.loc[
 new
 
 # Update log manually
-log = update_log(log, "5e42fc295135b5000cd20d0b", reject=True)
+# log = update_log(log, "5e42fc295135b5000cd20d0b", reject=True)
 
 
 # Save data ==============================================================
