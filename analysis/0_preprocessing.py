@@ -264,7 +264,7 @@ new = new.loc[
 new
 
 # Update log manually
-# log = update_log(log, "5e42fc295135b5000cd20d0b", reject=True)
+log = update_log(log, "5f558e694af6f39665f67410", reject=False)
 
 
 # Save data ==============================================================
