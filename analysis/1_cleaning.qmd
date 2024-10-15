@@ -142,13 +142,13 @@ modelsummary::datasummary_skim(MOCRI)
 ## MIST
 
 ```{r}
-## the mist intimidates me, I think the dimensions need updating and i'm not entirely sure how to treat it, but i imagine once the dimensions are updated (need to ASK DOM about) then the following should work
+
 
 MIST <- select(df, starts_with("MIST_"))
 
 modelsummary::datasummary_skim(MIST)
 
-tidyr::separate()
+#tidyr::separate()
 ```
 
 
