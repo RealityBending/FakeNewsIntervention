@@ -142,13 +142,14 @@ modelsummary::datasummary_skim(MOCRI)
 ## MIST
 
 ```{r}
-
-
+dfmist
 MIST <- select(df, starts_with("MIST_"))
 
 modelsummary::datasummary_skim(MIST)
 
-#tidyr::separate()
+
+##Dom, this was my attempt at this. I realize I need to go 'earlier' with this, and split a column further back, but i'm not sure where to find that column. I know you found the MIST stuff all split by "_" but i'm just not seeing where that was
+tidyr::separate(dfmist,col = "Condition", into = c("Pretest", "Posttest"),sep="_")
 ```
 
 
