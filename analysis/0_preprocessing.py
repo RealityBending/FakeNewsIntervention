@@ -32,7 +32,7 @@ def osf_listfiles(data_subproject="", token="", after_date=None):
 
 
 # Connect to OSF and get files --------------------------------------------
-token = ""  # Paste OSF token here to access private repositories
+token = "zYboMoukFI8HKabenQ35DH6tESHJo6oZll5BvOPma6Dppjqc2jnIB6sPCERCuaqO0UrHAa"  # Paste OSF token here to access private repositories
 files = osf_listfiles(
     token=token,
     data_subproject="maf92",  # Data subproject ID
@@ -264,7 +264,7 @@ new = new.loc[
 new
 
 # Update log manually
-log = update_log(log, "5f558e694af6f39665f67410", reject=False)
+log = update_log(log, "6547bf8012d4702680d55663	", reject=True)
 
 
 # Save data ==============================================================
