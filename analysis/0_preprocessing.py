@@ -262,15 +262,14 @@ new = new.loc[
     ~new.Participant.isin(log.Participant), ["Prolific_ID", "Intervention_Duration"]
 ]
 #new
-new.head(20)
+new.head(40)
+
 
 # Update log manually
-log = update_log(log, "5bd7cfec0aac450001f95edd", reject=True)
+log = update_log(log, "6668573842afc8f5b5bc219e", reject=True)
 
-Intervention duration insufficient for data capture. Needed to play the game for at least 15 minutes.
 
 # Save data ==============================================================
 
 alldata.to_csv("../data/rawdata.csv", index=False)
 alldata_mist.to_csv("../data/rawdata_mist.csv", index=False)
-
