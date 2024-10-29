@@ -32,7 +32,7 @@ def osf_listfiles(data_subproject="", token="", after_date=None):
 
 
 # Connect to OSF and get files --------------------------------------------
-token = "zYboMoukFI8HKabenQ35DH6tESHJo6oZll5BvOPma6Dppjqc2jnIB6sPCERCuaqO0UrHAa"  # Paste OSF token here to access private repositories
+token = ""  # Paste OSF token here to access private repositories
 files = osf_listfiles(
     token=token,
     data_subproject="maf92",  # Data subproject ID
@@ -231,7 +231,7 @@ for i, file in enumerate(files):
         axis=0,
         ignore_index=True,
     )
-
+print("Done!")
 
 # Quality control =========================================================
 def update_log(log, prolific_id, reject=False, alldata=alldata):
@@ -268,8 +268,8 @@ new.head(40)
 # Update log manually
 log = update_log(log, "66afd8e4219f539a8bd6ee50", reject=False)
 
-
+alldata[["Prolific_ID",  "Intervention_Duration"]]
 # Save data ==============================================================
-
+alldata = alldata.drop("Prolific_ID", axis=1)
 alldata.to_csv("../data/rawdata.csv", index=False)
 alldata_mist.to_csv("../data/rawdata_mist.csv", index=False)
