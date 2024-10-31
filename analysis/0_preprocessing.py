@@ -261,12 +261,12 @@ new = alldata.loc[~alldata.Prolific_ID.isna(),]
 new = new.loc[
     ~new.Participant.isin(log.Participant), ["Prolific_ID", "Intervention_Duration"]
 ]
-#new
+new
 new.head(40)
 
 
 # Update log manually
-log = update_log(log, "66afd8e4219f539a8bd6ee50", reject=False)
+log = update_log(log, "60674e08ad872b4cd378a9df", reject=False)
 
 alldata[["Prolific_ID",  "Intervention_Duration"]]
 # Save data ==============================================================
