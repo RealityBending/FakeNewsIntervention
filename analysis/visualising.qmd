@@ -1,0 +1,96 @@
+---
+title: "visualising"
+format:
+  html:
+    theme: default
+---
+```{r setup, include=FALSE}
+setwd("C:/Users/Rob/OneDrive/Rob/PhD/Github/FakeNewsIntervention/data")
+df <- read.csv("rawdata.csv")
+library(ggplot2)
+
+```
+
+```{r}
+
+# Replace `your_data` with the name of your dataframe and `column_name` with the column you want to plot
+ggplot(df, aes(x = column_name)) +
+  geom_histogram(binwidth = 5, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of Column", x = "Column", y = "Frequency") +
+  theme_minimal()
+
+```
+
+```{r}
+# Replace `your_data` with your dataframe, `x_column` with your x-axis variable, and `y_column` with your y-axis variable
+ggplot(df, aes(x = x_column, y = y_column)) +
+  geom_point(color = "dodgerblue", size = 2, alpha = 0.6) +
+  labs(title = "Scatterplot of X vs Y", x = "X Column", y = "Y Column") +
+  theme_minimal()
+
+```
+
+```{r}
+plot_histogram <- function(data, column) {
+  ggplot(data, aes_string(x = column)) +
+    geom_histogram(binwidth = 5, fill = "skyblue", color = "black") +
+    labs(title = paste("Histogram of", column), x = column, y = "Frequency") +
+    theme_minimal()
+}
+
+plot_scatter <- function(data, x_column, y_column) {
+  ggplot(data, aes_string(x = x_column, y = y_column)) +
+    geom_point(color = "dodgerblue", size = 2, alpha = 0.6) +
+    labs(title = paste("Scatterplot of", x_column, "vs", y_column),
+         x = x_column, y = y_column) +
+    theme_minimal()
+}
+
+# Usage example:
+plot_histogram(your_data, "experiment_duration")
+plot_scatter(your_data, "experiment_duration", "some_other_column")
+
+```
+
+```{r}
+p <- ggplot(df, aes(x = Gender)) +
+    geom_bar(fill = "skyblue") +
+    labs(title = "Distribution of Gender", x = "Gender", y = "Count")
+print(p)
+
+```
+
+```{r}
+# this won't currently work as it's pulling from the self-identification ethnicity column which has far too many distinct entries to be represented well visually. I am not sure how we could get the basic racial data from prolific but it's also not useful for any actual testing we want to do, so probably wouldn't worry about it
+ggplot(df, aes(x = Ethnicity)) +
+  geom_bar(fill = "lightgreen") +
+  labs(title = "Distribution of Race", x = "Race", y = "Count")
+
+```
+
+```{r}
+# here we need to sort it by ANES response (numerical), I can probably pull some of the data I used in my cleaning doc 
+ggplot(df, aes(x = political_affiliation_column)) +
+  geom_bar(fill = "salmon") +
+  labs(title = "Distribution of Political Affiliation", x = "Political Affiliation", y = "Count")
+
+```
+
+```{r}
+# Convert the Education column to a factor with specified levels
+df$Education <- factor(df$Education, 
+                       levels = c("High School", "Bachelor", "Master", "Doctorate", "Other"))
+
+# Create the bar chart for Education
+ggplot(df, aes(x = Education)) +
+  geom_bar(fill = "lightblue") +
+  labs(title = "Distribution of Education Level",
+       x = "Education Level",
+       y = "Count") +
+  theme_minimal()  # Optional: Adds a minimal theme for better aesthetics
+```
+
+```{r}
+
+```
+
