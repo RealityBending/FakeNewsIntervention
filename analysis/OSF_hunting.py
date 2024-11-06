@@ -2,8 +2,8 @@ import os
 import pandas as pd
 
 # Specify the directory containing the .csv files
-directory = 'C:/Users/Rob/OneDrive/Rob/PhD/OSF files/osfstorage-archive'
-search_string = '607a7b7d300ce256f51706bd'
+directory = 'C:/Users/Rob/OneDrive/Rob/PhD/OSF files'
+search_string = '66b3681369c716ced82bb8ad'
 
 # List to store the results
 results = []
@@ -39,7 +39,7 @@ else:
 import os
 
 # Set the working directory
-os.chdir('C:/Users/Rob/OneDrive/Rob/PhD/OSF files/osfstorage-archive')
+os.chdir('C:/Users/Rob/OneDrive/Rob/PhD/OSF files')
 
 # Confirm the new working directory
 print(f'New working directory: {os.getcwd()}')
@@ -49,7 +49,7 @@ print('Files in the new directory:')
 print(os.listdir('.'))
 
 # Specify the name of the CSV file
-csv_file = 'mq8ul2arxq.csv'  # Replace with your actual CSV file name
+csv_file = 'j3u36ws17d.csv'  # Replace with your actual CSV file name
 
 # Read the CSV file
 try:
