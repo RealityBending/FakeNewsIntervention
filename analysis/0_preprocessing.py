@@ -233,6 +233,8 @@ for i, file in enumerate(files):
     )
 print("Done!")
 
+
+
 # Quality control =========================================================
 def update_log(log, prolific_id, reject=False, alldata=alldata):
     ppt = alldata.loc[
@@ -264,9 +266,8 @@ new = new.loc[
 new
 new.head(40)
 
-
 # Update log manually
-log = update_log(log, "60674e08ad872b4cd378a9df", reject=False)
+log = update_log(log, "6620d6cae03db8263ba0f4c0", reject=True)
 
 alldata[["Prolific_ID",  "Intervention_Duration"]]
 # Save data ==============================================================
