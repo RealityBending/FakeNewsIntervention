@@ -10,19 +10,21 @@ format:
     toc: true
 ---
 ```{r setup, include=FALSE}
-setwd("C:/Users/Rob/OneDrive/Rob/PhD/Github/FakeNewsIntervention/data")
-df <- read.csv("rawdata.csv")
-library(ggplot2)
+library(tidyverse)
+library(patchwork)
 
+df <- read.csv("../data/rawdata.csv") |> 
+  mutate(Education = factor(Education, 
+                            levels = c("High School", "Bachelor", "Master", "Doctorate", "Other")))
+
+dfmist <-  read.csv("../data/rawdata_mist.csv")
 ```
 ## GENDER
 
 ```{r}
-p <- ggplot(df, aes(x = Gender)) +
+ggplot(df, aes(x = Gender)) +
     geom_bar(fill = "skyblue") +
     labs(title = "Distribution of Gender", x = "Gender", y = "Count")
-print(p)
-
 ```
 
 ```{r}
@@ -35,10 +37,6 @@ print(p)
 ```
 ## EDUCATION
 ```{r}
-# Convert the Education column to a factor with specified levels
-df$Education <- factor(df$Education, 
-                       levels = c("High School", "Bachelor", "Master", "Doctorate", "Other"))
-
 # Create the bar chart for Education
 ggplot(df, aes(x = Education)) +
   geom_bar(fill = "lightblue") +
@@ -59,9 +57,6 @@ df$BFI_Openness <- (df$BFI10_10 + (6 - df$BFI10_5)) / 2
 ```
 
 ```{r}
-library(ggplot2)
-library(gridExtra)
-
 # Create individual plots
 p1 <- ggplot(df, aes(x = BFI_Agreeableness)) + geom_bar(fill = "steelblue") + labs(title = "Agreeableness")
 p2 <- ggplot(df, aes(x = BFI_Extraversion)) + geom_bar(fill = "darkorange") + labs(title = "Extraversion")
@@ -70,8 +65,7 @@ p4 <- ggplot(df, aes(x = BFI_Neuroticism)) + geom_bar(fill = "firebrick") + labs
 p5 <- ggplot(df, aes(x = BFI_Openness)) + geom_bar(fill = "purple") + labs(title = "Openness")
 
 # Arrange them in a grid
-grid.arrange(p1, p2, p3, p4, p5, ncol = 3)
-
+patchwork::wrap_plots(p1, p2, p3, p4, p5)
 ```
 ## GCBS
 ```{r}
@@ -82,57 +76,8 @@ df$Extraterrestrial_Cover_up <- (0.75 * df$GCBS15_3 + 0.87 * df$GCBS15_8 + 0.80 
 df$Malevolent_Global <- (0.77 * df$GCBS15_2 + 0.83 * df$GCBS15_7 + 0.91 * df$GCBS15_12) / 3
 df$Personal_Well_being <- (0.74 * df$GCBS15_4 + 0.69 * df$GCBS15_9 + 0.77 * df$GCBS15_14) / 3
 df$Control_of_Information <- (0.69 * df$GCBS15_5 + 0.75 * df$GCBS15_10 + 0.70 * df$GCBS15_15) / 3
-
-# Load necessary libraries for visualization
-library(ggplot2)
-library(gridExtra)
-
-# Create bar charts for each trait with unique variable names
-p1_BFI <- ggplot(df, aes(x = BFI_Agreeableness)) +
-  geom_bar() +
-  labs(title = "Agreeableness Distribution")
-
-p2_BFI <- ggplot(df, aes(x = BFI_Extraversion)) +
-  geom_bar() +
-  labs(title = "Extraversion Distribution")
-
-p3_BFI <- ggplot(df, aes(x = BFI_Conscientiousness)) +
-  geom_bar() +
-  labs(title = "Conscientiousness Distribution")
-
-p4_BFI <- ggplot(df, aes(x = BFI_Neuroticism)) +
-  geom_bar() +
-  labs(title = "Neuroticism Distribution")
-
-p5_BFI <- ggplot(df, aes(x = BFI_Openness)) +
-  geom_bar() +
-  labs(title = "Openness Distribution")
-
-# Create GCBS15 plots with unique variable names
-p1_GCBS <- ggplot(df, aes(x = Government_Malfeasance)) +
-  geom_bar() +
-  labs(title = "Government Malfeasance Distribution")
-
-p2_GCBS <- ggplot(df, aes(x = Extraterrestrial_Cover_up)) +
-  geom_bar() +
-  labs(title = "Extraterrestrial Cover-up Distribution")
-
-p3_GCBS <- ggplot(df, aes(x = Malevolent_Global)) +
-  geom_bar() +
-  labs(title = "Malevolent Global Distribution")
-
-p4_GCBS <- ggplot(df, aes(x = Personal_Well_being)) +
-  geom_bar() +
-  labs(title = "Personal Well-being Distribution")
-
-p5_GCBS <- ggplot(df, aes(x = Control_of_Information)) +
-  geom_bar() +
-  labs(title = "Control of Information Distribution")
-
-# Combine all GCBS15 plots into one visual
-grid.arrange(p1_GCBS, p2_GCBS, p3_GCBS, p4_GCBS, p5_GCBS, ncol = 3)
-
 ```
+
 ```{r}
 # Create histograms for each GCBS15 trait
 h1_GCBS <- ggplot(df, aes(x = Government_Malfeasance)) +
@@ -156,9 +101,9 @@ h5_GCBS <- ggplot(df, aes(x = Control_of_Information)) +
   labs(title = "Control of Information Distribution")
 
 # Combine all GCBS15 histograms into one visual
-grid.arrange(h1_GCBS, h2_GCBS, h3_GCBS, h4_GCBS, h5_GCBS, ncol = 3)
-
+patchwork::wrap_plots(h1_GCBS, h2_GCBS, h3_GCBS, h4_GCBS, h5_GCBS, ncol = 3)
 ```
+
 ```{r}
 # Create boxplots for each GCBS15 trait
 b1_GCBS <- ggplot(df, aes(y = Government_Malfeasance)) +
