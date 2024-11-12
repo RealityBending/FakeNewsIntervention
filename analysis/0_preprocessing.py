@@ -227,7 +227,7 @@ for i, file in enumerate(files):
     # Add to alldata
     alldata = pd.concat([alldata, df], axis=0, ignore_index=True)
     alldata_mist = pd.concat(
-        [alldata_mist, df_mist[["Participant", "Condition", "MIST"]]],
+        [alldata_mist, df_mist[["Participant", "Item", "Condition", "MIST"]]],
         axis=0,
         ignore_index=True,
     )
