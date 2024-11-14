@@ -1,0 +1,474 @@
+---
+title: "visualising"
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: true
+    toc: true
+---
+
+```{r setup, include=FALSE}
+setwd("C:/Users/Rob/OneDrive/Rob/PhD/Github/FakeNewsIntervention/data")
+df <- read.csv("rawdata.csv")
+library(ggplot2)
+
+```
+
+
+## GENDER
+
+
+
+```{r}
+p <- ggplot(df, aes(x = Gender)) +
+    geom_bar(fill = "skyblue") +
+    labs(title = "Distribution of Gender", x = "Gender", y = "Count")
+print(p)
+
+```
+
+```{r}
+## RACE
+# this won't currently work as it's pulling from the self-identification ethnicity column which has far too many distinct entries to be represented well visually. I am not sure how we could get the basic racial data from prolific but it's also not useful for any actual testing we want to do, so probably wouldn't worry about it
+#ggplot(df, aes(x = Ethnicity)) +
+ # geom_bar(fill = "lightgreen") +
+ # labs(title = "Distribution of Race", x = "Race", y = "Count")
+
+```
+
+
+## EDUCATION
+
+
+```{r}
+# Convert the Education column to a factor with specified levels
+df$Education <- factor(df$Education, 
+                       levels = c("High School", "Bachelor", "Master", "Doctorate", "Other"))
+
+# Create the bar chart for Education
+ggplot(df, aes(x = Education)) +
+  geom_bar(fill = "lightblue") +
+  labs(title = "Distribution of Education Level",
+       x = "Education Level",
+       y = "Count") +
+  theme_minimal()  # Optional: Adds a minimal theme for better aesthetics
+```
+
+
+## BFI
+
+
+```{r}
+#BFI10
+# BFI10 trait calculations, stored as new columns in df
+df$BFI_Agreeableness <- (df$BFI10_2 + (6 - df$BFI10_7)) / 2
+df$BFI_Extraversion <- (df$BFI10_6 + (6 - df$BFI10_1)) / 2
+df$BFI_Conscientiousness <- (df$BFI10_8 + (6 - df$BFI10_3)) / 2
+df$BFI_Neuroticism <- (df$BFI10_9 + (6 - df$BFI10_4)) / 2
+df$BFI_Openness <- (df$BFI10_10 + (6 - df$BFI10_5)) / 2
+```
+
+```{r}
+library(ggplot2)
+library(gridExtra)
+
+# Create individual plots
+p1 <- ggplot(df, aes(x = BFI_Agreeableness)) + geom_bar(fill = "steelblue") + labs(title = "Agreeableness")
+p2 <- ggplot(df, aes(x = BFI_Extraversion)) + geom_bar(fill = "darkorange") + labs(title = "Extraversion")
+p3 <- ggplot(df, aes(x = BFI_Conscientiousness)) + geom_bar(fill = "seagreen") + labs(title = "Conscientiousness")
+p4 <- ggplot(df, aes(x = BFI_Neuroticism)) + geom_bar(fill = "firebrick") + labs(title = "Neuroticism")
+p5 <- ggplot(df, aes(x = BFI_Openness)) + geom_bar(fill = "purple") + labs(title = "Openness")
+
+# Arrange them in a grid
+grid.arrange(p1, p2, p3, p4, p5, ncol = 3)
+
+```
+
+
+## GCBS
+
+
+```{r}
+# GCBS15
+# Calculate GCBS15 trait scores
+df$Government_Malfeasance <- (0.75 * df$GCBS15_1 + 0.86 * df$GCBS15_6 + 0.82 * df$GCBS15_11) / 3
+df$Extraterrestrial_Cover_up <- (0.75 * df$GCBS15_3 + 0.87 * df$GCBS15_8 + 0.80 * df$GCBS15_13) / 3
+df$Malevolent_Global <- (0.77 * df$GCBS15_2 + 0.83 * df$GCBS15_7 + 0.91 * df$GCBS15_12) / 3
+df$Personal_Well_being <- (0.74 * df$GCBS15_4 + 0.69 * df$GCBS15_9 + 0.77 * df$GCBS15_14) / 3
+df$Control_of_Information <- (0.69 * df$GCBS15_5 + 0.75 * df$GCBS15_10 + 0.70 * df$GCBS15_15) / 3
+
+# Load necessary libraries for visualization
+library(ggplot2)
+library(gridExtra)
+
+# Create bar charts for each trait with unique variable names
+p1_BFI <- ggplot(df, aes(x = BFI_Agreeableness)) +
+  geom_bar() +
+  labs(title = "Agreeableness Distribution")
+
+p2_BFI <- ggplot(df, aes(x = BFI_Extraversion)) +
+  geom_bar() +
+  labs(title = "Extraversion Distribution")
+
+p3_BFI <- ggplot(df, aes(x = BFI_Conscientiousness)) +
+  geom_bar() +
+  labs(title = "Conscientiousness Distribution")
+
+p4_BFI <- ggplot(df, aes(x = BFI_Neuroticism)) +
+  geom_bar() +
+  labs(title = "Neuroticism Distribution")
+
+p5_BFI <- ggplot(df, aes(x = BFI_Openness)) +
+  geom_bar() +
+  labs(title = "Openness Distribution")
+
+# Create GCBS15 plots with unique variable names
+p1_GCBS <- ggplot(df, aes(x = Government_Malfeasance)) +
+  geom_bar() +
+  labs(title = "Government Malfeasance Distribution")
+
+p2_GCBS <- ggplot(df, aes(x = Extraterrestrial_Cover_up)) +
+  geom_bar() +
+  labs(title = "Extraterrestrial Cover-up Distribution")
+
+p3_GCBS <- ggplot(df, aes(x = Malevolent_Global)) +
+  geom_bar() +
+  labs(title = "Malevolent Global Distribution")
+
+p4_GCBS <- ggplot(df, aes(x = Personal_Well_being)) +
+  geom_bar() +
+  labs(title = "Personal Well-being Distribution")
+
+p5_GCBS <- ggplot(df, aes(x = Control_of_Information)) +
+  geom_bar() +
+  labs(title = "Control of Information Distribution")
+
+# Combine all GCBS15 plots into one visual
+grid.arrange(p1_GCBS, p2_GCBS, p3_GCBS, p4_GCBS, p5_GCBS, ncol = 3)
+
+```
+
+```{r}
+# Create histograms for each GCBS15 trait
+h1_GCBS <- ggplot(df, aes(x = Government_Malfeasance)) +
+  geom_histogram(binwidth = 0.1, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Government Malfeasance Distribution")
+
+h2_GCBS <- ggplot(df, aes(x = Extraterrestrial_Cover_up)) +
+  geom_histogram(binwidth = 0.1, fill = "green", color = "black", alpha = 0.7) +
+  labs(title = "Extraterrestrial Cover-up Distribution")
+
+h3_GCBS <- ggplot(df, aes(x = Malevolent_Global)) +
+  geom_histogram(binwidth = 0.1, fill = "red", color = "black", alpha = 0.7) +
+  labs(title = "Malevolent Global Distribution")
+
+h4_GCBS <- ggplot(df, aes(x = Personal_Well_being)) +
+  geom_histogram(binwidth = 0.1, fill = "purple", color = "black", alpha = 0.7) +
+  labs(title = "Personal Well-being Distribution")
+
+h5_GCBS <- ggplot(df, aes(x = Control_of_Information)) +
+  geom_histogram(binwidth = 0.1, fill = "orange", color = "black", alpha = 0.7) +
+  labs(title = "Control of Information Distribution")
+
+# Combine all GCBS15 histograms into one visual
+grid.arrange(h1_GCBS, h2_GCBS, h3_GCBS, h4_GCBS, h5_GCBS, ncol = 3)
+
+```
+
+```{r}
+# Create boxplots for each GCBS15 trait
+b1_GCBS <- ggplot(df, aes(y = Government_Malfeasance)) +
+  geom_boxplot(fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Government Malfeasance Distribution")
+
+b2_GCBS <- ggplot(df, aes(y = Extraterrestrial_Cover_up)) +
+  geom_boxplot(fill = "green", color = "black", alpha = 0.7) +
+  labs(title = "Extraterrestrial Cover-up Distribution")
+
+b3_GCBS <- ggplot(df, aes(y = Malevolent_Global)) +
+  geom_boxplot(fill = "red", color = "black", alpha = 0.7) +
+  labs(title = "Malevolent Global Distribution")
+
+b4_GCBS <- ggplot(df, aes(y = Personal_Well_being)) +
+  geom_boxplot(fill = "purple", color = "black", alpha = 0.7) +
+  labs(title = "Personal Well-being Distribution")
+
+b5_GCBS <- ggplot(df, aes(y = Control_of_Information)) +
+  geom_boxplot(fill = "orange", color = "black", alpha = 0.7) +
+  labs(title = "Control of Information Distribution")
+
+# Combine all GCBS15 boxplots into one visual
+grid.arrange(b1_GCBS, b2_GCBS, b3_GCBS, b4_GCBS, b5_GCBS, ncol = 3)
+
+```
+
+```{r}
+# Calculate the overall GCBS score using weighted scores
+df$GCBS_Overall <- (
+  (0.75 * df$GCBS15_1) + 
+  (0.86 * df$GCBS15_6) + 
+  (0.82 * df$GCBS15_11) +  # Government Malfeasance
+  (0.75 * df$GCBS15_3) + 
+  (0.87 * df$GCBS15_8) + 
+  (0.80 * df$GCBS15_13) +  # Extraterrestrial Cover-up
+  (0.77 * df$GCBS15_2) + 
+  (0.83 * df$GCBS15_7) + 
+  (0.91 * df$GCBS15_12) +  # Malevolent Global
+  (0.74 * df$GCBS15_4) + 
+  (0.69 * df$GCBS15_9) + 
+  (0.77 * df$GCBS15_14) +  # Personal Well-being
+  (0.69 * df$GCBS15_5) + 
+  (0.75 * df$GCBS15_10) + 
+  (0.70 * df$GCBS15_15)    # Control of Information
+) / (0.75 + 0.86 + 0.82 + 0.75 + 0.87 + 0.80 + 
+     0.77 + 0.83 + 0.91 + 0.74 + 0.69 + 0.77 + 
+     0.69 + 0.75 + 0.70)  # Total factor loadings
+
+# Check the overall GCBS scores
+head(df$GCBS_Overall)
+
+library(ggplot2)
+
+# Histogram of Overall GCBS Score
+ggplot(df, aes(x = GCBS_Overall)) +
+  geom_histogram(binwidth = 0.5, fill = "lightblue", color = "black") +
+  labs(title = "Distribution of Overall GCBS Scores", 
+       y = "Overall GCBS Score",
+       x = "Higher scores correlate with greater conspiracist belief") +
+  theme_minimal()
+
+library(ggplot2)
+
+# Boxplot of Overall GCBS Score with informative x-axis
+ggplot(df, aes(y = GCBS_Overall)) +
+  geom_boxplot(fill = "lightblue", color = "black") +
+  labs(title = "Boxplot of Overall GCBS Scores", 
+       y = "Overall GCBS Score",
+       x = "Higher scores correlate with greater conspiracist belief") +
+  theme_minimal() +
+  theme(axis.title.x = element_text(size = 10, face = "italic"))
+
+
+```
+
+
+## ANES
+
+
+```{r}
+# Create new columns for ideology labels based on the response scheme
+df$ANES_Ideology <- factor(df$ANES_1,
+                                    levels = 0:7,
+                                    labels = c("Extremely Liberal", "Liberal", "Slightly Liberal", "Moderate, Middle of Road",
+                                               "Don't Know, Haven't Thought", "Slightly Conservative", "Conservative", "Extremely Conservative"))
+
+df$ANES_Party <- factor(df$ANES_2,
+                                    levels = 0:3,
+                                    labels = c("Democratic Party", "Republican Party", "Independent", "Other"))
+
+# Visualize the ideology scores
+library(ggplot2)
+library(gridExtra)
+
+# Histogram for Ideology Label 1
+histogram_plot1 <- ggplot(df, aes(x = ANES_Ideology)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Political Ideology", x = "Ideology", y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Histogram for Ideology Label 2 (Political party registration)
+histogram_plot2 <- ggplot(df, aes(x = ANES_Party)) +
+  geom_bar(fill = "lightgreen", color = "black") +
+  labs(title = "Distribution of Political Party", x = "Party Registration", y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Combine all plots using grid.arrange
+grid.arrange(histogram_plot1, histogram_plot2, ncol = 2)
+
+```
+
+
+## VSA
+
+
+```{r}
+#VSA USING EFA FACTOR LOADING FROM THE ORIGINAL ARTICLE
+
+# Reverse scoring for relevant questions
+df$VSA_1_reverse <- 8 - df$VSA_1  # Reverse scoring for Q1
+df$VSA_4_reverse <- 8 - df$VSA_4  # Reverse scoring for Q4
+df$VSA_5_reverse <- 8 - df$VSA_5  # Reverse scoring for Q5
+
+# Calculate scores for each trait using EFA factor loadings
+df$VSA_Conservatism <- (df$VSA_1_reverse * 0.42 + df$VSA_2 * 0.67) / (0.42 + 0.67)
+df$VSA_Traditionalism <- (df$VSA_3 * 0.68 + df$VSA_4_reverse * 0.60) / (0.68 + 0.60)
+df$VSA_Authoritarianism <- (df$VSA_5_reverse * 0.48 + df$VSA_6 * 0.63) / (0.48 + 0.63)
+
+# overall VSA score by averaging the three traits
+df$VSA_Overall <- (df$VSA_Conservatism + df$VSA_Traditionalism + df$VSA_Authoritarianism) / 3
+library(ggplot2)
+library(gridExtra)
+
+# Assuming your dataframe is named 'df'
+
+# Histograms for each trait with color
+hist_conservatism <- ggplot(df, aes(x = VSA_Conservatism)) +
+  geom_histogram(binwidth = 0.1, fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Conservatism", x = "Conservatism Score", y = "Count") +
+  theme_minimal()
+
+hist_traditionalism <- ggplot(df, aes(x = VSA_Traditionalism)) +
+  geom_histogram(binwidth = 0.1, fill = "salmon", color = "black") +
+  labs(title = "Distribution of Traditionalism", x = "Traditionalism Score", y = "Count") +
+  theme_minimal()
+
+hist_authoritarianism <- ggplot(df, aes(x = VSA_Authoritarianism)) +
+  geom_histogram(binwidth = 0.1, fill = "lightgreen", color = "black") +
+  labs(title = "Distribution of Authoritarianism", x = "Authoritarianism Score", y = "Count") +
+  theme_minimal()
+
+# Overall VSA histogram
+hist_overall <- ggplot(df, aes(x = VSA_Overall)) +
+  geom_histogram(binwidth = 0.1, fill = "lightcoral", color = "black") +
+  labs(title = "Distribution of Overall VSA Score", x = "Overall VSA Score", y = "Count") +
+  theme_minimal()
+
+# Combine all histograms into one visual
+grid.arrange(hist_conservatism, hist_traditionalism, hist_authoritarianism, hist_overall, ncol = 2)
+
+
+
+```
+
+
+## MOCRI POST-INTERVENTION
+
+
+```{r}
+#MOCRI NON-BOLD 
+# Define input columns for MOCRI Non-Bold with the correct naming convention
+input_columns <- c("MOCRI_NONBOLD_MOCRI_1_NonManipulative", "MOCRI_NONBOLD_MOCRI_2_Manipulative", 
+                   "MOCRI_NONBOLD_MOCRI_3_Manipulative", "MOCRI_NONBOLD_MOCRI_4_NonManipulative", 
+                   "MOCRI_NONBOLD_MOCRI_5_NonManipulative", "MOCRI_NONBOLD_MOCRI_6_Manipulative", 
+                   "MOCRI_NONBOLD_MOCRI_7_Manipulative", "MOCRI_NONBOLD_MOCRI_8_Manipulative", 
+                   "MOCRI_NONBOLD_MOCRI_9_NonManipulative", "MOCRI_NONBOLD_MOCRI_10_Manipulative", 
+                   "MOCRI_NONBOLD_MOCRI_11_NonManipulative", "MOCRI_NONBOLD_MOCRI_12_NonManipulative")
+
+# Ensure all input columns are numeric
+df[input_columns] <- lapply(df[input_columns], function(x) as.numeric(as.character(x)))
+
+# Check for NAs in the input columns
+na_counts <- colSums(is.na(df[input_columns]))
+#print(na_counts)  # Should return 0 for all columns if there are no NAs
+
+# Calculate the MOCRI Non-Bold Score
+df$MOCRI_NonBold_Score <- rowMeans(df[input_columns], na.rm = TRUE)
+
+# Check the result
+#print(head(df$MOCRI_NonBold_Score))  # Should show the first few values of the score column
+
+```
+
+```{r}
+# Calculate False Negatives and False Positives
+true_values_nonbold <- c(1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1)  # Adjust based on actual scoring
+df$False_Negatives_NonBold <- rowSums(df[input_columns] == 1 & true_values_nonbold == 0, na.rm = TRUE)
+df$False_Positives_NonBold <- rowSums(df[input_columns] == 0 & true_values_nonbold == 1, na.rm = TRUE)
+
+# Load libraries
+library(ggplot2)
+library(gridExtra)
+
+# Histogram for non-bold MOCRI scores
+hist_mocri_nonbold_scores <- ggplot(df, aes(x = MOCRI_NonBold_Score)) +
+  geom_histogram(binwidth = 0.1, fill = "lightblue", color = "black") +
+  labs(title = "MOCRI Non-Bold Scores (Post-Intervention)", x = "Score", y = "Count") +
+  theme_minimal()
+
+# Histogram for false negatives (non-bold)
+hist_false_negatives_nonbold <- ggplot(df, aes(x = False_Negatives_NonBold)) +
+  geom_histogram(binwidth = 1, fill = "red", color = "black") +
+  labs(title = "False Negatives (Post-Intervention)", x = "False Negatives", y = "Count") +
+  theme_minimal()
+
+# Histogram for false positives (non-bold)
+hist_false_positives_nonbold <- ggplot(df, aes(x = False_Positives_NonBold)) +
+  geom_histogram(binwidth = 1, fill = "orange", color = "black") +
+  labs(title = "False Positives (Post-Intervention)", x = "False Positives", y = "Count") +
+  theme_minimal()
+
+# Combine visuals into one plot for non-bold
+grid.arrange(hist_mocri_nonbold_scores, hist_false_negatives_nonbold, hist_false_positives_nonbold, nrow = 3)
+
+```
+
+
+## MOCRI PRE-INTERVENTION
+
+
+```{r}
+#MOCRI BOLD
+# Define input columns for MOCRI Bold with the correct naming convention
+input_columns_bold <- c("MOCRI_BOLD_MOCRI_BOLD_1_Manipulative", "MOCRI_BOLD_MOCRI_BOLD_2_NonManipulative", 
+                         "MOCRI_BOLD_MOCRI_BOLD_3_Manipulative", "MOCRI_BOLD_MOCRI_BOLD_4_NonManipulative", 
+                         "MOCRI_BOLD_MOCRI_BOLD_5_NonManipulative", "MOCRI_BOLD_MOCRI_BOLD_6_Manipulative", 
+                         "MOCRI_BOLD_MOCRI_BOLD_7_NonManipulative", "MOCRI_BOLD_MOCRI_BOLD_8_Manipulative", 
+                         "MOCRI_BOLD_MOCRI_BOLD_9_NonManipulative", "MOCRI_BOLD_MOCRI_BOLD_10_Manipulative", 
+                         "MOCRI_BOLD_MOCRI_BOLD_11_NonManipulative", "MOCRI_BOLD_MOCRI_BOLD_12_Manipulative")
+
+# Ensure all input columns are numeric
+df[input_columns_bold] <- lapply(df[input_columns_bold], function(x) as.numeric(as.character(x)))
+
+# Check for NAs in the input columns
+na_counts_bold <- colSums(is.na(df[input_columns_bold]))
+#print(na_counts_bold)  # Should return 0 for all columns if there are no NAs
+
+# Calculate the MOCRI Bold Score
+df$MOCRI_Bold_Score <- rowMeans(df[input_columns_bold], na.rm = TRUE)
+
+# Define true values for bold scoring
+true_values_bold <- c(0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1)
+
+# Calculate False Negatives and False Positives for Bold
+df$False_Negatives_Bold <- rowSums(df[input_columns_bold] == 1 & true_values_bold == 0, na.rm = TRUE)
+df$False_Positives_Bold <- rowSums(df[input_columns_bold] == 0 & true_values_bold == 1, na.rm = TRUE)
+
+# Load libraries for visualization
+library(ggplot2)
+library(gridExtra)
+
+# Histogram for bold MOCRI scores
+hist_mocri_bold_scores <- ggplot(df, aes(x = MOCRI_Bold_Score)) +
+  geom_histogram(binwidth = 0.1, fill = "lightblue", color = "black") +
+  labs(title = "MOCRI Bold Scores (Pre-Intervention)", x = "Score", y = "Count") +
+  theme_minimal()
+
+# Histogram for false negatives (bold)
+hist_false_negatives_bold <- ggplot(df, aes(x = False_Negatives_Bold)) +
+  geom_histogram(binwidth = 1, fill = "red", color = "black") +
+  labs(title = "False Negatives (Pre-Intervention)", x = "False Negatives", y = "Count") +
+  theme_minimal()
+
+# Histogram for false positives (bold)
+hist_false_positives_bold <- ggplot(df, aes(x = False_Positives_Bold)) +
+  geom_histogram(binwidth = 1, fill = "orange", color = "black") +
+  labs(title = "False Positives (Pre-Intervention)", x = "False Positives", y = "Count") +
+  theme_minimal()
+
+# Combine visuals into one plot for bold
+grid.arrange(hist_mocri_bold_scores, hist_false_negatives_bold, hist_false_positives_bold, nrow = 3)
+
+```
+
+
+## MIST
+
+
+```{r}
+#MIST
+#the challenge here is figuring out which order the MIST questions were asked per participant, and i'm not sure how to do that. Will need to ask Dom
+```
+
