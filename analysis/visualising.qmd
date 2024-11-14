@@ -12,6 +12,9 @@ format:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(patchwork)
+library(dplyr)
+library(tidyr)
+
 
 df <- read.csv("../data/rawdata.csv") |> 
   mutate(Education = factor(Education, 
@@ -374,6 +377,21 @@ grid.arrange(hist_mocri_bold_scores, hist_false_negatives_bold, hist_false_posit
 ## MIST
 ```{r}
 #MIST
-#the challenge here is figuring out which order the MIST questions were asked per participant, and i'm not sure how to do that. Will need to ask Dom
+
+# Split 'Item' column into 'QuestionType', 'Topic', and 'QuestionID'
+dfmist <- dfmist %>%
+  separate(Item, into = c("extra", "QuestionType", "Topic", "QuestionID"), sep = "_") %>%
+  select(-extra)  # Drop the extra 'extra' column if it's no longer needed
+
+# Convert to wide format, pivoting based on Condition, RealFake, Topic, QuestionID, and Participant
+df_wide <- dfmist %>%
+  pivot_wider(names_from = c(Condition, QuestionType, Topic, QuestionID), values_from = MIST)
+
+# This will give you a wide format with one column per unique combination of Condition, RealFake, Topic, and QuestionID.
+
+write.csv(df_wide, "dfmist_wideformat.csv", row.names = FALSE)
+
+
+
 ```
 
