@@ -18,7 +18,8 @@ library(tidyr)
 
 df <- read.csv("../data/rawdata.csv") |> 
   mutate(Education = factor(Education, 
-                            levels = c("High School", "Bachelor", "Master", "Doctorate", "Other")))
+                            levels = c("High School", "Bachelor", "Master", "Doctorate", "Other")),
+         Intervention = ifelse(is.na(Badnews_Questions_Duration), "Tetris", "Badnews"))
 
 dfmist <-  read.csv("../data/rawdata_mist.csv")
 ```
@@ -374,7 +375,48 @@ hist_false_positives_bold <- ggplot(df, aes(x = False_Positives_Bold)) +
 grid.arrange(hist_mocri_bold_scores, hist_false_negatives_bold, hist_false_positives_bold, nrow = 3)
 
 ```
+## MIST (dom)
+
+
+```{r}
+dfmist <- dfmist %>%
+  full_join(df[, c("Participant", "Intervention")], by = "Participant") |>
+  separate(Item, into = c("extra", "QuestionType", "Topic", "QuestionID"), sep = "_") %>%
+  select(-extra) |> 
+  mutate(Correct = case_when(
+    MIST > 50 & QuestionType == "real" ~ 1,
+    MIST < 50 & QuestionType == "fake" ~ 1,
+    .default = 0
+  ))
+
+
+model <- glmmTMB::glmmTMB(Correct ~ Intervention * Condition * Topic + (1|Participant) + (1|QuestionID), 
+                          data=dfmist, family=binomial())
+
+model_means <- modelbased::estimate_means(model, by=c("Intervention", "Condition", "Topic"))
+
+model_means |> 
+  mutate(Condition = fct_rev(Condition)) |> 
+  ggplot(aes(x=Condition, y=Probability, color=Intervention)) +
+  geom_line(aes(group=Intervention), position=position_dodge(width=0.1)) +
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high), position=position_dodge(width=0.1)) +
+  facet_wrap(~Topic)
+
+
+# Participant scores
+df <- dfmist |> 
+  group_by(Participant, Condition, Topic) |> 
+  summarise(
+    p_Correct = sum(Correct) / n()
+  ) |> 
+  pivot_wider(names_from=c(Condition, Topic), values_from=p_Correct) |> 
+  mutate(MIST_diff_covid = Posttest_covid - Pretest_covid,
+         MIST_diff_general = Posttest_general - Pretest_general) |> 
+  full_join(df, by="Participant")
+```
+
 ## MIST
+
 ```{r}
 #MIST
 
