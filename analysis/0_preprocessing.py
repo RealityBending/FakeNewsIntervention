@@ -155,6 +155,8 @@ for i, file in enumerate(files):
     if not data[data["screen"] == "questionnaire_badnews"].empty:
         badnews_questions = data[data["screen"] == "questionnaire_badnews"].iloc[0]
         df["Badnews_Questions_Duration"] = badnews_questions["rt"] / 1000 / 60
+        for item in badnews_questions:
+                df[f"Badnews_Question_{item}"] = float(badnews_questions[item])
     else:
         df["Badnews_Questions_Duration"] = None  # or another placeholder value
 
@@ -162,9 +164,17 @@ for i, file in enumerate(files):
     if not data[data["screen"] == "questionnaire_tetris"].empty:
         tetris_questions = data[data["screen"] == "questionnaire_tetris"].iloc[0]
         df["Tetris_Questions_Duration"] = tetris_questions["rt"] / 1000 / 60
+        for item in tetris_questions:
+                df[f"Tetris_Question_{item}"] = float(tetris_questions[item])
     else:
         df["Tetris_Questions_Duration"] = None  # or another placeholder value
 
+    # Post-intervention confidence questionnaire
+    veracity_confidence = data[data["screen"] == "veracity_confidence"].iloc[0]
+    for item in veracity_confidence:
+        df[f"veracity_confidence_{item}"] = float(veracity_confidence[item])
+
+    
     # consent-----------------------------------------------------
     consent = data[data["screen"] == "consent"].iloc[0]
     df["Consent_Duration"] = consent["rt"] / 1000 / 60
