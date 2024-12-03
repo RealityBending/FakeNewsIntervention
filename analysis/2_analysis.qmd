@@ -1,0 +1,88 @@
+---
+title: "FaceNewsIntervention - Data Analysis"
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: true
+    toc: true
+---
+
+
+## Data Preparation
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(easystats)
+library(patchwork)
+library(ggside)
+```
+
+
+```{r}
+#| code-fold: false
+
+df <- read.csv("../data/data.csv")
+dfmist <- read.csv("../data/data_mist.csv")
+```
+
+## Analysis
+
+### Example for Continuous Variable
+
+```{r}
+
+m <- lm(MIST_correct_Pretest_covid ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST-Covid (% Correct Pretest)", x="Political Identification")
+```
+
+### Example for Categorical Variable
+
+
+```{r}
+# Categorical
+m <- lm(MIST_correct_Pretest_covid ~ Political_Affiliation, 
+        data=filter(df, Political_Affiliation != "None or Independent"))
+
+display(estimate_contrasts(m, contrast="Political_Affiliation", p_adjust="none"))
+
+estimate_means(m, by = c("Political_Affiliation")) |> 
+  ggplot(aes(x=Political_Affiliation, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-Covid (% Correct Pretest)", x="Political Affiliation")
+```
+
+
+
+
+```{r}
+# model <- glmmTMB::glmmTMB(Correct ~ Intervention * Condition * Topic + (1|Participant) + (1|QuestionID), 
+#                           data=dfmist, family=binomial())
+# 
+# model_means <- modelbased::estimate_means(model, by=c("Intervention", "Condition", "Topic"))
+# 
+# model_means |> 
+#   mutate(Condition = fct_rev(Condition)) |> 
+#   ggplot(aes(x=Condition, y=Probability, color=Intervention)) +
+#   geom_line(aes(group=Intervention), position=position_dodge(width=0.1)) +
+#   geom_pointrange(aes(ymin=CI_low, ymax=CI_high), position=position_dodge(width=0.1)) +
+#   facet_wrap(~Topic)
+```
+
+

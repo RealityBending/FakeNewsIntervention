@@ -290,6 +290,6 @@ ggplot(df, aes(x = Education)) +
 ## Save
 
 ```{r}
-write.csv(df, "../data/data.csv")
-write.csv(dfmist, "../data/data_mist.csv")
+write.csv(df, "../data/data.csv", row.names = FALSE)
+write.csv(dfmist, "../data/data_mist.csv", row.names = FALSE)
 ```
