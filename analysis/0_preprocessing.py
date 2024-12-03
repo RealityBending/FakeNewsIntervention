@@ -32,7 +32,7 @@ def osf_listfiles(data_subproject="", token="", after_date=None):
 
 
 # Connect to OSF and get files --------------------------------------------
-token = ""  # Paste OSF token here to access private repositories
+token = "zYboMoukFI8HKabenQ35DH6tESHJo6oZll5BvOPma6Dppjqc2jnIB6sPCERCuaqO0UrHAa"  # Paste OSF token here to access private repositories
 files = osf_listfiles(
     token=token,
     data_subproject="maf92",  # Data subproject ID
@@ -155,24 +155,35 @@ for i, file in enumerate(files):
     if not data[data["screen"] == "questionnaire_badnews"].empty:
         badnews_questions = data[data["screen"] == "questionnaire_badnews"].iloc[0]
         df["Badnews_Questions_Duration"] = badnews_questions["rt"] / 1000 / 60
-        for item in badnews_questions:
-                df[f"Badnews_Question_{item}"] = float(badnews_questions[item])
+        df["Badnews_Questions_Followers"] = badnews_questions["followers"]
+        df["Badnews_Questions_Favorite_Part"] = badnews_questions["favorite_part"]
+        df["Badnews_Questions_Play_Again"] = badnews_questions["play_again"]
+        df["Badnews_Questions_recommend"] = badnews_questions["recommend"]
     else:
         df["Badnews_Questions_Duration"] = None  # or another placeholder value
+        df["Badnews_Questions_Followers"] = None  # or another placeholder value
+        df["Badnews_Questions_Favorite_Part"] = None  # or another placeholder value
+        df["Badnews_Questions_Play_Again"] = None  # or another placeholder value
+        df["Badnews_Questions_recommend"] = None  # or another placeholder value
 
     # tetris-----------------------------------------------------
     if not data[data["screen"] == "questionnaire_tetris"].empty:
         tetris_questions = data[data["screen"] == "questionnaire_tetris"].iloc[0]
         df["Tetris_Questions_Duration"] = tetris_questions["rt"] / 1000 / 60
-        for item in tetris_questions:
-                df[f"Tetris_Question_{item}"] = float(tetris_questions[item])
+        df["Tetris_Questions_Score"] = tetris_questions["high_score"]
+        df["Tetris_Questions_Favorite_Part"] = tetris_questions["favorite_part"]
+        df["Tetris_Questions_Play_Again"] = tetris_questions["play_again"]
+        df["Tetris_Questions_Recommend"] = tetris_questions["recommend"]
     else:
         df["Tetris_Questions_Duration"] = None  # or another placeholder value
+        df["Tetris_Questions_Score"] = None  # or another placeholder value
+        df["Tetris_Questions_Favorite_Part"] = None  # or another placeholder value
+        df["Tetris_Questions_Play_Again"] = None  # or another placeholder value
+        df["Tetris_Questions_Recommend"] = None  # or another placeholder value
 
     # Post-intervention confidence questionnaire
     veracity_confidence = data[data["screen"] == "veracity_confidence"].iloc[0]
-    for item in veracity_confidence:
-        df[f"veracity_confidence_{item}"] = float(veracity_confidence[item])
+    df["Veracity_Confidence"] = veracity_confidence["veracity_confidence"]
 
     
     # consent-----------------------------------------------------
