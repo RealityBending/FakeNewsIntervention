@@ -14,7 +14,6 @@ format:
 ## Data Preparation
 
 ```{r}
-
 #| message: false
 #| warning: false
 
@@ -23,16 +22,15 @@ library(easystats)
 library(patchwork)
 library(ggside)
 library(modelsummary)
-  config_modelsummary(startup_message = FALSE)
-
-
 ```
 
 
 ```{r}
 #| code-fold: false
 
-df <- read.csv("../data/rawdata.csv")
+df <- read.csv("../data/rawdata.csv")  |> 
+  mutate(Intervention = ifelse(!is.na(Badnews_Questions_Duration), "BadNews", "Tetris")) |> 
+  select(-Prolific_ID, -Date_OSF, -BadNews_Duration)
 
 dfmist <- read.csv("../data/rawdata_mist.csv")
 ```
@@ -40,18 +38,66 @@ dfmist <- read.csv("../data/rawdata_mist.csv")
 The initial sample consisted of `r report::report_participants(df, age="Age", gender="Gender", education="Education")`, for a total trial number of `r nrow(df)`.
 
 
-## Questionnaires
+## Exclusion
 
-### BFI
+### Intervention Duration
 
 ```{r}
-#| code-fold: false
-
-# Count missing values for each BFI10 item
-BFI10_missing_values <- sapply(df[, paste0("BFI10_", 1:10)], function(x) sum(is.na(x)))
-print(BFI10_missing_values)
+df |> 
+  ggplot(aes(x=Intervention_Duration, fill=Intervention)) +
+  geom_density(alpha=0.6) +
+  theme_minimal()
 ```
 
+
+## Questionnaires
+
+### Political Identification
+
+
+```{r}
+df$Political_LiberalConservative <- ifelse(df$ANES_1 == 4, NA, df$ANES_1)
+df$Political_LiberalConservative <- ifelse(df$Political_LiberalConservative > 3, 
+                                           df$Political_LiberalConservative - 1, 
+                                           df$Political_LiberalConservative)
+df$Political_Affiliation <- case_when(df$ANES_2 == 1 ~ "Democrat", 
+                                      df$ANES_2 == 2 ~ "Republican", 
+                                      df$ANES_2 == 3 ~ "None or Independent", 
+                                      .default = "Other")
+ 
+df <- select(df, -starts_with("ANES"))
+```
+
+`r report(df[, c("Political_LiberalConservative", "Political_Affiliation")], n_entries=4)`
+
+```{r}
+df |> 
+  filter(!is.na(Political_LiberalConservative) & Political_Affiliation != "None or Independent") |> 
+  ggplot(aes(x=Political_LiberalConservative, fill=Political_Affiliation)) +
+  geom_density(alpha=0.6) 
+```
+
+
+### Authoritarianism (VSA)
+
+Total Right-Wing Authoritarianism score: the sum of all items divided by 6. Note:Item  1 and 2 measure Conservatism or Authoritarian Submission. Items 3 and 4 measure Traditionalism or Conventionalism. Items 5 and 6 measure Authoritarianism or Authoritarian Aggression.
+
+
+```{r}
+vsa <- select(df, starts_with("VSA_"), -VSA_Duration) 
+
+plot(summary(correlation(vsa)))
+
+df$VSA_Conservatism <- (datawizard::reverse_scale(df$VSA_1, range = c(0, 8)) + df$VSA_2) / 2
+df$VSA_Traditionalism <- (df$VSA_3 + datawizard::reverse_scale(df$VSA_4, range = c(0, 8))) / 2
+df$VSA_Authoritarianism <- (datawizard::reverse_scale(df$VSA_5, range = c(0, 8)) + df$VSA_6) / 2
+df$VSA_General <- rowMeans(df[, c("VSA_Conservatism", "VSA_Traditionalism", "VSA_Authoritarianism")], na.rm = TRUE)
+
+modelsummary::datasummary_skim(select(df, starts_with("VSA_")))
+```
+
+
+### BFI
 
 ```{r}
 #| code-fold: false
@@ -64,114 +110,186 @@ df$BFI_Openness <- (df$BFI10_10 + (6-df$BFI10_5)) / 2
 ```
 
 ```{r}
-bfi <- select(df, starts_with("BFI_"))
-
-modelsummary::datasummary_skim(bfi)
+modelsummary::datasummary_skim(select(df, starts_with("BFI_")))
 ```
 
-### GCBS15
+### GCBS
+
 
 ```{r}
-#| code-fold: false
+GCBS <- select(df, starts_with("GCBS"))
 
-# Calculate mean and sd for each participant
-df$GCBS_mean <- rowMeans(df[, paste0("GCBS15_", 1:15)], na.rm = TRUE)
-df$GCBS_sd <- apply(df[, paste0("GCBS15_", 1:15)], 1, sd, na.rm = TRUE)
+df$GCBS_GovernmentMalfeasance <- (df$GCBS15_1 + df$GCBS15_6 + df$GCBS15_11) / 3
+df$GCBS_Extraterrestrial <- (df$GCBS15_3 + df$GCBS15_8 + df$GCBS15_13) / 3
+df$GCBS_Malevolent <- (df$GCBS15_2 + df$GCBS15_7 + df$GCBS15_12) / 3
+df$GCBS_Wellbeing <- (df$GCBS15_4 + df$GCBS15_9 + df$GCBS15_14) / 3
+df$GCBS_Control <- (df$GCBS15_5 + df$GCBS15_10 + df$GCBS15_15) / 3
+df$GCBS_General <- rowMeans(select(df, starts_with("GCBS_"), -GCBS_Duration), na.rm = TRUE)
 
-# Count missing values for each GCBS15 item
-GCBS15_missing_values <- sapply(df[, paste0("GCBS15_", 1:15)], function(x) sum(is.na(x)))
-print(GCBS15_missing_values)
+plot(summary(correlation(select(df, starts_with("GCBS_"), -GCBS_Duration))))
 
-# Range for each GCBS15 item
-GCBS15_score_ranges <- sapply(df[, paste0("GCBS15_", 1:15)], function(x) range(x, na.rm = TRUE))
-print(GCBS15_score_ranges)
-
-# Overall range of scores across all GCBS15 items
-GCBS15_overall_range <- range(as.matrix(df[, paste0("GCBS15_", 1:15)]), na.rm = TRUE)
-print(GCBS15_overall_range)
-
-
-
-```
-
-```{r}
-GCBS <- select(df, starts_with("GCBS_"))
 
 modelsummary::datasummary_skim(GCBS)
 ```
 
-### ANES
 
-```{r}
-# Print responses for both ANES questions
-print(df[, c("ANES_1", "ANES_2")])
-
-
-ANES <- select(df, starts_with("ANES_"))
-
-modelsummary::datasummary_skim(ANES)
-
-```
-
-
-### VSA
-
-```{r}
-
-# Select relevant columns
-VSA <- select(df, starts_with("VSA_"))
-
-# Inspect selected data
-print(head(VSA))
-
-# Apply modelsummary
-modelsummary::datasummary_skim(VSA)
-
-
-```
-
-## MOCRI
+### MOCRI
 
 ```{r}
 ## does this give us useful data for both the pre- and post-intervention MOCRI, or do I need to split my coding to be between the bold and nonbold (as this is how the MOCRI is split pre- and post-)?
 MOCRI <- select(df, starts_with("MOCRI_"))
+df <- select(df, -starts_with("MOCRI"))
+
+# Recode in terms of correct incorrect
+# df$MOCRI_Pretest_Manipulative1 <- ifelse(df$MOCRI_BOLD_MOCRI_BOLD_8_Manipulative == 1, 1, 0)
 
 modelsummary::datasummary_skim(MOCRI)
 ```
 
-## MIST
+### MIST
+
 
 ```{r}
-dfmist
-MIST <- select(df, starts_with("MIST_"))
-
-modelsummary::datasummary_skim(MIST)
-
-
-##Dom, this was my attempt at this. I realize I need to go 'earlier' with this, and split a column further back, but i'm not sure where to find that column. I know you found the MIST stuff all split by "_" but i'm just not seeing where that was
-tidyr::separate(dfmist,col = "Condition", into = c("Pretest", "Posttest"),sep="_")
+dfmist <- dfmist |>
+  full_join(df[, c("Participant", "Intervention")], by = "Participant") |>
+  mutate(temp = Item) |> 
+  separate(temp, into = c("extra", "QuestionType", "Topic", "QuestionID"), sep = "_")  |> 
+  select(-extra, -QuestionID) |> 
+    mutate(
+    Correct = case_when(
+      MIST > 50 & QuestionType == "real" ~ 1,
+      MIST < 50 & QuestionType == "fake" ~ 1,
+      .default = 0
+    ),
+    True_Positive = ifelse(MIST > 50 & QuestionType == "real", 1, 0),
+    True_Negative = ifelse(MIST < 50 & QuestionType == "fake", 1, 0),
+    False_Positive = ifelse(MIST > 50 & QuestionType == "fake", 1, 0),
+    False_Negative = ifelse(MIST < 50 & QuestionType == "real", 1, 0)
+    )
 ```
 
-
-## Intervention
+#### Items
 
 ```{r}
-df$Condition <-   ifelse(!is.na(df$Badnews_Questions_Duration), "BadNews", 
-                         ifelse(!is.na(df$Tetris_Questions_Duration), "Tetris", NA))
+# Participant scores
+dfmist |> 
+  summarise(p_Correct = sum(Correct) / n(), .by=c("Item")) |> 
+  arrange(p_Correct) |> 
+  gt::gt() |> 
+  gt::fmt_number(columns = "p_Correct", decimals = 2) |> 
+  gt::data_color(columns = "p_Correct", palette=c("red", "green"))
+```
 
+#### Scores
 
-## I don't know if below is actually that useful, it just summarises the duration of the time spent answering the follow up questions. Since the badnews and tetris follow-up questions are free text questions, i'm unsure if the way I've been treating other questionnaires still applies (because they don't have dimensions assigned to each question like e.g. the BFI)
-
-# Summary of Badnews group
-Badnews <- df %>% select(Badnews_Questions_Duration)
-modelsummary::datasummary_skim(Badnews)
-
-# Summary of Tetris group
-Tetris <- df %>% select(Tetris_Questions_Duration)
-modelsummary::datasummary_skim(Tetris)
-
-
-
+```{r}
+compute_dprime <- function(data) {
+  # Calculate hit rate and false alarm rate
+  H <- (data$True_Positive + 0.5) / (data$True_Positive + data$False_Negative + 1)  # Adjusted Hit Rate
+  FA <- (data$False_Positive + 0.5) / (data$False_Positive + data$True_Negative + 1) # Adjusted False Alarm Rate
   
+  # Parametric ----
+  # Compute z-scores
+  zH <- qnorm(H) # z-score for hit rate
+  zFA <- qnorm(FA) # z-score for false alarm rate
+  
+  # d' and criterion
+  d_prime <- zH - zFA
+  criterion <- -0.5 * (zH + zFA)
+  
+  # Non-parametric ----
+  # A' (A-prime)
+  A_prime <- ifelse(
+    H > FA,
+    0.5 + ((H - FA) * (1 + H - FA)) / (4 * H * (1 - FA)),
+    ifelse(
+      H < FA,
+      0.5 + ((FA - H) * (1 + FA - H)) / (4 * FA * (1 - H)),
+      0.5
+    )
+  )
+  
+  # B''d
+  B_double_prime <- ifelse(
+    H != FA,
+    ((1 - H) * (1 - FA) - H * FA) / ((1 - H) * (1 - FA) + H * FA),
+    0
+  )
+  
+  # Combine results
+  cbind(data, data.frame(
+    "dprime" = d_prime,
+    "criterion" = criterion,
+    "aprime" = A_prime,
+    "bppd" = B_double_prime
+  ))
+}
+
+
+# Participant scores
+df <- dfmist |> 
+  summarise(
+    correct = sum(Correct) / n(),
+    True_Positive = sum(True_Positive),
+    True_Negative = sum(True_Negative),
+    False_Positive = sum(False_Positive),
+    False_Negative = sum(False_Negative),
+    .by = c("Participant", "Condition", "Topic")
+  ) |> 
+  compute_dprime() |>  
+  select(Participant, Condition, Topic, correct, dprime, criterion, aprime, bppd) |>
+  pivot_wider(names_from=c("Condition", "Topic"), 
+              values_from=c("correct", "dprime", "criterion", "aprime", "bppd"),
+              names_vary = "slowest") |> 
+  mutate(correct_Diff_covid = correct_Posttest_covid - correct_Pretest_covid,
+         correct_Diff_general = correct_Posttest_general - correct_Pretest_general,
+         dprime_Diff_covid =  dprime_Posttest_covid - dprime_Pretest_covid,
+         dprime_Diff_general = dprime_Posttest_general - dprime_Pretest_general,
+         criterion_Diff_covid = criterion_Posttest_covid - criterion_Pretest_covid,
+         criterion_Diff_general = criterion_Posttest_general - criterion_Pretest_general,
+         aprime_Diff_covid = aprime_Posttest_covid - aprime_Pretest_covid,
+         aprime_Diff_general = aprime_Posttest_general - aprime_Pretest_general,
+         bppd_Diff_covid = bppd_Posttest_covid - bppd_Pretest_covid,
+         bppd_Diff_general = bppd_Posttest_general - bppd_Pretest_general) |>
+  datawizard::data_addprefix("MIST_", select=-Participant) |>  
+  full_join(df, by="Participant")
 ```
 
+
+## Final Sample 
+
+### Gender
+
+```{r}
+ggplot(df, aes(x = Gender)) +
+    geom_bar(fill = "skyblue") +
+    labs(title = "Distribution of Gender", x = "Gender", y = "Count")
+```
+
+```{r}
+## RACE
+# this won't currently work as it's pulling from the self-identification ethnicity column which has far too many distinct entries to be represented well visually. I am not sure how we could get the basic racial data from prolific but it's also not useful for any actual testing we want to do, so probably wouldn't worry about it
+#ggplot(df, aes(x = Ethnicity)) +
+ # geom_bar(fill = "lightgreen") +
+ # labs(title = "Distribution of Race", x = "Race", y = "Count")
+
+```
+
+### Education
+
+```{r}
+# Create the bar chart for Education
+ggplot(df, aes(x = Education)) +
+  geom_bar(fill = "lightblue") +
+  labs(title = "Distribution of Education Level",
+       x = "Education Level",
+       y = "Count") +
+  theme_minimal()  # Optional: Adds a minimal theme for better aesthetics
+```
+
+## Save
+
+```{r}
+write.csv(df, "../data/data.csv")
+write.csv(dfmist, "../data/data_mist.csv")
+```
