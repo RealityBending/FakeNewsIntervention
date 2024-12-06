@@ -17,6 +17,7 @@ format:
 #| message: false
 #| warning: false
 
+library(emmeans)
 library(tidyverse)
 library(easystats)
 library(patchwork)
@@ -68,8 +69,9 @@ estimate_means(m, by = c("Political_Affiliation")) |>
   labs(y="MIST-Covid (% Correct Pretest)", x="Political Affiliation")
 ```
 
+--------------------------------------------------------------------------
 
-
+## Multivariate Model
 
 ```{r}
 # model <- glmmTMB::glmmTMB(Correct ~ Intervention * Condition * Topic + (1|Participant) + (1|QuestionID), 
@@ -85,4 +87,445 @@ estimate_means(m, by = c("Political_Affiliation")) |>
 #   facet_wrap(~Topic)
 ```
 
+--------------------------------------------------------------------------
+
+## self-identified political ideology (independent/predictor) & VSA general score (dependent/outcome)
+
+```{r}
+m <- lm(VSA_General ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="VSA General Mean Score", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & VSA authoritarianism score (dependent/outcome)
+
+```{r}
+m <- lm(VSA_Authoritarianism ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="VSA Authoritarianism Score", x="Political Identification")
+```
+
+
+## self-identified political ideology (independent/predictor) & BFI_Agreeableness (dependent/outcome)
+
+```{r}
+m <- lm(BFI_Agreeableness ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="BFI Agreeableness", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & BFI_Extraversion (dependent/outcome)
+
+```{r}
+m <- lm(BFI_Extraversion ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="BFI Extraversion", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & BFI_Conscientiousness (dependent/outcome)
+
+```{r}
+m <- lm(BFI_Conscientiousness ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="BFI Conscientiousness", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & BFI_Neuroticism (dependent/outcome)
+
+```{r}
+m <- lm(BFI_Neuroticism ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="BFI_Neuroticism", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & BFI_Openness (dependent/outcome)
+
+```{r}
+m <- lm(BFI_Openness ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="BFI_Openness", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & GCBS_General (dependent/outcome)
+
+```{r}
+m <- lm(GCBS_General ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="GCBS_General", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & GCBS_Control (dependent/outcome)
+
+```{r}
+m <- lm(GCBS_Control ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="GCBS_Control", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & GCBS_Wellbeing (dependent/outcome)
+
+```{r}
+m <- lm(GCBS_Wellbeing ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="GCBS_Wellbeing", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & GCBS_Malevolent (dependent/outcome)
+
+```{r}
+m <- lm(GCBS_Malevolent ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="GCBS_Malevolent", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & GCBS_Extraterrestrial (dependent/outcome)
+
+```{r}
+m <- lm(GCBS_Extraterrestrial ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="GCBS_Extraterrestrial", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & GCBS_GovernmentMalfeasance (dependent/outcome)
+
+```{r}
+m <- lm(GCBS_GovernmentMalfeasance ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="GCBS_GovernmentMalfeasance", x="Political Identification")
+```
+
+
+## self-identified political ideology (independent/predictor) & MIST General (% Correct difference Post-Pre) (dependent/outcome)
+
+```{r}
+m <- lm(MIST_correct_Diff_general ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST General (% Correct difference Post-Pre)", x="Political Identification")
+```
+
+
+## self-identified political ideology (independent/predictor) & MIST COVID (% Correct difference Post-Pre) (dependent/outcome)
+
+```{r}
+m <- lm(MIST_correct_Diff_covid ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST COVID (% Correct difference Post-Pre)", x="Political Identification")
+```
+
+## MIST COVID (% Correct difference Post-Pre) (independent/predictor) & MIST COVID (% Correct Pretest)
+
+```{r}
+m <- lm(MIST_correct_Diff_covid ~ MIST_correct_Pretest_covid, 
+        data=filter(df, !is.na(MIST_correct_Pretest_covid)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=MIST_correct_Pretest_covid, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(x="MIST COVID (% Correct pre-test)", y="MIST COVID (% Correct difference Post-Pre)")
+```
+
+## MIST General (% Correct difference Post-Pre) (independent/predictor) & MIST General (% Correct Pretest)
+
+```{r}
+m <- lm(MIST_correct_Diff_general ~ MIST_correct_Pretest_general, 
+        data=filter(df, !is.na(MIST_correct_Pretest_general)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=MIST_correct_Pretest_general, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(x="MIST General (% Correct pre-test)", y="MIST General (% Correct difference Post-Pre)")
+```
+
+
+## self-identified political ideology (independent/predictor) & MIST COVID (% Correct difference Post-Pre) (dependent/outcome)
+
+```{r}
+m <- lm(MIST_correct_Diff_covid ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST COVID (% Correct difference Post-Pre)", x="Political Identification")
+```
+
+## Gender (independent/predictor) & MIST COVID (% Correct difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+df$Gender <- as.factor(df$Gender)
+m <- lm(MIST_correct_Diff_covid ~ Gender, 
+        data=filter(df, Gender != "Non-Binary" & Gender != "Prefer not to answer"))
+
+
+display(estimate_contrasts(m, contrast="Gender", p_adjust="none"))
+
+estimate_means(m, by = c("Gender")) |> 
+  ggplot(aes(x=Gender, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-Covid (% Correct difference post-pre)", x="Gender")
+```
+
+## Gender (independent/predictor) & MIST COVID (% Correct pretest) (dependent/outcome)
+
+```{r}
+# Categorical
+df$Gender <- as.factor(df$Gender)
+m <- lm(MIST_correct_Pretest_covid ~ Gender, 
+        data=filter(df, Gender != "Non-Binary" & Gender != "Prefer not to answer"))
+
+
+display(estimate_contrasts(m, contrast="Gender", p_adjust="none"))
+
+estimate_means(m, by = c("Gender")) |> 
+  ggplot(aes(x=Gender, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-Covid (% Correct Pre-test)", x="Gender")
+```
+
+## Education (independent/predictor) & MIST COVID (% Correct difference post-pre) (dependent/outcome)
+
+##this one is not working right at the moment, bachelor refuses to show up for me for some reason now
+
+```{r}
+# Categorical
+df$Education <- as.factor(df$Education)
+df <- df %>% filter(!is.na(Education))
+unique(trimws(df$Education))
+
+m <- lm(MIST_correct_Diff_covid ~ Education, 
+        data=filter(df, Education != "Other"))
+
+display(estimate_contrasts(m, contrast="Education", p_adjust="none"))
+
+estimate_means(m, by = c("Education")) |> 
+  ggplot(aes(x=Education, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-Covid (% Correct difference post-pre)", x="Education")
+```
+
+## Education (independent/predictor) & MIST COVID (% Correct pretest) (dependent/outcome)
+
+##this one is not working right at the moment, bachelor refuses to show up for me for some reason now
+
+
+```{r}
+# Categorical
+df$Education <- as.factor(df$Education)
+m <- lm(MIST_correct_Pretest_covid ~ Education, 
+        data=filter(df, Education != "Other"))
+
+display(estimate_contrasts(m, contrast="Education", p_adjust="none"))
+
+estimate_means(m, by = c("Education")) |> 
+  ggplot(aes(x=Education, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-Covid (% Correct Pre-test)", x="Education")
+```
+
+## Age (independent/predictor) & MIST COVID (% Correct pretest) (dependent/outcome)
+
+```{r}
+m <- lm(MIST_correct_Pretest_covid ~ Age, 
+        data=df)
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Age, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST-Covid (% Correct Pretest)", x="Age")
+```
+
+## Age (independent/predictor) & MIST COVID (% Correct difference post-pre) (dependent/outcome)
+
+## why does this one show essentially no change in intervention effect size whatsoever? Feels like I made a mistake here somewhere
+
+```{r}
+m <- lm(MIST_correct_Diff_covid ~ Age, 
+        data=df)
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Age, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST-Covid (% Correct difference post-pre)", x="Age")
+```
+
+## Intervention vs Control (independent/predictor) & MIST COVID (% Correct difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MIST_correct_Diff_covid ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-Covid (% Correct difference post-pre)", x="Intervention vs Control")
+```
 
