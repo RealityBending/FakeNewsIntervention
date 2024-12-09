@@ -137,47 +137,23 @@ modelsummary::datasummary_skim(GCBS)
 
 ```{r}
 ## does this give us useful data for both the pre- and post-intervention MOCRI, or do I need to split my coding to be between the bold and nonbold (as this is how the MOCRI is split pre- and post-)?
-MOCRI <- select(df, starts_with("MOCRI_"))
+mocri  <- select(df, Participant, starts_with("MOCRI_"), -ends_with("Duration")) 
 df <- select(df, -starts_with("MOCRI"))
 
-# Recode in terms of correct incorrect
-# df$MOCRI_Pretest_Manipulative1 <- ifelse(df$MOCRI_BOLD_MOCRI_BOLD_8_Manipulative == 1, 1, 0)
-
-modelsummary::datasummary_skim(MOCRI)
-```
-
-### MIST
-
-
-```{r}
-dfmist <- dfmist |>
-  full_join(df[, c("Participant", "Intervention")], by = "Participant") |>
-  mutate(temp = Item) |> 
-  separate(temp, into = c("extra", "QuestionType", "Topic", "QuestionID"), sep = "_")  |> 
-  select(-extra, -QuestionID) |> 
-    mutate(
-    Correct = case_when(
-      MIST > 50 & QuestionType == "real" ~ 1,
-      MIST < 50 & QuestionType == "fake" ~ 1,
-      .default = 0
-    ),
-    True_Positive = ifelse(MIST > 50 & QuestionType == "real", 1, 0),
-    True_Negative = ifelse(MIST < 50 & QuestionType == "fake", 1, 0),
-    False_Positive = ifelse(MIST > 50 & QuestionType == "fake", 1, 0),
-    False_Negative = ifelse(MIST < 50 & QuestionType == "real", 1, 0)
+names(mocri) <- str_replace(names(mocri), "_MOCRI_BOLD_", "_MOCRI_")
+  
+mocri <- mocri |> 
+  pivot_longer(-Participant) |> 
+  separate(name, into = c("extra", "Type", "extra2", "QuestionID", "Answer"), sep = "_") |> 
+  select(-extra, -extra2) |>
+  mutate(
+    Type = ifelse(Type == "BOLD", "Pre", "Post"),
+    Correct = ifelse(Answer == "Manipulative" & value == 1, 1, 0),
+    True_Positive = ifelse(Answer == "Manipulative" & value == 1, 1, 0),
+    True_Negative = ifelse(Answer == "NonManipulative" & value == 0, 1, 0),
+    False_Positive = ifelse(Answer == "NonManipulative" & value == 1, 1, 0),
+    False_Negative = ifelse(Answer == "Manipulative" & value == 0, 1, 0)
     )
-```
-
-#### Items
-
-```{r}
-# Participant scores
-dfmist |> 
-  summarise(p_Correct = sum(Correct) / n(), .by=c("Item")) |> 
-  arrange(p_Correct) |> 
-  gt::gt() |> 
-  gt::fmt_number(columns = "p_Correct", decimals = 2) |> 
-  gt::data_color(columns = "p_Correct", palette=c("red", "green"))
 ```
 
 #### Scores
@@ -226,6 +202,66 @@ compute_dprime <- function(data) {
 }
 
 
+# Participant scores
+df <- mocri |> 
+  summarise(
+    correct = sum(Correct) / n(),
+    True_Positive = sum(True_Positive),
+    True_Negative = sum(True_Negative),
+    False_Positive = sum(False_Positive),
+    False_Negative = sum(False_Negative),
+    .by = c("Participant", "Type")
+  ) |> 
+  compute_dprime() |>  
+  select(Participant, Type, correct, dprime, criterion, aprime, bppd) |>
+  pivot_wider(names_from=c("Type"), 
+              values_from=c("correct", "dprime", "criterion", "aprime", "bppd"),
+              names_vary = "fastest") |> 
+  mutate(correct_Diff = correct_Post - correct_Pre,
+         dprime_Diff = dprime_Post - dprime_Pre,
+         criterion_Diff = criterion_Post - criterion_Pre,
+         bppd_Diff = bppd_Post - bppd_Pre) |>
+  datawizard::data_addprefix("MOCRI_", select=-Participant) |>  
+  full_join(df, by="Participant")
+```
+
+
+### MIST
+
+```{r}
+dfmist <- dfmist |>
+  full_join(df[, c("Participant", "Intervention")], by = "Participant") |>
+  mutate(temp = Item) |> 
+  separate(temp, into = c("extra", "QuestionType", "Topic", "QuestionID"), sep = "_")  |> 
+  select(-extra, -QuestionID) |> 
+    mutate(
+    Correct = case_when(
+      MIST > 50 & QuestionType == "real" ~ 1,
+      MIST < 50 & QuestionType == "fake" ~ 1,
+      .default = 0
+    ),
+    True_Positive = ifelse(MIST > 50 & QuestionType == "real", 1, 0),
+    True_Negative = ifelse(MIST < 50 & QuestionType == "fake", 1, 0),
+    False_Positive = ifelse(MIST > 50 & QuestionType == "fake", 1, 0),
+    False_Negative = ifelse(MIST < 50 & QuestionType == "real", 1, 0)
+    )
+```
+
+#### Items
+
+```{r}
+# Participant scores
+dfmist |> 
+  summarise(p_Correct = sum(Correct) / n(), .by=c("Item")) |> 
+  arrange(p_Correct) |> 
+  gt::gt() |> 
+  gt::fmt_number(columns = "p_Correct", decimals = 2) |> 
+  gt::data_color(columns = "p_Correct", palette=c("red", "green"))
+```
+
+#### Scores
+
+```{r}
 # Participant scores
 df <- dfmist |> 
   summarise(
