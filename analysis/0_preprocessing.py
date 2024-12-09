@@ -101,7 +101,14 @@ for i, file in enumerate(files):
 
     demo2 = data[data["screen"] == "demographics_2"].iloc[0]
     demo2 = json.loads(demo2["response"])
-    df["Age"] = demo2["age"]
+    try:
+        df["Age"] = float(demo2["age"])
+    except:
+        df["Age"] = np.nan
+
+    if df["Age"].values[0] == 1964:
+        df["Age"] = 60
+
     df["Ethnicity"] = demo2["ethnicity"]
 
     # Intervention ----------------------------------------------------------------
