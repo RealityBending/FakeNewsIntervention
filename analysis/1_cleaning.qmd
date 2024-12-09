@@ -323,6 +323,7 @@ ggplot(df, aes(x = Education)) +
   theme_minimal()  # Optional: Adds a minimal theme for better aesthetics
 ```
 
+
 ## Save
 
 ```{r}
