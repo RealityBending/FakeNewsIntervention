@@ -28,9 +28,7 @@ library(modelsummary)
 ```{r}
 #| code-fold: false
 
-df <- read.csv("../data/rawdata.csv")  |> 
-  mutate(Intervention = ifelse(!is.na(Badnews_Questions_Duration), "BadNews", "Tetris")) |> 
-  select(-Prolific_ID, -Date_OSF, -BadNews_Duration)
+df <- read.csv("../data/rawdata.csv") 
 
 dfmist <- read.csv("../data/rawdata_mist.csv")
 ```

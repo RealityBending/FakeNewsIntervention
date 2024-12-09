@@ -160,10 +160,13 @@ for i, file in enumerate(files):
     if data[data["screen"] == "questionnaire_badnews"].empty:
         taskQ = data[data["screen"] == "questionnaire_tetris"].iloc[0]
         df["Intervention_Questions_Score"] = json.loads(taskQ["response"])["high_score"]
+        df["Intervention"] = "Tetris"
 
     else:
         taskQ = data[data["screen"] == "questionnaire_badnews"].iloc[0]
         df["Intervention_Questions_Score"] = json.loads(taskQ["response"])["followers"]
+        df["Intervention"] = "BadNews"
+
 
     df["Intervention_Questions_Duration"] = taskQ["rt"] / 1000 / 60
     df["Intervention_Questions_Favorite"] = json.loads(taskQ["response"])[
