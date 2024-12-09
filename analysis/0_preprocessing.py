@@ -143,49 +143,33 @@ for i, file in enumerate(files):
     for item in gcbs:
         df[item] = float(gcbs[item])
 
-    # intervention-----------------------------------------------------
-    badnews = data[data["screen"] == "intervention"].iloc[0]
-    df["BadNews_Duration"] = badnews["rt"] / 1000 / 60
-
     # veracity confidence-----------------------------------------------------
     confidence = data[data["screen"] == "veracity_confidence"].iloc[0]
-    df["Confidence_Duration"] = confidence["rt"] / 1000 / 60
+    df["Intervention_Questions_Confidence"] = json.loads(confidence["response"])[
+        "confidence"
+    ]
 
     # badnews questions-----------------------------------------------------
-    if not data[data["screen"] == "questionnaire_badnews"].empty:
-        badnews_questions = data[data["screen"] == "questionnaire_badnews"].iloc[0]
-        df["Badnews_Questions_Duration"] = badnews_questions["rt"] / 1000 / 60
-        df["Badnews_Questions_Followers"] = badnews_questions["followers"]
-        df["Badnews_Questions_Favorite_Part"] = badnews_questions["favorite_part"]
-        df["Badnews_Questions_Play_Again"] = badnews_questions["play_again"]
-        df["Badnews_Questions_recommend"] = badnews_questions["recommend"]
-    else:
-        df["Badnews_Questions_Duration"] = None  # or another placeholder value
-        df["Badnews_Questions_Followers"] = None  # or another placeholder value
-        df["Badnews_Questions_Favorite_Part"] = None  # or another placeholder value
-        df["Badnews_Questions_Play_Again"] = None  # or another placeholder value
-        df["Badnews_Questions_recommend"] = None  # or another placeholder value
+    if data[data["screen"] == "questionnaire_badnews"].empty:
+        taskQ = data[data["screen"] == "questionnaire_tetris"].iloc[0]
+        df["Intervention_Questions_Score"] = json.loads(taskQ["response"])["high_score"]
 
-    # tetris-----------------------------------------------------
-    if not data[data["screen"] == "questionnaire_tetris"].empty:
-        tetris_questions = data[data["screen"] == "questionnaire_tetris"].iloc[0]
-        df["Tetris_Questions_Duration"] = tetris_questions["rt"] / 1000 / 60
-        df["Tetris_Questions_Score"] = tetris_questions["high_score"]
-        df["Tetris_Questions_Favorite_Part"] = tetris_questions["favorite_part"]
-        df["Tetris_Questions_Play_Again"] = tetris_questions["play_again"]
-        df["Tetris_Questions_Recommend"] = tetris_questions["recommend"]
     else:
-        df["Tetris_Questions_Duration"] = None  # or another placeholder value
-        df["Tetris_Questions_Score"] = None  # or another placeholder value
-        df["Tetris_Questions_Favorite_Part"] = None  # or another placeholder value
-        df["Tetris_Questions_Play_Again"] = None  # or another placeholder value
-        df["Tetris_Questions_Recommend"] = None  # or another placeholder value
+        taskQ = data[data["screen"] == "questionnaire_badnews"].iloc[0]
+        df["Intervention_Questions_Score"] = json.loads(taskQ["response"])["followers"]
+
+    df["Intervention_Questions_Duration"] = taskQ["rt"] / 1000 / 60
+    df["Intervention_Questions_Favorite"] = json.loads(taskQ["response"])[
+        "favorite_part"
+    ]
+
+    df["Intervention_Questions_Repeat"] = json.loads(taskQ["response"])["play_again"]
+
+    df["Intervention_Questions_Recommend"] = json.loads(taskQ["response"])["recommend"]
 
     # Post-intervention confidence questionnaire
     veracity_confidence = data[data["screen"] == "veracity_confidence"].iloc[0]
-    df["Veracity_Confidence"] = veracity_confidence["veracity_confidence"]
 
-    
     # consent-----------------------------------------------------
     consent = data[data["screen"] == "consent"].iloc[0]
     df["Consent_Duration"] = consent["rt"] / 1000 / 60
@@ -255,7 +239,6 @@ for i, file in enumerate(files):
 print("Done!")
 
 
-
 # Quality control =========================================================
 def update_log(log, prolific_id, reject=False, alldata=alldata):
     ppt = alldata.loc[
@@ -290,7 +273,7 @@ new.head(40)
 # Update log manually
 log = update_log(log, "6620d6cae03db8263ba0f4c0", reject=True)
 
-alldata[["Prolific_ID",  "Intervention_Duration"]]
+alldata[["Prolific_ID", "Intervention_Duration"]]
 # Save data ==============================================================
 alldata = alldata.drop("Prolific_ID", axis=1)
 alldata.to_csv("../data/rawdata.csv", index=False)
