@@ -58,9 +58,9 @@ df$Political_LiberalConservative <- ifelse(df$ANES_1 == 4, NA, df$ANES_1)
 df$Political_LiberalConservative <- ifelse(df$Political_LiberalConservative > 3, 
                                            df$Political_LiberalConservative - 1, 
                                            df$Political_LiberalConservative)
-df$Political_Affiliation <- case_when(df$ANES_2 == 1 ~ "Democrat", 
-                                      df$ANES_2 == 2 ~ "Republican", 
-                                      df$ANES_2 == 3 ~ "None or Independent", 
+df$Political_Affiliation <- case_when(df$ANES_2 == 0 ~ "Democrat", 
+                                      df$ANES_2 == 1 ~ "Republican", 
+                                      df$ANES_2 == 2 ~ "None or Independent", 
                                       .default = "Other")
  
 df <- select(df, -starts_with("ANES"))
