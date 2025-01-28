@@ -36,7 +36,53 @@ dfmist <- read.csv("../data/rawdata_mist.csv")
 The initial sample consisted of `r report::report_participants(df, age="Age", gender="Gender", education="Education")`, for a total trial number of `r nrow(df)`.
 
 
-## Exclusion
+## Exclusion 
+
+```{r}
+# Ensure 'Intervention_Duration' is numeric and remove invalid rows
+df$Intervention_Duration <- as.numeric(df$Intervention_Duration)
+df_clean <- na.omit(df)  # Remove rows with NA in any column
+
+# Generate summary statistics for 'Intervention_Duration' by 'Intervention'
+library(dplyr)
+summary_stats <- df_clean %>%
+  group_by(Intervention) %>%
+  summarise(
+    Mean = mean(Intervention_Duration, na.rm = TRUE),
+    SD = sd(Intervention_Duration, na.rm = TRUE),
+    Min = min(Intervention_Duration, na.rm = TRUE),
+    Max = max(Intervention_Duration, na.rm = TRUE)
+  )
+
+# Display the summary statistics
+print(summary_stats)
+
+# Compute the mean and SD for each group
+summary_stats <- df_clean %>%
+  group_by(Intervention) %>%
+  summarise(
+    Mean = mean(Intervention_Duration, na.rm = TRUE),
+    SD = sd(Intervention_Duration, na.rm = TRUE)
+  )
+
+# Merge the summary statistics back with the original data
+df_clean <- df_clean %>%
+  left_join(summary_stats, by = "Intervention") %>%
+  mutate(
+    Is_Outlier = Intervention_Duration < (Mean - 1.96 * SD)
+  ) %>%
+  select(-Mean, -SD)  # Remove the temporary mean and SD columns
+
+# Filter rows where Is_Outlier is TRUE
+outliers <- df_clean %>%
+  filter(Is_Outlier == TRUE)
+
+# Print the outliers
+print(outliers$Participant)
+
+```
+
+
 
 ### Intervention Duration
 

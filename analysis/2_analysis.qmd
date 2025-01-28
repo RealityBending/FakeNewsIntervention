@@ -34,52 +34,6 @@ dfmist <- read.csv("../data/data_mist.csv")
 
 ## Analysis
 
-## Identifying Exclusion Criteria
-
-```{r}
-# Ensure 'Intervention_Questions_Score' is numeric and remove invalid rows
-df$Intervention_Questions_Score <- as.numeric(df$Intervention_Questions_Score)
-df_clean <- na.omit(df)  # Remove rows with NA in any column
-
-# Generate summary statistics for 'Intervention_Questions_Score' by 'Intervention'
-library(dplyr)
-summary_stats <- df_clean %>%
-  group_by(Intervention) %>%
-  summarise(
-    Mean = mean(Intervention_Questions_Score, na.rm = TRUE),
-    SD = sd(Intervention_Questions_Score, na.rm = TRUE),
-    Min = min(Intervention_Questions_Score, na.rm = TRUE),
-    Max = max(Intervention_Questions_Score, na.rm = TRUE)
-  )
-
-# Display the summary statistics
-print(summary_stats)
-
-# Compute the mean and SD for each group
-summary_stats <- df_clean %>%
-  group_by(Intervention) %>%
-  summarise(
-    Mean = mean(Intervention_Questions_Score, na.rm = TRUE),
-    SD = sd(Intervention_Questions_Score, na.rm = TRUE)
-  )
-
-# Merge the summary statistics back with the original data
-df_clean <- df_clean %>%
-  left_join(summary_stats, by = "Intervention") %>%
-  mutate(
-    Is_Outlier = Intervention_Questions_Score < (Mean - 2 * SD) | Intervention_Questions_Score > (Mean + 2 * SD)
-  ) %>%
-  select(-Mean, -SD)  # Remove the temporary mean and SD columns
-
-# Filter rows where Is_Outlier is TRUE
-outliers <- df_clean %>%
-  filter(Is_Outlier == TRUE)
-
-# Print the outliers
-print(outliers$Participant)
-
-```
-
 
 ### Example for Continuous Variable
 
