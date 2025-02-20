@@ -43,6 +43,15 @@ The initial sample consisted of `r report::report_participants(df, age="Age", ge
 df$Intervention_Duration <- as.numeric(df$Intervention_Duration)
 df_clean <- na.omit(df)  # Remove rows with NA in any column
 
+# Identify participants with Intervention_Duration < 12
+participants_to_remove <- df$Participant[df$Intervention_Duration < 12]
+
+# Filter df to remove those rows
+df <- df[df$Intervention_Duration >= 12, ]
+
+# Remove matching participants from dfmist
+dfmist <- dfmist[!dfmist$Participant %in% participants_to_remove, ]
+
 # Generate summary statistics for 'Intervention_Duration' by 'Intervention'
 library(dplyr)
 summary_stats <- df_clean %>%
@@ -69,16 +78,9 @@ summary_stats <- df_clean %>%
 df_clean <- df_clean %>%
   left_join(summary_stats, by = "Intervention") %>%
   mutate(
-    Is_Outlier = Intervention_Duration < (Mean - 1.96 * SD)
   ) %>%
   select(-Mean, -SD)  # Remove the temporary mean and SD columns
 
-# Filter rows where Is_Outlier is TRUE
-outliers <- df_clean %>%
-  filter(Is_Outlier == TRUE)
-
-# Print the outliers
-print(outliers$Participant)
 
 ```
 
