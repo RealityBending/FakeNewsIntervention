@@ -3200,32 +3200,19 @@ vertical-align: -.125em;
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>df_clean <span class="ot">&lt;-</span> df_clean <span class="sc">%&gt;%</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(summary_stats, <span class="at">by =</span> <span class="st">&quot;Intervention&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Is_Outlier =</span> Intervention_Duration <span class="sc">&lt;</span> (Mean <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> SD)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Mean, <span class="sc">-</span>SD)  <span class="co"># Remove the temporary mean and SD columns</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows where Is_Outlier is TRUE</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>outliers <span class="ot">&lt;-</span> df_clean <span class="sc">%&gt;%</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Is_Outlier <span class="sc">==</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the outliers</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(outliers<span class="sc">$</span>Participant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Mean, <span class="sc">-</span>SD)  <span class="co"># Remove the temporary mean and SD columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] &quot;k320cnq7w9&quot; &quot;6zfem4v590&quot; &quot;j3u36ws17d&quot; &quot;rct00rnnr3&quot; &quot;txoypjt3a9&quot;
- [6] &quot;z54uw8nlze&quot; &quot;xrl1a5f5ca&quot; &quot;azcd8u8cup&quot; &quot;92rx9ohskp&quot; &quot;xyww5uoffv&quot;
-[11] &quot;tur27cw90j&quot; &quot;ql1u64lh7b&quot;</code></pre>
-</div>
 </div>
 <section id="intervention-duration" class="level3">
 <h3 class="anchored" data-anchor-id="intervention-duration">Intervention Duration</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Intervention_Duration, <span class="at">fill=</span>Intervention)) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Intervention_Duration, <span class="at">fill=</span>Intervention)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3244,16 +3231,16 @@ vertical-align: -.125em;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Political_LiberalConservative <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>ANES_1 <span class="sc">==</span> <span class="dv">4</span>, <span class="cn">NA</span>, df<span class="sc">$</span>ANES_1)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Political_LiberalConservative <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>Political_LiberalConservative <span class="sc">&gt;</span> <span class="dv">3</span>, </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                                           df<span class="sc">$</span>Political_LiberalConservative <span class="sc">-</span> <span class="dv">1</span>, </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                                           df<span class="sc">$</span>Political_LiberalConservative)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Political_Affiliation <span class="ot">&lt;-</span> <span class="fu">case_when</span>(df<span class="sc">$</span>ANES_2 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">&quot;Democrat&quot;</span>, </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                                      df<span class="sc">$</span>ANES_2 <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">&quot;Republican&quot;</span>, </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                                      df<span class="sc">$</span>ANES_2 <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">&quot;None or Independent&quot;</span>, </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">.default =</span> <span class="st">&quot;Other&quot;</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">select</span>(df, <span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">&quot;ANES&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Political_LiberalConservative <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>ANES_1 <span class="sc">==</span> <span class="dv">4</span>, <span class="cn">NA</span>, df<span class="sc">$</span>ANES_1)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Political_LiberalConservative <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>Political_LiberalConservative <span class="sc">&gt;</span> <span class="dv">3</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                                           df<span class="sc">$</span>Political_LiberalConservative <span class="sc">-</span> <span class="dv">1</span>, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                                           df<span class="sc">$</span>Political_LiberalConservative)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Political_Affiliation <span class="ot">&lt;-</span> <span class="fu">case_when</span>(df<span class="sc">$</span>ANES_2 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">&quot;Democrat&quot;</span>, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                                      df<span class="sc">$</span>ANES_2 <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">&quot;Republican&quot;</span>, </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                                      df<span class="sc">$</span>ANES_2 <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">&quot;None or Independent&quot;</span>, </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">.default =</span> <span class="st">&quot;Other&quot;</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">select</span>(df, <span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">&quot;ANES&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>The data contains 266 observations of the following 2 variables:</p>
@@ -3264,10 +3251,10 @@ vertical-align: -.125em;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Political_LiberalConservative) <span class="sc">&amp;</span> Political_Affiliation <span class="sc">!=</span> <span class="st">&quot;None or Independent&quot;</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Political_LiberalConservative, <span class="at">fill=</span>Political_Affiliation)) <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.6</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Political_LiberalConservative) <span class="sc">&amp;</span> Political_Affiliation <span class="sc">!=</span> <span class="st">&quot;None or Independent&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Political_LiberalConservative, <span class="at">fill=</span>Political_Affiliation)) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.6</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3284,9 +3271,9 @@ vertical-align: -.125em;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>vsa <span class="ot">&lt;-</span> <span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">&quot;VSA_&quot;</span>), <span class="sc">-</span>VSA_Duration) </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(<span class="fu">correlation</span>(vsa)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>vsa <span class="ot">&lt;-</span> <span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">&quot;VSA_&quot;</span>), <span class="sc">-</span>VSA_Duration) </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(<span class="fu">correlation</span>(vsa)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3297,20 +3284,20 @@ vertical-align: -.125em;
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>VSA_Conservatism <span class="ot">&lt;-</span> (datawizard<span class="sc">::</span><span class="fu">reverse_scale</span>(df<span class="sc">$</span>VSA_1, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>)) <span class="sc">+</span> df<span class="sc">$</span>VSA_2) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>VSA_Traditionalism <span class="ot">&lt;-</span> (df<span class="sc">$</span>VSA_3 <span class="sc">+</span> datawizard<span class="sc">::</span><span class="fu">reverse_scale</span>(df<span class="sc">$</span>VSA_4, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>))) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>VSA_Authoritarianism <span class="ot">&lt;-</span> (datawizard<span class="sc">::</span><span class="fu">reverse_scale</span>(df<span class="sc">$</span>VSA_5, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>)) <span class="sc">+</span> df<span class="sc">$</span>VSA_6) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>VSA_General <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(df[, <span class="fu">c</span>(<span class="st">&quot;VSA_Conservatism&quot;</span>, <span class="st">&quot;VSA_Traditionalism&quot;</span>, <span class="st">&quot;VSA_Authoritarianism&quot;</span>)], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>modelsummary<span class="sc">::</span><span class="fu">datasummary_skim</span>(<span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">&quot;VSA_&quot;</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>VSA_Conservatism <span class="ot">&lt;-</span> (datawizard<span class="sc">::</span><span class="fu">reverse_scale</span>(df<span class="sc">$</span>VSA_1, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>)) <span class="sc">+</span> df<span class="sc">$</span>VSA_2) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>VSA_Traditionalism <span class="ot">&lt;-</span> (df<span class="sc">$</span>VSA_3 <span class="sc">+</span> datawizard<span class="sc">::</span><span class="fu">reverse_scale</span>(df<span class="sc">$</span>VSA_4, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>))) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>VSA_Authoritarianism <span class="ot">&lt;-</span> (datawizard<span class="sc">::</span><span class="fu">reverse_scale</span>(df<span class="sc">$</span>VSA_5, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>)) <span class="sc">+</span> df<span class="sc">$</span>VSA_6) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>VSA_General <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(df[, <span class="fu">c</span>(<span class="st">&quot;VSA_Conservatism&quot;</span>, <span class="st">&quot;VSA_Traditionalism&quot;</span>, <span class="st">&quot;VSA_Authoritarianism&quot;</span>)], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>modelsummary<span class="sc">::</span><span class="fu">datasummary_skim</span>(<span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">&quot;VSA_&quot;</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <!-- preamble start -->
 
     <script>
 
-      function styleCell_79ndntnl7h8cpperlyde(i, j, css_id) {
-          var table = document.getElementById("tinytable_79ndntnl7h8cpperlyde");
+      function styleCell_t5gacn1i69hxuowl76xh(i, j, css_id) {
+          var table = document.getElementById("tinytable_t5gacn1i69hxuowl76xh");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -3320,7 +3307,7 @@ vertical-align: -.125em;
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_79ndntnl7h8cpperlyde');
+        var table = document.getElementById('tinytable_t5gacn1i69hxuowl76xh');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -3328,8 +3315,8 @@ vertical-align: -.125em;
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_79ndntnl7h8cpperlyde(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_79ndntnl7h8cpperlyde");
+      function spanCell_t5gacn1i69hxuowl76xh(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_t5gacn1i69hxuowl76xh");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -3359,15 +3346,15 @@ vertical-align: -.125em;
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 11, j: 7 }, { i: 11, j: 6 }, { i: 11, j: 5 }, { i: 11, j: 4 }, { i: 11, j: 3 }, { i: 11, j: 2 }, { i: 11, j: 1 }, { i: 11, j: 0 }, { i: 11, j: 8 },  ], css_id: 'tinytable_css_yl68ljocv0mr9a7ac51j',}, 
-          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 5, j: 1 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 1, j: 3 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 4, j: 2 }, { i: 5, j: 2 }, { i: 6, j: 2 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 9, j: 1 }, { i: 10, j: 1 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 4, j: 3 }, { i: 5, j: 3 }, { i: 6, j: 3 }, { i: 7, j: 3 }, { i: 7, j: 2 }, { i: 8, j: 2 }, { i: 9, j: 2 }, { i: 10, j: 2 }, { i: 1, j: 5 }, { i: 2, j: 5 }, { i: 3, j: 5 }, { i: 3, j: 4 }, { i: 4, j: 4 }, { i: 5, j: 4 }, { i: 6, j: 4 }, { i: 7, j: 4 }, { i: 8, j: 4 }, { i: 8, j: 3 }, { i: 9, j: 3 }, { i: 10, j: 3 }, { i: 1, j: 6 }, { i: 2, j: 6 }, { i: 3, j: 6 }, { i: 4, j: 6 }, { i: 4, j: 5 }, { i: 5, j: 5 }, { i: 6, j: 5 }, { i: 7, j: 5 }, { i: 8, j: 5 }, { i: 9, j: 5 }, { i: 9, j: 4 }, { i: 10, j: 4 }, { i: 1, j: 7 }, { i: 2, j: 7 }, { i: 3, j: 7 }, { i: 4, j: 7 }, { i: 5, j: 7 }, { i: 5, j: 6 }, { i: 6, j: 6 }, { i: 7, j: 6 }, { i: 8, j: 6 }, { i: 9, j: 6 }, { i: 10, j: 6 }, { i: 10, j: 5 }, { i: 1, j: 8 }, { i: 2, j: 8 }, { i: 3, j: 8 }, { i: 4, j: 8 }, { i: 5, j: 8 }, { i: 6, j: 8 }, { i: 6, j: 7 }, { i: 7, j: 7 }, { i: 8, j: 7 }, { i: 9, j: 7 }, { i: 10, j: 7 }, { i: 7, j: 8 }, { i: 8, j: 8 }, { i: 9, j: 8 }, { i: 10, j: 8 },  ], css_id: 'tinytable_css_kkfivoli46linnxys7ey',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 8 }, { i: 0, j: 7 }, { i: 0, j: 6 }, { i: 0, j: 5 }, { i: 0, j: 4 }, { i: 0, j: 3 }, { i: 0, j: 2 }, { i: 0, j: 1 },  ], css_id: 'tinytable_css_8o1g7e1ztou0e0n1kmj1',}, 
+          { positions: [ { i: 11, j: 7 }, { i: 11, j: 6 }, { i: 11, j: 5 }, { i: 11, j: 4 }, { i: 11, j: 3 }, { i: 11, j: 2 }, { i: 11, j: 1 }, { i: 11, j: 0 }, { i: 11, j: 8 },  ], css_id: 'tinytable_css_u7yxgz6304fbk7jatzx6',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 8 }, { i: 0, j: 7 }, { i: 0, j: 6 }, { i: 0, j: 5 }, { i: 0, j: 4 }, { i: 0, j: 3 }, { i: 0, j: 2 }, { i: 0, j: 1 },  ], css_id: 'tinytable_css_isnx56v69cpucr2ld5ox',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 5, j: 1 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 1, j: 3 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 4, j: 2 }, { i: 5, j: 2 }, { i: 6, j: 2 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 9, j: 1 }, { i: 10, j: 1 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 4, j: 3 }, { i: 5, j: 3 }, { i: 6, j: 3 }, { i: 7, j: 3 }, { i: 7, j: 2 }, { i: 8, j: 2 }, { i: 9, j: 2 }, { i: 10, j: 2 }, { i: 1, j: 5 }, { i: 2, j: 5 }, { i: 3, j: 5 }, { i: 3, j: 4 }, { i: 4, j: 4 }, { i: 5, j: 4 }, { i: 6, j: 4 }, { i: 7, j: 4 }, { i: 8, j: 4 }, { i: 8, j: 3 }, { i: 9, j: 3 }, { i: 10, j: 3 }, { i: 1, j: 6 }, { i: 2, j: 6 }, { i: 3, j: 6 }, { i: 4, j: 6 }, { i: 4, j: 5 }, { i: 5, j: 5 }, { i: 6, j: 5 }, { i: 7, j: 5 }, { i: 8, j: 5 }, { i: 9, j: 5 }, { i: 9, j: 4 }, { i: 10, j: 4 }, { i: 1, j: 7 }, { i: 2, j: 7 }, { i: 3, j: 7 }, { i: 4, j: 7 }, { i: 5, j: 7 }, { i: 5, j: 6 }, { i: 6, j: 6 }, { i: 7, j: 6 }, { i: 8, j: 6 }, { i: 9, j: 6 }, { i: 10, j: 6 }, { i: 10, j: 5 }, { i: 1, j: 8 }, { i: 2, j: 8 }, { i: 3, j: 8 }, { i: 4, j: 8 }, { i: 5, j: 8 }, { i: 6, j: 8 }, { i: 6, j: 7 }, { i: 7, j: 7 }, { i: 8, j: 7 }, { i: 9, j: 7 }, { i: 10, j: 7 }, { i: 7, j: 8 }, { i: 8, j: 8 }, { i: 9, j: 8 }, { i: 10, j: 8 },  ], css_id: 'tinytable_css_f10eletuftkno30p9xmt',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_79ndntnl7h8cpperlyde(cell.i, cell.j, group.css_id);
+                  styleCell_t5gacn1i69hxuowl76xh(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -3375,12 +3362,12 @@ vertical-align: -.125em;
 
     <style>
 
-.table td.tinytable_css_yl68ljocv0mr9a7ac51j, .table th.tinytable_css_yl68ljocv0mr9a7ac51j { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-.table td.tinytable_css_kkfivoli46linnxys7ey, .table th.tinytable_css_kkfivoli46linnxys7ey { text-align: left; }
-.table td.tinytable_css_8o1g7e1ztou0e0n1kmj1, .table th.tinytable_css_8o1g7e1ztou0e0n1kmj1 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+.table td.tinytable_css_u7yxgz6304fbk7jatzx6, .table th.tinytable_css_u7yxgz6304fbk7jatzx6 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+.table td.tinytable_css_isnx56v69cpucr2ld5ox, .table th.tinytable_css_isnx56v69cpucr2ld5ox { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+.table td.tinytable_css_f10eletuftkno30p9xmt, .table th.tinytable_css_f10eletuftkno30p9xmt { text-align: left; }
 </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_79ndntnl7h8cpperlyde" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_t5gacn1i69hxuowl76xh" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -3528,24 +3515,24 @@ vertical-align: -.125em;
 <section id="bfi" class="level3">
 <h3 class="anchored" data-anchor-id="bfi">BFI</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>BFI_Agreeableness <span class="ot">&lt;-</span> (df<span class="sc">$</span>BFI10_2 <span class="sc">+</span> (<span class="dv">6</span><span class="sc">-</span>df<span class="sc">$</span>BFI10_7)) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>BFI_Extraversion <span class="ot">&lt;-</span> (df<span class="sc">$</span>BFI10_6 <span class="sc">+</span> (<span class="dv">6</span><span class="sc">-</span>df<span class="sc">$</span>BFI10_1)) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>BFI_Conscientiousness <span class="ot">&lt;-</span> (df<span class="sc">$</span>BFI10_8 <span class="sc">+</span> (<span class="dv">6</span><span class="sc">-</span>df<span class="sc">$</span>BFI10_3)) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>BFI_Neuroticism <span class="ot">&lt;-</span> (df<span class="sc">$</span>BFI10_9 <span class="sc">+</span> (<span class="dv">6</span><span class="sc">-</span>df<span class="sc">$</span>BFI10_4)) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>BFI_Openness <span class="ot">&lt;-</span> (df<span class="sc">$</span>BFI10_10 <span class="sc">+</span> (<span class="dv">6</span><span class="sc">-</span>df<span class="sc">$</span>BFI10_5)) <span class="sc">/</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>BFI_Agreeableness <span class="ot">&lt;-</span> (df<span class="sc">$</span>BFI10_2 <span class="sc">+</span> (<span class="dv">6</span><span class="sc">-</span>df<span class="sc">$</span>BFI10_7)) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>BFI_Extraversion <span class="ot">&lt;-</span> (df<span class="sc">$</span>BFI10_6 <span class="sc">+</span> (<span class="dv">6</span><span class="sc">-</span>df<span class="sc">$</span>BFI10_1)) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>BFI_Conscientiousness <span class="ot">&lt;-</span> (df<span class="sc">$</span>BFI10_8 <span class="sc">+</span> (<span class="dv">6</span><span class="sc">-</span>df<span class="sc">$</span>BFI10_3)) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>BFI_Neuroticism <span class="ot">&lt;-</span> (df<span class="sc">$</span>BFI10_9 <span class="sc">+</span> (<span class="dv">6</span><span class="sc">-</span>df<span class="sc">$</span>BFI10_4)) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>BFI_Openness <span class="ot">&lt;-</span> (df<span class="sc">$</span>BFI10_10 <span class="sc">+</span> (<span class="dv">6</span><span class="sc">-</span>df<span class="sc">$</span>BFI10_5)) <span class="sc">/</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>modelsummary<span class="sc">::</span><span class="fu">datasummary_skim</span>(<span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">&quot;BFI_&quot;</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>modelsummary<span class="sc">::</span><span class="fu">datasummary_skim</span>(<span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">&quot;BFI_&quot;</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <!-- preamble start -->
 
     <script>
 
-      function styleCell_rc44t15vswj4jsedvcdz(i, j, css_id) {
-          var table = document.getElementById("tinytable_rc44t15vswj4jsedvcdz");
+      function styleCell_kodqmjay5ykn97j30ka7(i, j, css_id) {
+          var table = document.getElementById("tinytable_kodqmjay5ykn97j30ka7");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -3555,7 +3542,7 @@ vertical-align: -.125em;
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_rc44t15vswj4jsedvcdz');
+        var table = document.getElementById('tinytable_kodqmjay5ykn97j30ka7');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -3563,8 +3550,8 @@ vertical-align: -.125em;
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_rc44t15vswj4jsedvcdz(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_rc44t15vswj4jsedvcdz");
+      function spanCell_kodqmjay5ykn97j30ka7(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_kodqmjay5ykn97j30ka7");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -3594,15 +3581,15 @@ vertical-align: -.125em;
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 5, j: 0 }, { i: 5, j: 2 }, { i: 4, j: 1 }, { i: 5, j: 1 }, { i: 5, j: 3 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 4, j: 2 }, { i: 4, j: 4 }, { i: 5, j: 4 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 3, j: 3 }, { i: 4, j: 3 }, { i: 4, j: 5 }, { i: 5, j: 5 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 3, j: 4 }, { i: 3, j: 6 }, { i: 4, j: 6 }, { i: 5, j: 6 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 2, j: 5 }, { i: 3, j: 5 }, { i: 3, j: 7 }, { i: 4, j: 7 }, { i: 5, j: 7 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 2, j: 6 }, { i: 2, j: 8 }, { i: 3, j: 8 }, { i: 4, j: 8 }, { i: 5, j: 8 }, { i: 1, j: 5 }, { i: 1, j: 7 }, { i: 2, j: 7 }, { i: 1, j: 6 }, { i: 1, j: 8 },  ], css_id: 'tinytable_css_mnemlmyftr5izvstf6c5',}, 
-          { positions: [ { i: 6, j: 5 }, { i: 6, j: 7 }, { i: 6, j: 1 }, { i: 6, j: 3 }, { i: 6, j: 0 }, { i: 6, j: 2 }, { i: 6, j: 4 }, { i: 6, j: 6 }, { i: 6, j: 8 },  ], css_id: 'tinytable_css_kth7pibkloqb3fdontzg',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 2 }, { i: 0, j: 4 }, { i: 0, j: 6 }, { i: 0, j: 8 }, { i: 0, j: 5 }, { i: 0, j: 7 }, { i: 0, j: 1 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_5wuusky5femwujsmvpbw',}, 
+          { positions: [ { i: 5, j: 0 }, { i: 5, j: 2 }, { i: 4, j: 1 }, { i: 5, j: 1 }, { i: 5, j: 3 }, { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 4, j: 2 }, { i: 4, j: 4 }, { i: 5, j: 4 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 3, j: 3 }, { i: 4, j: 3 }, { i: 4, j: 5 }, { i: 5, j: 5 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 3, j: 4 }, { i: 3, j: 6 }, { i: 4, j: 6 }, { i: 5, j: 6 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 2, j: 5 }, { i: 3, j: 5 }, { i: 3, j: 7 }, { i: 4, j: 7 }, { i: 5, j: 7 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 2, j: 6 }, { i: 2, j: 8 }, { i: 3, j: 8 }, { i: 4, j: 8 }, { i: 5, j: 8 }, { i: 1, j: 5 }, { i: 1, j: 7 }, { i: 2, j: 7 }, { i: 1, j: 6 }, { i: 1, j: 8 },  ], css_id: 'tinytable_css_tk7kk8lx5kmw66hc7nkr',}, 
+          { positions: [ { i: 6, j: 5 }, { i: 6, j: 7 }, { i: 6, j: 1 }, { i: 6, j: 3 }, { i: 6, j: 0 }, { i: 6, j: 2 }, { i: 6, j: 4 }, { i: 6, j: 6 }, { i: 6, j: 8 },  ], css_id: 'tinytable_css_swktdt1tyvlu27qjplyi',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 2 }, { i: 0, j: 4 }, { i: 0, j: 6 }, { i: 0, j: 8 }, { i: 0, j: 5 }, { i: 0, j: 7 }, { i: 0, j: 1 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_jbhu1aq0hzdev4xebkg3',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_rc44t15vswj4jsedvcdz(cell.i, cell.j, group.css_id);
+                  styleCell_kodqmjay5ykn97j30ka7(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -3610,12 +3597,12 @@ vertical-align: -.125em;
 
     <style>
 
-.table td.tinytable_css_mnemlmyftr5izvstf6c5, .table th.tinytable_css_mnemlmyftr5izvstf6c5 { text-align: left; }
-.table td.tinytable_css_kth7pibkloqb3fdontzg, .table th.tinytable_css_kth7pibkloqb3fdontzg { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-.table td.tinytable_css_5wuusky5femwujsmvpbw, .table th.tinytable_css_5wuusky5femwujsmvpbw { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+.table td.tinytable_css_tk7kk8lx5kmw66hc7nkr, .table th.tinytable_css_tk7kk8lx5kmw66hc7nkr { text-align: left; }
+.table td.tinytable_css_swktdt1tyvlu27qjplyi, .table th.tinytable_css_swktdt1tyvlu27qjplyi { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+.table td.tinytable_css_jbhu1aq0hzdev4xebkg3, .table th.tinytable_css_jbhu1aq0hzdev4xebkg3 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
 </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_rc44t15vswj4jsedvcdz" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_kodqmjay5ykn97j30ka7" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -3710,16 +3697,16 @@ vertical-align: -.125em;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>GCBS <span class="ot">&lt;-</span> <span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">&quot;GCBS&quot;</span>))</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>GCBS_GovernmentMalfeasance <span class="ot">&lt;-</span> (df<span class="sc">$</span>GCBS15_1 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_6 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_11) <span class="sc">/</span> <span class="dv">3</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>GCBS_Extraterrestrial <span class="ot">&lt;-</span> (df<span class="sc">$</span>GCBS15_3 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_8 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_13) <span class="sc">/</span> <span class="dv">3</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>GCBS_Malevolent <span class="ot">&lt;-</span> (df<span class="sc">$</span>GCBS15_2 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_7 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_12) <span class="sc">/</span> <span class="dv">3</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>GCBS_Wellbeing <span class="ot">&lt;-</span> (df<span class="sc">$</span>GCBS15_4 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_9 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_14) <span class="sc">/</span> <span class="dv">3</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>GCBS_Control <span class="ot">&lt;-</span> (df<span class="sc">$</span>GCBS15_5 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_10 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_15) <span class="sc">/</span> <span class="dv">3</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>GCBS_General <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(<span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">&quot;GCBS_&quot;</span>), <span class="sc">-</span>GCBS_Duration), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(<span class="fu">correlation</span>(<span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">&quot;GCBS_&quot;</span>), <span class="sc">-</span>GCBS_Duration))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>GCBS <span class="ot">&lt;-</span> <span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">&quot;GCBS&quot;</span>))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>GCBS_GovernmentMalfeasance <span class="ot">&lt;-</span> (df<span class="sc">$</span>GCBS15_1 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_6 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_11) <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>GCBS_Extraterrestrial <span class="ot">&lt;-</span> (df<span class="sc">$</span>GCBS15_3 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_8 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_13) <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>GCBS_Malevolent <span class="ot">&lt;-</span> (df<span class="sc">$</span>GCBS15_2 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_7 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_12) <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>GCBS_Wellbeing <span class="ot">&lt;-</span> (df<span class="sc">$</span>GCBS15_4 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_9 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_14) <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>GCBS_Control <span class="ot">&lt;-</span> (df<span class="sc">$</span>GCBS15_5 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_10 <span class="sc">+</span> df<span class="sc">$</span>GCBS15_15) <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>GCBS_General <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(<span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">&quot;GCBS_&quot;</span>), <span class="sc">-</span>GCBS_Duration), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(<span class="fu">correlation</span>(<span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">&quot;GCBS_&quot;</span>), <span class="sc">-</span>GCBS_Duration))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3730,15 +3717,15 @@ vertical-align: -.125em;
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>modelsummary<span class="sc">::</span><span class="fu">datasummary_skim</span>(GCBS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>modelsummary<span class="sc">::</span><span class="fu">datasummary_skim</span>(GCBS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <!-- preamble start -->
 
     <script>
 
-      function styleCell_y3jcy96nk1iqh0h3cqof(i, j, css_id) {
-          var table = document.getElementById("tinytable_y3jcy96nk1iqh0h3cqof");
+      function styleCell_1trwkivyn6dp5961pep2(i, j, css_id) {
+          var table = document.getElementById("tinytable_1trwkivyn6dp5961pep2");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -3748,7 +3735,7 @@ vertical-align: -.125em;
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_y3jcy96nk1iqh0h3cqof');
+        var table = document.getElementById('tinytable_1trwkivyn6dp5961pep2');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -3756,8 +3743,8 @@ vertical-align: -.125em;
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_y3jcy96nk1iqh0h3cqof(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_y3jcy96nk1iqh0h3cqof");
+      function spanCell_1trwkivyn6dp5961pep2(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_1trwkivyn6dp5961pep2");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -3787,15 +3774,15 @@ vertical-align: -.125em;
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 5 }, { i: 0, j: 4 }, { i: 0, j: 8 }, { i: 0, j: 1 }, { i: 0, j: 6 }, { i: 0, j: 3 }, { i: 0, j: 2 }, { i: 0, j: 7 },  ], css_id: 'tinytable_css_znx5becq4i9h3iir826z',}, 
-          { positions: [ { i: 6, j: 0 }, { i: 10, j: 0 }, { i: 7, j: 0 }, { i: 12, j: 0 }, { i: 1, j: 0 }, { i: 14, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 13, j: 0 }, { i: 10, j: 1 }, { i: 15, j: 0 }, { i: 12, j: 1 }, { i: 13, j: 1 }, { i: 14, j: 1 }, { i: 15, j: 1 }, { i: 5, j: 4 }, { i: 4, j: 1 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 4, j: 2 }, { i: 9, j: 1 }, { i: 6, j: 2 }, { i: 7, j: 2 }, { i: 8, j: 2 }, { i: 9, j: 2 }, { i: 10, j: 2 }, { i: 5, j: 0 }, { i: 12, j: 2 }, { i: 13, j: 2 }, { i: 14, j: 2 }, { i: 15, j: 2 }, { i: 5, j: 5 }, { i: 11, j: 0 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 4, j: 3 }, { i: 5, j: 3 }, { i: 6, j: 3 }, { i: 7, j: 3 }, { i: 8, j: 3 }, { i: 9, j: 3 }, { i: 10, j: 3 }, { i: 5, j: 1 }, { i: 12, j: 3 }, { i: 13, j: 3 }, { i: 14, j: 3 }, { i: 15, j: 3 }, { i: 5, j: 6 }, { i: 11, j: 1 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 3, j: 4 }, { i: 4, j: 4 }, { i: 11, j: 6 }, { i: 6, j: 4 }, { i: 7, j: 4 }, { i: 8, j: 4 }, { i: 9, j: 4 }, { i: 10, j: 4 }, { i: 5, j: 2 }, { i: 12, j: 4 }, { i: 13, j: 4 }, { i: 14, j: 4 }, { i: 15, j: 4 }, { i: 5, j: 7 }, { i: 11, j: 2 }, { i: 1, j: 5 }, { i: 2, j: 5 }, { i: 3, j: 5 }, { i: 4, j: 5 }, { i: 11, j: 7 }, { i: 6, j: 5 }, { i: 7, j: 5 }, { i: 8, j: 5 }, { i: 9, j: 5 }, { i: 10, j: 5 }, { i: 11, j: 5 }, { i: 12, j: 5 }, { i: 13, j: 5 }, { i: 14, j: 5 }, { i: 15, j: 5 }, { i: 5, j: 8 }, { i: 11, j: 3 }, { i: 1, j: 6 }, { i: 2, j: 6 }, { i: 3, j: 6 }, { i: 4, j: 6 }, { i: 11, j: 8 }, { i: 6, j: 6 }, { i: 7, j: 6 }, { i: 8, j: 6 }, { i: 9, j: 6 }, { i: 10, j: 6 }, { i: 7, j: 7 }, { i: 12, j: 6 }, { i: 13, j: 6 }, { i: 14, j: 6 }, { i: 15, j: 6 }, { i: 12, j: 7 }, { i: 11, j: 4 }, { i: 1, j: 7 }, { i: 2, j: 7 }, { i: 3, j: 7 }, { i: 4, j: 7 }, { i: 1, j: 8 }, { i: 6, j: 7 }, { i: 3, j: 8 }, { i: 8, j: 7 }, { i: 9, j: 7 }, { i: 10, j: 7 }, { i: 7, j: 8 }, { i: 8, j: 8 }, { i: 13, j: 7 }, { i: 14, j: 7 }, { i: 15, j: 7 }, { i: 12, j: 8 }, { i: 13, j: 8 }, { i: 14, j: 8 }, { i: 2, j: 8 }, { i: 15, j: 8 }, { i: 4, j: 8 }, { i: 9, j: 8 }, { i: 6, j: 8 }, { i: 10, j: 8 },  ], css_id: 'tinytable_css_x65ri3qp745xaafwaj5r',}, 
-          { positions: [ { i: 16, j: 1 }, { i: 16, j: 6 }, { i: 16, j: 5 }, { i: 16, j: 2 }, { i: 16, j: 7 }, { i: 16, j: 0 }, { i: 16, j: 4 }, { i: 16, j: 3 }, { i: 16, j: 8 },  ], css_id: 'tinytable_css_6f50tl1ae0k7u0iz3aco',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 5 }, { i: 0, j: 4 }, { i: 0, j: 8 }, { i: 0, j: 1 }, { i: 0, j: 6 }, { i: 0, j: 3 }, { i: 0, j: 2 }, { i: 0, j: 7 },  ], css_id: 'tinytable_css_ilo65li91xjqg7lkfhfh',}, 
+          { positions: [ { i: 16, j: 1 }, { i: 16, j: 6 }, { i: 16, j: 5 }, { i: 16, j: 2 }, { i: 16, j: 7 }, { i: 16, j: 0 }, { i: 16, j: 4 }, { i: 16, j: 3 }, { i: 16, j: 8 },  ], css_id: 'tinytable_css_6zwvahfknhq32z3kijf7',}, 
+          { positions: [ { i: 6, j: 0 }, { i: 10, j: 0 }, { i: 7, j: 0 }, { i: 12, j: 0 }, { i: 1, j: 0 }, { i: 14, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 13, j: 0 }, { i: 10, j: 1 }, { i: 15, j: 0 }, { i: 12, j: 1 }, { i: 13, j: 1 }, { i: 14, j: 1 }, { i: 15, j: 1 }, { i: 5, j: 4 }, { i: 4, j: 1 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 4, j: 2 }, { i: 9, j: 1 }, { i: 6, j: 2 }, { i: 7, j: 2 }, { i: 8, j: 2 }, { i: 9, j: 2 }, { i: 10, j: 2 }, { i: 5, j: 0 }, { i: 12, j: 2 }, { i: 13, j: 2 }, { i: 14, j: 2 }, { i: 15, j: 2 }, { i: 5, j: 5 }, { i: 11, j: 0 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 3, j: 3 }, { i: 4, j: 3 }, { i: 5, j: 3 }, { i: 6, j: 3 }, { i: 7, j: 3 }, { i: 8, j: 3 }, { i: 9, j: 3 }, { i: 10, j: 3 }, { i: 5, j: 1 }, { i: 12, j: 3 }, { i: 13, j: 3 }, { i: 14, j: 3 }, { i: 15, j: 3 }, { i: 5, j: 6 }, { i: 11, j: 1 }, { i: 1, j: 4 }, { i: 2, j: 4 }, { i: 3, j: 4 }, { i: 4, j: 4 }, { i: 11, j: 6 }, { i: 6, j: 4 }, { i: 7, j: 4 }, { i: 8, j: 4 }, { i: 9, j: 4 }, { i: 10, j: 4 }, { i: 5, j: 2 }, { i: 12, j: 4 }, { i: 13, j: 4 }, { i: 14, j: 4 }, { i: 15, j: 4 }, { i: 5, j: 7 }, { i: 11, j: 2 }, { i: 1, j: 5 }, { i: 2, j: 5 }, { i: 3, j: 5 }, { i: 4, j: 5 }, { i: 11, j: 7 }, { i: 6, j: 5 }, { i: 7, j: 5 }, { i: 8, j: 5 }, { i: 9, j: 5 }, { i: 10, j: 5 }, { i: 11, j: 5 }, { i: 12, j: 5 }, { i: 13, j: 5 }, { i: 14, j: 5 }, { i: 15, j: 5 }, { i: 5, j: 8 }, { i: 11, j: 3 }, { i: 1, j: 6 }, { i: 2, j: 6 }, { i: 3, j: 6 }, { i: 4, j: 6 }, { i: 11, j: 8 }, { i: 6, j: 6 }, { i: 7, j: 6 }, { i: 8, j: 6 }, { i: 9, j: 6 }, { i: 10, j: 6 }, { i: 7, j: 7 }, { i: 12, j: 6 }, { i: 13, j: 6 }, { i: 14, j: 6 }, { i: 15, j: 6 }, { i: 12, j: 7 }, { i: 11, j: 4 }, { i: 1, j: 7 }, { i: 2, j: 7 }, { i: 3, j: 7 }, { i: 4, j: 7 }, { i: 1, j: 8 }, { i: 6, j: 7 }, { i: 3, j: 8 }, { i: 8, j: 7 }, { i: 9, j: 7 }, { i: 10, j: 7 }, { i: 7, j: 8 }, { i: 8, j: 8 }, { i: 13, j: 7 }, { i: 14, j: 7 }, { i: 15, j: 7 }, { i: 12, j: 8 }, { i: 13, j: 8 }, { i: 14, j: 8 }, { i: 2, j: 8 }, { i: 15, j: 8 }, { i: 4, j: 8 }, { i: 9, j: 8 }, { i: 6, j: 8 }, { i: 10, j: 8 },  ], css_id: 'tinytable_css_6rcww3bcd3ytkbymg4ml',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_y3jcy96nk1iqh0h3cqof(cell.i, cell.j, group.css_id);
+                  styleCell_1trwkivyn6dp5961pep2(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -3803,12 +3790,12 @@ vertical-align: -.125em;
 
     <style>
 
-.table td.tinytable_css_znx5becq4i9h3iir826z, .table th.tinytable_css_znx5becq4i9h3iir826z { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-.table td.tinytable_css_x65ri3qp745xaafwaj5r, .table th.tinytable_css_x65ri3qp745xaafwaj5r { text-align: left; }
-.table td.tinytable_css_6f50tl1ae0k7u0iz3aco, .table th.tinytable_css_6f50tl1ae0k7u0iz3aco { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+.table td.tinytable_css_ilo65li91xjqg7lkfhfh, .table th.tinytable_css_ilo65li91xjqg7lkfhfh { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+.table td.tinytable_css_6zwvahfknhq32z3kijf7, .table th.tinytable_css_6zwvahfknhq32z3kijf7 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+.table td.tinytable_css_6rcww3bcd3ytkbymg4ml, .table th.tinytable_css_6rcww3bcd3ytkbymg4ml { text-align: left; }
 </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_y3jcy96nk1iqh0h3cqof" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_1trwkivyn6dp5961pep2" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -4013,24 +4000,24 @@ vertical-align: -.125em;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## does this give us useful data for both the pre- and post-intervention MOCRI, or do I need to split my coding to be between the bold and nonbold (as this is how the MOCRI is split pre- and post-)?</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>mocri  <span class="ot">&lt;-</span> <span class="fu">select</span>(df, Participant, <span class="fu">starts_with</span>(<span class="st">&quot;MOCRI_&quot;</span>), <span class="sc">-</span><span class="fu">ends_with</span>(<span class="st">&quot;Duration&quot;</span>)) </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">select</span>(df, <span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">&quot;MOCRI&quot;</span>))</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(mocri) <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(<span class="fu">names</span>(mocri), <span class="st">&quot;_MOCRI_BOLD_&quot;</span>, <span class="st">&quot;_MOCRI_&quot;</span>)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>mocri <span class="ot">&lt;-</span> mocri <span class="sc">|&gt;</span> </span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Participant) <span class="sc">|&gt;</span> </span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(name, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;extra&quot;</span>, <span class="st">&quot;Type&quot;</span>, <span class="st">&quot;extra2&quot;</span>, <span class="st">&quot;QuestionID&quot;</span>, <span class="st">&quot;Answer&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>extra, <span class="sc">-</span>extra2) <span class="sc">|&gt;</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Type =</span> <span class="fu">ifelse</span>(Type <span class="sc">==</span> <span class="st">&quot;BOLD&quot;</span>, <span class="st">&quot;Pre&quot;</span>, <span class="st">&quot;Post&quot;</span>),</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Correct =</span> <span class="fu">ifelse</span>(Answer <span class="sc">==</span> <span class="st">&quot;Manipulative&quot;</span> <span class="sc">&amp;</span> value <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Positive =</span> <span class="fu">ifelse</span>(Answer <span class="sc">==</span> <span class="st">&quot;Manipulative&quot;</span> <span class="sc">&amp;</span> value <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Negative =</span> <span class="fu">ifelse</span>(Answer <span class="sc">==</span> <span class="st">&quot;NonManipulative&quot;</span> <span class="sc">&amp;</span> value <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Positive =</span> <span class="fu">ifelse</span>(Answer <span class="sc">==</span> <span class="st">&quot;NonManipulative&quot;</span> <span class="sc">&amp;</span> value <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Negative =</span> <span class="fu">ifelse</span>(Answer <span class="sc">==</span> <span class="st">&quot;Manipulative&quot;</span> <span class="sc">&amp;</span> value <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## does this give us useful data for both the pre- and post-intervention MOCRI, or do I need to split my coding to be between the bold and nonbold (as this is how the MOCRI is split pre- and post-)?</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>mocri  <span class="ot">&lt;-</span> <span class="fu">select</span>(df, Participant, <span class="fu">starts_with</span>(<span class="st">&quot;MOCRI_&quot;</span>), <span class="sc">-</span><span class="fu">ends_with</span>(<span class="st">&quot;Duration&quot;</span>)) </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">select</span>(df, <span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">&quot;MOCRI&quot;</span>))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(mocri) <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(<span class="fu">names</span>(mocri), <span class="st">&quot;_MOCRI_BOLD_&quot;</span>, <span class="st">&quot;_MOCRI_&quot;</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>mocri <span class="ot">&lt;-</span> mocri <span class="sc">|&gt;</span> </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Participant) <span class="sc">|&gt;</span> </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(name, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;extra&quot;</span>, <span class="st">&quot;Type&quot;</span>, <span class="st">&quot;extra2&quot;</span>, <span class="st">&quot;QuestionID&quot;</span>, <span class="st">&quot;Answer&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>extra, <span class="sc">-</span>extra2) <span class="sc">|&gt;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Type =</span> <span class="fu">ifelse</span>(Type <span class="sc">==</span> <span class="st">&quot;BOLD&quot;</span>, <span class="st">&quot;Pre&quot;</span>, <span class="st">&quot;Post&quot;</span>),</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Correct =</span> <span class="fu">ifelse</span>(Answer <span class="sc">==</span> <span class="st">&quot;Manipulative&quot;</span> <span class="sc">&amp;</span> value <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Positive =</span> <span class="fu">ifelse</span>(Answer <span class="sc">==</span> <span class="st">&quot;Manipulative&quot;</span> <span class="sc">&amp;</span> value <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Negative =</span> <span class="fu">ifelse</span>(Answer <span class="sc">==</span> <span class="st">&quot;NonManipulative&quot;</span> <span class="sc">&amp;</span> value <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Positive =</span> <span class="fu">ifelse</span>(Answer <span class="sc">==</span> <span class="st">&quot;NonManipulative&quot;</span> <span class="sc">&amp;</span> value <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Negative =</span> <span class="fu">ifelse</span>(Answer <span class="sc">==</span> <span class="st">&quot;Manipulative&quot;</span> <span class="sc">&amp;</span> value <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="scores" class="level4">
@@ -4038,70 +4025,70 @@ vertical-align: -.125em;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>compute_dprime <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate hit rate and false alarm rate</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  H <span class="ot">&lt;-</span> (data<span class="sc">$</span>True_Positive <span class="sc">+</span> <span class="fl">0.5</span>) <span class="sc">/</span> (data<span class="sc">$</span>True_Positive <span class="sc">+</span> data<span class="sc">$</span>False_Negative <span class="sc">+</span> <span class="dv">1</span>)  <span class="co"># Adjusted Hit Rate</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  FA <span class="ot">&lt;-</span> (data<span class="sc">$</span>False_Positive <span class="sc">+</span> <span class="fl">0.5</span>) <span class="sc">/</span> (data<span class="sc">$</span>False_Positive <span class="sc">+</span> data<span class="sc">$</span>True_Negative <span class="sc">+</span> <span class="dv">1</span>) <span class="co"># Adjusted False Alarm Rate</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Parametric ----</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute z-scores</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  zH <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(H) <span class="co"># z-score for hit rate</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  zFA <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(FA) <span class="co"># z-score for false alarm rate</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># d&#39; and criterion</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  d_prime <span class="ot">&lt;-</span> zH <span class="sc">-</span> zFA</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  criterion <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> (zH <span class="sc">+</span> zFA)</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Non-parametric ----</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># A&#39; (A-prime)</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  A_prime <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    H <span class="sc">&gt;</span> FA,</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.5</span> <span class="sc">+</span> ((H <span class="sc">-</span> FA) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> H <span class="sc">-</span> FA)) <span class="sc">/</span> (<span class="dv">4</span> <span class="sc">*</span> H <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> FA)),</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>      H <span class="sc">&lt;</span> FA,</span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.5</span> <span class="sc">+</span> ((FA <span class="sc">-</span> H) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> FA <span class="sc">-</span> H)) <span class="sc">/</span> (<span class="dv">4</span> <span class="sc">*</span> FA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> H)),</span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.5</span></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># B&#39;&#39;d</span></span>
-<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>  B_double_prime <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
-<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    H <span class="sc">!=</span> FA,</span>
-<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    ((<span class="dv">1</span> <span class="sc">-</span> H) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> FA) <span class="sc">-</span> H <span class="sc">*</span> FA) <span class="sc">/</span> ((<span class="dv">1</span> <span class="sc">-</span> H) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> FA) <span class="sc">+</span> H <span class="sc">*</span> FA),</span>
-<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span></span>
-<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Combine results</span></span>
-<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(data, <span class="fu">data.frame</span>(</span>
-<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;dprime&quot;</span> <span class="ot">=</span> d_prime,</span>
-<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;criterion&quot;</span> <span class="ot">=</span> criterion,</span>
-<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;aprime&quot;</span> <span class="ot">=</span> A_prime,</span>
-<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;bppd&quot;</span> <span class="ot">=</span> B_double_prime</span>
-<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Participant scores</span></span>
-<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> mocri <span class="sc">|&gt;</span> </span>
-<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">correct =</span> <span class="fu">sum</span>(Correct) <span class="sc">/</span> <span class="fu">n</span>(),</span>
-<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Positive =</span> <span class="fu">sum</span>(True_Positive),</span>
-<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Negative =</span> <span class="fu">sum</span>(True_Negative),</span>
-<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Positive =</span> <span class="fu">sum</span>(False_Positive),</span>
-<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Negative =</span> <span class="fu">sum</span>(False_Negative),</span>
-<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Type&quot;</span>)</span>
-<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute_dprime</span>() <span class="sc">|&gt;</span>  </span>
-<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Participant, Type, correct, dprime, criterion, aprime, bppd) <span class="sc">|&gt;</span></span>
-<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span><span class="fu">c</span>(<span class="st">&quot;Type&quot;</span>), </span>
-<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from=</span><span class="fu">c</span>(<span class="st">&quot;correct&quot;</span>, <span class="st">&quot;dprime&quot;</span>, <span class="st">&quot;criterion&quot;</span>, <span class="st">&quot;aprime&quot;</span>, <span class="st">&quot;bppd&quot;</span>),</span>
-<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_vary =</span> <span class="st">&quot;fastest&quot;</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">correct_Diff =</span> correct_Post <span class="sc">-</span> correct_Pre,</span>
-<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>         <span class="at">dprime_Diff =</span> dprime_Post <span class="sc">-</span> dprime_Pre,</span>
-<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>         <span class="at">criterion_Diff =</span> criterion_Post <span class="sc">-</span> criterion_Pre,</span>
-<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>         <span class="at">bppd_Diff =</span> bppd_Post <span class="sc">-</span> bppd_Pre) <span class="sc">|&gt;</span></span>
-<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>  datawizard<span class="sc">::</span><span class="fu">data_addprefix</span>(<span class="st">&quot;MOCRI_&quot;</span>, <span class="at">select=</span><span class="sc">-</span>Participant) <span class="sc">|&gt;</span>  </span>
-<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(df, <span class="at">by=</span><span class="st">&quot;Participant&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>compute_dprime <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate hit rate and false alarm rate</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  H <span class="ot">&lt;-</span> (data<span class="sc">$</span>True_Positive <span class="sc">+</span> <span class="fl">0.5</span>) <span class="sc">/</span> (data<span class="sc">$</span>True_Positive <span class="sc">+</span> data<span class="sc">$</span>False_Negative <span class="sc">+</span> <span class="dv">1</span>)  <span class="co"># Adjusted Hit Rate</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  FA <span class="ot">&lt;-</span> (data<span class="sc">$</span>False_Positive <span class="sc">+</span> <span class="fl">0.5</span>) <span class="sc">/</span> (data<span class="sc">$</span>False_Positive <span class="sc">+</span> data<span class="sc">$</span>True_Negative <span class="sc">+</span> <span class="dv">1</span>) <span class="co"># Adjusted False Alarm Rate</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Parametric ----</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute z-scores</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  zH <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(H) <span class="co"># z-score for hit rate</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  zFA <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(FA) <span class="co"># z-score for false alarm rate</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># d&#39; and criterion</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  d_prime <span class="ot">&lt;-</span> zH <span class="sc">-</span> zFA</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  criterion <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> (zH <span class="sc">+</span> zFA)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Non-parametric ----</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># A&#39; (A-prime)</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  A_prime <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    H <span class="sc">&gt;</span> FA,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.5</span> <span class="sc">+</span> ((H <span class="sc">-</span> FA) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> H <span class="sc">-</span> FA)) <span class="sc">/</span> (<span class="dv">4</span> <span class="sc">*</span> H <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> FA)),</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>      H <span class="sc">&lt;</span> FA,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.5</span> <span class="sc">+</span> ((FA <span class="sc">-</span> H) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> FA <span class="sc">-</span> H)) <span class="sc">/</span> (<span class="dv">4</span> <span class="sc">*</span> FA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> H)),</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.5</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># B&#39;&#39;d</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>  B_double_prime <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    H <span class="sc">!=</span> FA,</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    ((<span class="dv">1</span> <span class="sc">-</span> H) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> FA) <span class="sc">-</span> H <span class="sc">*</span> FA) <span class="sc">/</span> ((<span class="dv">1</span> <span class="sc">-</span> H) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> FA) <span class="sc">+</span> H <span class="sc">*</span> FA),</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Combine results</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(data, <span class="fu">data.frame</span>(</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;dprime&quot;</span> <span class="ot">=</span> d_prime,</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;criterion&quot;</span> <span class="ot">=</span> criterion,</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;aprime&quot;</span> <span class="ot">=</span> A_prime,</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;bppd&quot;</span> <span class="ot">=</span> B_double_prime</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Participant scores</span></span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> mocri <span class="sc">|&gt;</span> </span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">correct =</span> <span class="fu">sum</span>(Correct) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Positive =</span> <span class="fu">sum</span>(True_Positive),</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Negative =</span> <span class="fu">sum</span>(True_Negative),</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Positive =</span> <span class="fu">sum</span>(False_Positive),</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Negative =</span> <span class="fu">sum</span>(False_Negative),</span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Type&quot;</span>)</span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute_dprime</span>() <span class="sc">|&gt;</span>  </span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Participant, Type, correct, dprime, criterion, aprime, bppd) <span class="sc">|&gt;</span></span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span><span class="fu">c</span>(<span class="st">&quot;Type&quot;</span>), </span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from=</span><span class="fu">c</span>(<span class="st">&quot;correct&quot;</span>, <span class="st">&quot;dprime&quot;</span>, <span class="st">&quot;criterion&quot;</span>, <span class="st">&quot;aprime&quot;</span>, <span class="st">&quot;bppd&quot;</span>),</span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_vary =</span> <span class="st">&quot;fastest&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">correct_Diff =</span> correct_Post <span class="sc">-</span> correct_Pre,</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>         <span class="at">dprime_Diff =</span> dprime_Post <span class="sc">-</span> dprime_Pre,</span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>         <span class="at">criterion_Diff =</span> criterion_Post <span class="sc">-</span> criterion_Pre,</span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>         <span class="at">bppd_Diff =</span> bppd_Post <span class="sc">-</span> bppd_Pre) <span class="sc">|&gt;</span></span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>  datawizard<span class="sc">::</span><span class="fu">data_addprefix</span>(<span class="st">&quot;MOCRI_&quot;</span>, <span class="at">select=</span><span class="sc">-</span>Participant) <span class="sc">|&gt;</span>  </span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(df, <span class="at">by=</span><span class="st">&quot;Participant&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -4111,22 +4098,22 @@ vertical-align: -.125em;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dfmist <span class="ot">&lt;-</span> dfmist <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(df[, <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Intervention&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;Participant&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temp =</span> Item) <span class="sc">|&gt;</span> </span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(temp, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;extra&quot;</span>, <span class="st">&quot;QuestionType&quot;</span>, <span class="st">&quot;Topic&quot;</span>, <span class="st">&quot;QuestionID&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)  <span class="sc">|&gt;</span> </span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>extra, <span class="sc">-</span>QuestionID) <span class="sc">|&gt;</span> </span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Correct =</span> <span class="fu">case_when</span>(</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>      MIST <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> QuestionType <span class="sc">==</span> <span class="st">&quot;real&quot;</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      MIST <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> QuestionType <span class="sc">==</span> <span class="st">&quot;fake&quot;</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> <span class="dv">0</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Positive =</span> <span class="fu">ifelse</span>(MIST <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> QuestionType <span class="sc">==</span> <span class="st">&quot;real&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Negative =</span> <span class="fu">ifelse</span>(MIST <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> QuestionType <span class="sc">==</span> <span class="st">&quot;fake&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Positive =</span> <span class="fu">ifelse</span>(MIST <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> QuestionType <span class="sc">==</span> <span class="st">&quot;fake&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Negative =</span> <span class="fu">ifelse</span>(MIST <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> QuestionType <span class="sc">==</span> <span class="st">&quot;real&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dfmist <span class="ot">&lt;-</span> dfmist <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(df[, <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Intervention&quot;</span>)], <span class="at">by =</span> <span class="st">&quot;Participant&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temp =</span> Item) <span class="sc">|&gt;</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(temp, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;extra&quot;</span>, <span class="st">&quot;QuestionType&quot;</span>, <span class="st">&quot;Topic&quot;</span>, <span class="st">&quot;QuestionID&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)  <span class="sc">|&gt;</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>extra, <span class="sc">-</span>QuestionID) <span class="sc">|&gt;</span> </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Correct =</span> <span class="fu">case_when</span>(</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      MIST <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> QuestionType <span class="sc">==</span> <span class="st">&quot;real&quot;</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>      MIST <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> QuestionType <span class="sc">==</span> <span class="st">&quot;fake&quot;</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">.default =</span> <span class="dv">0</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Positive =</span> <span class="fu">ifelse</span>(MIST <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> QuestionType <span class="sc">==</span> <span class="st">&quot;real&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Negative =</span> <span class="fu">ifelse</span>(MIST <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> QuestionType <span class="sc">==</span> <span class="st">&quot;fake&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Positive =</span> <span class="fu">ifelse</span>(MIST <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> QuestionType <span class="sc">==</span> <span class="st">&quot;fake&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Negative =</span> <span class="fu">ifelse</span>(MIST <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> QuestionType <span class="sc">==</span> <span class="st">&quot;real&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="items" class="level4">
@@ -4134,29 +4121,29 @@ vertical-align: -.125em;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Participant scores</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>dfmist <span class="sc">|&gt;</span> </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">p_Correct =</span> <span class="fu">sum</span>(Correct) <span class="sc">/</span> <span class="fu">n</span>(), <span class="at">.by=</span><span class="fu">c</span>(<span class="st">&quot;Item&quot;</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(p_Correct) <span class="sc">|&gt;</span> </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="st">&quot;p_Correct&quot;</span>, <span class="at">decimals =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">data_color</span>(<span class="at">columns =</span> <span class="st">&quot;p_Correct&quot;</span>, <span class="at">palette=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Participant scores</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>dfmist <span class="sc">|&gt;</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">p_Correct =</span> <span class="fu">sum</span>(Correct) <span class="sc">/</span> <span class="fu">n</span>(), <span class="at">.by=</span><span class="fu">c</span>(<span class="st">&quot;Item&quot;</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(p_Correct) <span class="sc">|&gt;</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="st">&quot;p_Correct&quot;</span>, <span class="at">decimals =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">data_color</span>(<span class="at">columns =</span> <span class="st">&quot;p_Correct&quot;</span>, <span class="at">palette=</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="rsxdlcwetn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rsxdlcwetn table {
+<div id="qvvmrvyjun" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qvvmrvyjun table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#rsxdlcwetn thead, #rsxdlcwetn tbody, #rsxdlcwetn tfoot, #rsxdlcwetn tr, #rsxdlcwetn td, #rsxdlcwetn th {
+#qvvmrvyjun thead, #qvvmrvyjun tbody, #qvvmrvyjun tfoot, #qvvmrvyjun tr, #qvvmrvyjun td, #qvvmrvyjun th {
 border-style: none;
 }
-#rsxdlcwetn p {
+#qvvmrvyjun p {
 margin: 0;
 padding: 0;
 }
-#rsxdlcwetn .gt_table {
+#qvvmrvyjun .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -4181,11 +4168,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#rsxdlcwetn .gt_caption {
+#qvvmrvyjun .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#rsxdlcwetn .gt_title {
+#qvvmrvyjun .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -4196,7 +4183,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#rsxdlcwetn .gt_subtitle {
+#qvvmrvyjun .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -4207,7 +4194,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#rsxdlcwetn .gt_heading {
+#qvvmrvyjun .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -4218,12 +4205,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#rsxdlcwetn .gt_bottom_border {
+#qvvmrvyjun .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#rsxdlcwetn .gt_col_headings {
+#qvvmrvyjun .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -4237,7 +4224,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#rsxdlcwetn .gt_col_heading {
+#qvvmrvyjun .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4256,7 +4243,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#rsxdlcwetn .gt_column_spanner_outer {
+#qvvmrvyjun .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4267,13 +4254,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#rsxdlcwetn .gt_column_spanner_outer:first-child {
+#qvvmrvyjun .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#rsxdlcwetn .gt_column_spanner_outer:last-child {
+#qvvmrvyjun .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#rsxdlcwetn .gt_column_spanner {
+#qvvmrvyjun .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -4284,10 +4271,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#rsxdlcwetn .gt_spanner_row {
+#qvvmrvyjun .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#rsxdlcwetn .gt_group_heading {
+#qvvmrvyjun .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4312,7 +4299,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#rsxdlcwetn .gt_empty_group_heading {
+#qvvmrvyjun .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -4326,13 +4313,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#rsxdlcwetn .gt_from_md > :first-child {
+#qvvmrvyjun .gt_from_md > :first-child {
 margin-top: 0;
 }
-#rsxdlcwetn .gt_from_md > :last-child {
+#qvvmrvyjun .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#rsxdlcwetn .gt_row {
+#qvvmrvyjun .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4350,7 +4337,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#rsxdlcwetn .gt_stub {
+#qvvmrvyjun .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4362,7 +4349,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#rsxdlcwetn .gt_stub_row_group {
+#qvvmrvyjun .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4375,13 +4362,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#rsxdlcwetn .gt_row_group_first td {
+#qvvmrvyjun .gt_row_group_first td {
 border-top-width: 2px;
 }
-#rsxdlcwetn .gt_row_group_first th {
+#qvvmrvyjun .gt_row_group_first th {
 border-top-width: 2px;
 }
-#rsxdlcwetn .gt_summary_row {
+#qvvmrvyjun .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -4390,14 +4377,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#rsxdlcwetn .gt_first_summary_row {
+#qvvmrvyjun .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#rsxdlcwetn .gt_first_summary_row.thick {
+#qvvmrvyjun .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#rsxdlcwetn .gt_last_summary_row {
+#qvvmrvyjun .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4406,7 +4393,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#rsxdlcwetn .gt_grand_summary_row {
+#qvvmrvyjun .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -4415,7 +4402,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#rsxdlcwetn .gt_first_grand_summary_row {
+#qvvmrvyjun .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4424,7 +4411,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#rsxdlcwetn .gt_last_grand_summary_row_top {
+#qvvmrvyjun .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4433,10 +4420,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#rsxdlcwetn .gt_striped {
+#qvvmrvyjun .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#rsxdlcwetn .gt_table_body {
+#qvvmrvyjun .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -4444,7 +4431,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#rsxdlcwetn .gt_footnotes {
+#qvvmrvyjun .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -4457,7 +4444,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#rsxdlcwetn .gt_footnote {
+#qvvmrvyjun .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -4465,7 +4452,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#rsxdlcwetn .gt_sourcenotes {
+#qvvmrvyjun .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -4478,64 +4465,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#rsxdlcwetn .gt_sourcenote {
+#qvvmrvyjun .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#rsxdlcwetn .gt_left {
+#qvvmrvyjun .gt_left {
 text-align: left;
 }
-#rsxdlcwetn .gt_center {
+#qvvmrvyjun .gt_center {
 text-align: center;
 }
-#rsxdlcwetn .gt_right {
+#qvvmrvyjun .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#rsxdlcwetn .gt_font_normal {
+#qvvmrvyjun .gt_font_normal {
 font-weight: normal;
 }
-#rsxdlcwetn .gt_font_bold {
+#qvvmrvyjun .gt_font_bold {
 font-weight: bold;
 }
-#rsxdlcwetn .gt_font_italic {
+#qvvmrvyjun .gt_font_italic {
 font-style: italic;
 }
-#rsxdlcwetn .gt_super {
+#qvvmrvyjun .gt_super {
 font-size: 65%;
 }
-#rsxdlcwetn .gt_footnote_marks {
+#qvvmrvyjun .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#rsxdlcwetn .gt_asterisk {
+#qvvmrvyjun .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#rsxdlcwetn .gt_indent_1 {
+#qvvmrvyjun .gt_indent_1 {
 text-indent: 5px;
 }
-#rsxdlcwetn .gt_indent_2 {
+#qvvmrvyjun .gt_indent_2 {
 text-indent: 10px;
 }
-#rsxdlcwetn .gt_indent_3 {
+#qvvmrvyjun .gt_indent_3 {
 text-indent: 15px;
 }
-#rsxdlcwetn .gt_indent_4 {
+#qvvmrvyjun .gt_indent_4 {
 text-indent: 20px;
 }
-#rsxdlcwetn .gt_indent_5 {
+#qvvmrvyjun .gt_indent_5 {
 text-indent: 25px;
 }
-#rsxdlcwetn .katex-display {
+#qvvmrvyjun .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#rsxdlcwetn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#qvvmrvyjun div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -4884,33 +4871,35 @@ height: 0px !important;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Participant scores</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> dfmist <span class="sc">|&gt;</span> </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">correct =</span> <span class="fu">sum</span>(Correct) <span class="sc">/</span> <span class="fu">n</span>(),</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Positive =</span> <span class="fu">sum</span>(True_Positive),</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Negative =</span> <span class="fu">sum</span>(True_Negative),</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Positive =</span> <span class="fu">sum</span>(False_Positive),</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Negative =</span> <span class="fu">sum</span>(False_Negative),</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Condition&quot;</span>, <span class="st">&quot;Topic&quot;</span>)</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute_dprime</span>() <span class="sc">|&gt;</span>  </span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Participant, Condition, Topic, correct, dprime, criterion, aprime, bppd) <span class="sc">|&gt;</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span><span class="fu">c</span>(<span class="st">&quot;Condition&quot;</span>, <span class="st">&quot;Topic&quot;</span>), </span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from=</span><span class="fu">c</span>(<span class="st">&quot;correct&quot;</span>, <span class="st">&quot;dprime&quot;</span>, <span class="st">&quot;criterion&quot;</span>, <span class="st">&quot;aprime&quot;</span>, <span class="st">&quot;bppd&quot;</span>),</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_vary =</span> <span class="st">&quot;slowest&quot;</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">correct_Diff_covid =</span> correct_Posttest_covid <span class="sc">-</span> correct_Pretest_covid,</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">correct_Diff_general =</span> correct_Posttest_general <span class="sc">-</span> correct_Pretest_general,</span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">dprime_Diff_covid =</span>  dprime_Posttest_covid <span class="sc">-</span> dprime_Pretest_covid,</span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">dprime_Diff_general =</span> dprime_Posttest_general <span class="sc">-</span> dprime_Pretest_general,</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">criterion_Diff_covid =</span> criterion_Posttest_covid <span class="sc">-</span> criterion_Pretest_covid,</span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">criterion_Diff_general =</span> criterion_Posttest_general <span class="sc">-</span> criterion_Pretest_general,</span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">aprime_Diff_covid =</span> aprime_Posttest_covid <span class="sc">-</span> aprime_Pretest_covid,</span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">aprime_Diff_general =</span> aprime_Posttest_general <span class="sc">-</span> aprime_Pretest_general,</span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">bppd_Diff_covid =</span> bppd_Posttest_covid <span class="sc">-</span> bppd_Pretest_covid,</span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">bppd_Diff_general =</span> bppd_Posttest_general <span class="sc">-</span> bppd_Pretest_general) <span class="sc">|&gt;</span></span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>  datawizard<span class="sc">::</span><span class="fu">data_addprefix</span>(<span class="st">&quot;MIST_&quot;</span>, <span class="at">select=</span><span class="sc">-</span>Participant) <span class="sc">|&gt;</span>  </span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(df, <span class="at">by=</span><span class="st">&quot;Participant&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Participant scores</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> dfmist <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">correct =</span> <span class="fu">sum</span>(Correct) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Positive =</span> <span class="fu">sum</span>(True_Positive),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">True_Negative =</span> <span class="fu">sum</span>(True_Negative),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Positive =</span> <span class="fu">sum</span>(False_Positive),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">False_Negative =</span> <span class="fu">sum</span>(False_Negative),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;Condition&quot;</span>, <span class="st">&quot;Topic&quot;</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute_dprime</span>() <span class="sc">|&gt;</span>  </span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Participant, Condition, Topic, correct, dprime, criterion, aprime, bppd) <span class="sc">|&gt;</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span><span class="fu">c</span>(<span class="st">&quot;Condition&quot;</span>, <span class="st">&quot;Topic&quot;</span>), </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from=</span><span class="fu">c</span>(<span class="st">&quot;correct&quot;</span>, <span class="st">&quot;dprime&quot;</span>, <span class="st">&quot;criterion&quot;</span>, <span class="st">&quot;aprime&quot;</span>, <span class="st">&quot;bppd&quot;</span>),</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_vary =</span> <span class="st">&quot;slowest&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">correct_Diff_covid =</span> correct_Posttest_covid <span class="sc">-</span> correct_Pretest_covid,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">correct_Diff_general =</span> correct_Posttest_general <span class="sc">-</span> correct_Pretest_general,</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">dprime_Diff_covid =</span>  dprime_Posttest_covid <span class="sc">-</span> dprime_Pretest_covid,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">dprime_Diff_general =</span> dprime_Posttest_general <span class="sc">-</span> dprime_Pretest_general,</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">criterion_Diff_covid =</span> criterion_Posttest_covid <span class="sc">-</span> criterion_Pretest_covid,</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">criterion_Diff_general =</span> criterion_Posttest_general <span class="sc">-</span> criterion_Pretest_general,</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">aprime_Diff_covid =</span> aprime_Posttest_covid <span class="sc">-</span> aprime_Pretest_covid,</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">aprime_Diff_general =</span> aprime_Posttest_general <span class="sc">-</span> aprime_Pretest_general,</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">bppd_Diff_covid =</span> bppd_Posttest_covid <span class="sc">-</span> bppd_Pretest_covid,</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">bppd_Diff_general =</span> bppd_Posttest_general <span class="sc">-</span> bppd_Pretest_general) <span class="sc">|&gt;</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  datawizard<span class="sc">::</span><span class="fu">data_addprefix</span>(<span class="st">&quot;MIST_&quot;</span>, <span class="at">select=</span><span class="sc">-</span>Participant) <span class="sc">|&gt;</span>  </span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(df, <span class="at">by=</span><span class="st">&quot;Participant&quot;</span>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>total_performance <span class="ot">&lt;-</span> (df<span class="sc">$</span>MIST_correct_Diff_covid <span class="sc">+</span> df<span class="sc">$</span>MIST_correct_Diff_general) <span class="sc">/</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -4923,9 +4912,9 @@ height: 0px !important;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Gender)) <span class="sc">+</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;skyblue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of Gender&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Gender&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Gender)) <span class="sc">+</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;skyblue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of Gender&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Gender&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4938,11 +4927,11 @@ height: 0px !important;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## RACE</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this won&#39;t currently work as it&#39;s pulling from the self-identification ethnicity column which has far too many distinct entries to be represented well visually. I am not sure how we could get the basic racial data from prolific but it&#39;s also not useful for any actual testing we want to do, so probably wouldn&#39;t worry about it</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#ggplot(df, aes(x = Ethnicity)) +</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a> <span class="co"># geom_bar(fill = &quot;lightgreen&quot;) +</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a> <span class="co"># labs(title = &quot;Distribution of Race&quot;, x = &quot;Race&quot;, y = &quot;Count&quot;)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## RACE</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this won&#39;t currently work as it&#39;s pulling from the self-identification ethnicity column which has far too many distinct entries to be represented well visually. I am not sure how we could get the basic racial data from prolific but it&#39;s also not useful for any actual testing we want to do, so probably wouldn&#39;t worry about it</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#ggplot(df, aes(x = Ethnicity)) +</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a> <span class="co"># geom_bar(fill = &quot;lightgreen&quot;) +</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a> <span class="co"># labs(title = &quot;Distribution of Race&quot;, x = &quot;Race&quot;, y = &quot;Count&quot;)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -4951,13 +4940,13 @@ height: 0px !important;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the bar chart for Education</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Education)) <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of Education Level&quot;</span>,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Education Level&quot;</span>,</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>) <span class="sc">+</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()  <span class="co"># Optional: Adds a minimal theme for better aesthetics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the bar chart for Education</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Education)) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of Education Level&quot;</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Education Level&quot;</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>) <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()  <span class="co"># Optional: Adds a minimal theme for better aesthetics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4974,8 +4963,8 @@ height: 0px !important;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(df, <span class="st">&quot;../data/data.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(dfmist, <span class="st">&quot;../data/data_mist.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(df, <span class="st">&quot;../data/data.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(dfmist, <span class="st">&quot;../data/data_mist.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>

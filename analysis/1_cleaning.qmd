@@ -5,6 +5,7 @@ editor_options:
   chunk_output_type: console
 format:
   html:
+    output-file: "cleaning_report.html"
     code-fold: true
     self-contained: true
     toc: true
@@ -335,6 +336,10 @@ df <- dfmist |>
          bppd_Diff_general = bppd_Posttest_general - bppd_Pretest_general) |>
   datawizard::data_addprefix("MIST_", select=-Participant) |>  
   full_join(df, by="Participant")
+
+df$total_performance <- (df$MIST_correct_Diff_covid + df$MIST_correct_Diff_general) / 2
+
+
 ```
 
 
@@ -376,3 +381,9 @@ ggplot(df, aes(x = Education)) +
 write.csv(df, "../data/data.csv", row.names = FALSE)
 write.csv(dfmist, "../data/data_mist.csv", row.names = FALSE)
 ```
+
+```{r}
+browseURL("cleaning_report.html")  # Use this in the cleaning file
+
+```
+
