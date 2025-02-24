@@ -6,11 +6,7 @@
 
         <!-- Load all necessary plugins -->
         <script src="https://unpkg.com/jspsych@7.3.4"></script>
-        <link
-            href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css"
-            rel="stylesheet"
-            type="text/css"
-        />
+        <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
         <script src="https://unpkg.com/@jspsych/plugin-browser-check@1.0.3"></script>
         <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.2.0"></script>
         <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.3"></script>
@@ -19,10 +15,7 @@
         <script src="https://unpkg.com/@jspsych/plugin-survey-multi-select@1.1.3"></script>
         <!-- Survey  -->
         <script src="https://unpkg.com/@jspsych/plugin-survey@1.0.1"></script>
-        <link
-            rel="stylesheet"
-            href="https://unpkg.com/@jspsych/plugin-survey@1.0.1/css/survey.css"
-        />
+        <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@1.0.1/css/survey.css" />
         <script src="https://unpkg.com/@jspsych-contrib/plugin-survey-slider@1.0.0"></script>
 
         <!-- To save data via DataPipe (for online experiments) -->
@@ -59,7 +52,7 @@
         timeline.push(demographics_info)
 
         // Shuffle list
-        var Qs = [GCBS15_questionnaire, ANES, BFI10, VSA]
+        var Qs = [GCBS15_questionnaire, ANES_UK, BFI10, VSA]
         Qs = jsPsych.randomization.shuffle(Qs) // Randomize
 
         timeline.push(Qs[0])
@@ -70,12 +63,7 @@
         timeline.push(MOCRI_BOLD_12_questionnaire)
 
         // Split MIST ==========================================
-        var mist_Qs = make_mist_questionnaire(
-            mist_fake_covid,
-            mist_real_covid,
-            mist_fake_general,
-            mist_real_general
-        )
+        var mist_Qs = make_mist_questionnaire(mist_fake_covid, mist_real_covid, mist_fake_general, mist_real_general)
 
         // MIST pre
         timeline.push(mist_Qs["pre"])
