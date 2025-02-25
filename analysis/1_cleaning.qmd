@@ -308,6 +308,8 @@ dfmist |>
 
 #### Scores
 
+##### True vs. Fake (Binary)
+
 ```{r}
 # Participant scores
 df <- dfmist |> 
@@ -337,9 +339,39 @@ df <- dfmist |>
   datawizard::data_addprefix("MIST_", select=-Participant) |>  
   full_join(df, by="Participant")
 
-df$total_performance <- (df$MIST_correct_Diff_covid + df$MIST_correct_Diff_general) / 2
+df$MIST_correct_Diff <- (df$MIST_correct_Diff_covid + df$MIST_correct_Diff_general) / 2
+```
 
+##### Confidence
 
+```{r}
+# Confidence
+df <- dfmist |> 
+  # filter(Correct == 1) |> 
+  summarise(
+    Confidence = abs(mean(MIST) - 50) / 50,
+    .by = c("Participant", "Condition", "QuestionType", "Topic")
+  ) |>
+  pivot_wider(names_from=c("Condition", "QuestionType", "Topic"), 
+              values_from=c("Confidence"),
+              names_vary = "slowest") |> 
+  datawizard::data_addprefix("MIST_Confidence_", select=-Participant) |>  
+  full_join(df, by="Participant")
+
+# Compute some average scores IF NEED BE
+df$MIST_Confidence_Pretest <- (df$MIST_Confidence_Pretest_fake_covid + df$MIST_Confidence_Pretest_fake_general + df$MIST_Confidence_Pretest_real_general + df$MIST_Confidence_Pretest_real_covid) / 4
+# TODO.
+```
+
+```{r}
+df |> 
+  select(starts_with("MIST_Confidence"), -MIST_Confidence_Pretest) |> 
+  pivot_longer(everything()) |> 
+  separate(name, into = c("X1", "X2", "Condition", "QuestionType", "Topic"), sep = "_") |>
+  ggplot(aes(x=value, color=QuestionType, linetype=Topic)) +
+  geom_density(linewidth=1) +
+  theme_minimal() +
+  facet_wrap(~Condition)
 ```
 
 
