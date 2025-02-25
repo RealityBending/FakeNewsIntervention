@@ -441,7 +441,7 @@ var ANES = {
                 "2. Slightly Liberal",
                 "3. Moderate, Middle of Road",
                 "4. Don't Know, Haven't Thought",
-                "5. slightly Convervative",
+                "5. slightly Conservative",
                 "6. Conservative",
                 "7. Extremely Conservative",
             ],
@@ -450,7 +450,12 @@ var ANES = {
         },
         {
             prompt: "<b>2. Political party of Registration</b>",
-            options: ["0. Democratic Party", "1. Republican Party", "2. None or 'independent'", "3. Other"],
+            options: [
+                "0. Democratic Party",
+                "1. Republican Party",
+                "2. None or 'independent'",
+                "3. Other",
+            ],
             name: "ANES_2",
             required: true,
         },
@@ -474,7 +479,7 @@ var ANES_UK = {
                 "2. Slightly Liberal",
                 "3. Moderate, Middle of Road",
                 "4. Don't Know, Haven't Thought",
-                "5. slightly Convervative",
+                "5. Slightly Conservative",
                 "6. Conservative",
                 "7. Extremely Conservative",
             ],
@@ -483,7 +488,15 @@ var ANES_UK = {
         },
         {
             prompt: "<b>2. Political party of Registration</b>",
-            options: ["Green", "Labour", "Liberal-Democrats", "Conservative", "Reform UK", "Other or 'Independent'", "None"],
+            options: [
+                "Green",
+                "Labour",
+                "Liberal-Democrats",
+                "Conservative",
+                "Reform UK",
+                "Other or 'Independent'",
+                "None",
+            ],
             name: "ANES_2",
             required: true,
         },
@@ -509,7 +522,18 @@ var BFI10_items = [
     "I see myself as someone who has an active imagination",
 ]
 
-var BFI10_dimensions = ["BFI10_1", "BFI10_2", "BFI10_3", "BFI10_4", "BFI10_5", "BFI10_6", "BFI10_7", "BFI10_8", "BFI10_9", "BFI10_10"]
+var BFI10_dimensions = [
+    "BFI10_1",
+    "BFI10_2",
+    "BFI10_3",
+    "BFI10_4",
+    "BFI10_5",
+    "BFI10_6",
+    "BFI10_7",
+    "BFI10_8",
+    "BFI10_9",
+    "BFI10_10",
+]
 
 var BFI10_questions = []
 for (const [index, element] of BFI10_items.entries()) {
@@ -532,7 +556,8 @@ var BFI10 = {
     css_classes: ["narrow-text"],
     questions: BFI10_questions,
     randomize_question_order: false,
-    preamble: "<p style='text-align: left;'>How well do the following statements describe your personality?",
+    preamble:
+        "<p style='text-align: left;'>How well do the following statements describe your personality?",
     // "HOW YOU FEEL RIGHT NOW. " +
     // "how you have been feeling <b>during the past two weeks</b>. " +
     // "There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.</p> ",
