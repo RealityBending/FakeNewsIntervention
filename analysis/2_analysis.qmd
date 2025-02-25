@@ -347,6 +347,43 @@ estimate_relation(m, length=30) |>
   labs(x="MIST General (% Correct pre-test)", y="MIST General (% Correct difference Post-Pre)")
 ```
 
+
+## self-identified political ideology (independent/predictor) & MIST COVID (% Correct Pre-test) (dependent/outcome)
+
+```{r}
+m <- lm(MIST_correct_Pretest_covid ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST COVID (% Correct Pre-test)", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & MIST General (% Correct Pre-test) (dependent/outcome)
+
+```{r}
+m <- lm(MIST_correct_Pretest_general ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST General (% Correct Pre-test)", x="Political Identification")
+```
+
+
+
 ## self-identified political ideology (independent/predictor) & MIST General (% Correct difference Post-Pre) (dependent/outcome)
 
 ```{r}
@@ -672,7 +709,7 @@ estimate_means(m, by = "Intervention") |>
 ```
 
 ```{r}
-browseURL("analysis_report.html")  # Use this in the analysis file
+#browseURL("analysis_report.html")  # Use this in the analysis file
 
 ```
 
