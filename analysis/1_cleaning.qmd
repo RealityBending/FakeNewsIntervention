@@ -195,11 +195,11 @@ mocri <- mocri |>
   select(-extra, -extra2) |>
   mutate(
     Type = ifelse(Type == "BOLD", "Pre", "Post"),
-    Correct = ifelse(Answer == "Manipulative" & value == 1, 1, 0),
-    True_Positive = ifelse(Answer == "Manipulative" & value == 1, 1, 0),
-    True_Negative = ifelse(Answer == "NonManipulative" & value == 0, 1, 0),
-    False_Positive = ifelse(Answer == "NonManipulative" & value == 1, 1, 0),
-    False_Negative = ifelse(Answer == "Manipulative" & value == 0, 1, 0)
+    Correct = ifelse(Answer == "Manipulative" & value == 0, 1, 0),
+    True_Positive = ifelse(Answer == "Manipulative" & value == 0, 1, 0),
+    True_Negative = ifelse(Answer == "NonManipulative" & value == 1, 1, 0),
+    False_Positive = ifelse(Answer == "NonManipulative" & value == 0, 1, 0),
+    False_Negative = ifelse(Answer == "Manipulative" & value == 1, 1, 0)
     )
 ```
 
@@ -270,6 +270,28 @@ df <- mocri |>
          bppd_Diff = bppd_Post - bppd_Pre) |>
   datawizard::data_addprefix("MOCRI_", select=-Participant) |>  
   full_join(df, by="Participant")
+
+
+df |> 
+  summarise(
+    dprime_Pre_avg = mean(MOCRI_dprime_Pre, na.rm = TRUE), 
+    dprime_Pre_min = min(MOCRI_dprime_Pre, na.rm = TRUE), 
+    dprime_Pre_max = max(MOCRI_dprime_Pre, na.rm = TRUE),
+    dprime_Post_avg = mean(MOCRI_dprime_Post, na.rm = TRUE), 
+    dprime_Post_min = min(MOCRI_dprime_Post, na.rm = TRUE), 
+    dprime_Post_max = max(MOCRI_dprime_Post, na.rm = TRUE)
+  )
+
+
+df |> 
+  ggplot(aes(x = MOCRI_correct_Pre, y = MOCRI_dprime_Pre, color = "Pre")) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_point(aes(x = MOCRI_correct_Post, y = MOCRI_dprime_Post, color = "Post")) +
+  geom_smooth(aes(x = MOCRI_correct_Post, y = MOCRI_dprime_Post, color = "Post"), method = "lm", se = FALSE) +
+  labs(title = "MOCRI Correct vs. dprime", x = "Correct", y = "dprime")
+
+
 ```
 
 
@@ -340,6 +362,8 @@ df <- dfmist |>
   full_join(df, by="Participant")
 
 df$MIST_correct_Diff <- (df$MIST_correct_Diff_covid + df$MIST_correct_Diff_general) / 2
+df$MIST_dprime_Diff <- (df$MIST_dprime_Diff_covid + df$MIST_dprime_Diff_general) / 2
+
 ```
 
 ##### Confidence
@@ -415,7 +439,7 @@ write.csv(dfmist, "../data/data_mist.csv", row.names = FALSE)
 ```
 
 ```{r}
-browseURL("cleaning_report.html")  # Use this in the cleaning file
+#browseURL("cleaning_report.html")  # Use this in the cleaning file
 
 ```
 

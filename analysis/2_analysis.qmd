@@ -365,6 +365,25 @@ estimate_relation(m, length=30) |>
   labs(y="MIST COVID (% Correct Pre-test)", x="Political Identification")
 ```
 
+
+## self-identified political ideology (independent/predictor) & MIST COVID (dprime Pre-test) (dependent/outcome)
+
+```{r}
+m <- lm(MIST_dprime_Pretest_covid ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST COVID (dprime Pre-test)", x="Political Identification")
+```
+
+
 ## self-identified political ideology (independent/predictor) & MIST General (% Correct Pre-test) (dependent/outcome)
 
 ```{r}
@@ -383,6 +402,23 @@ estimate_relation(m, length=30) |>
 ```
 
 
+## self-identified political ideology (independent/predictor) & MIST General (dprime Pre-test) (dependent/outcome)
+
+```{r}
+m <- lm(MIST_dprime_Pretest_general ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST General (dprime Pre-test)", x="Political Identification")
+```
+
 
 ## self-identified political ideology (independent/predictor) & MIST General (% Correct difference Post-Pre) (dependent/outcome)
 
@@ -399,6 +435,24 @@ estimate_relation(m, length=30) |>
   geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
   geom_line() +
   labs(y="MIST General (% Correct difference Post-Pre)", x="Political Identification")
+```
+
+
+## self-identified political ideology (independent/predictor) & MIST General (dprime difference Post-Pre) (dependent/outcome)
+
+```{r}
+m <- lm(MIST_dprime_Diff_general ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST General (dprime difference Post-Pre)", x="Political Identification")
 ```
 
 
@@ -420,10 +474,28 @@ estimate_relation(m, length=30) |>
 ```
 
 
+## self-identified political ideology (independent/predictor) & MIST COVID (dprime difference Post-Pre) (dependent/outcome)
+
+```{r}
+m <- lm(MIST_dprime_Diff_covid ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST COVID (dprime difference Post-Pre)", x="Political Identification")
+```
+
+
 ## self-identified political ideology (independent/predictor) & MIST TOTAL (% Correct difference Post-Pre) (dependent/outcome)
 
 ```{r}
-m <- lm(total_performance ~ poly(Political_LiberalConservative, 2), 
+m <- lm(MIST_correct_Diff ~ poly(Political_LiberalConservative, 2), 
         data=filter(df, !is.na(Political_LiberalConservative)))
 
 display(parameters(m))
@@ -437,6 +509,93 @@ estimate_relation(m, length=30) |>
   labs(y="MIST TOTAL (% Correct difference Post-Pre)", x="Political Identification")
 ```
 
+## self-identified political ideology (independent/predictor) & MIST TOTAL (dprime difference Post-Pre) (dependent/outcome)
+
+```{r}
+m <- lm(MIST_dprime_Diff ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST TOTAL (dprime difference Post-Pre)", x="Political Identification")
+```
+
+
+## self-identified political ideology (independent/predictor) & MOCRI Pre-test correct (dependent/outcome)
+
+```{r}
+m <- lm(MOCRI_correct_Pre ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MOCRI correct pre-test", x="Political Identification")
+```
+
+
+## self-identified political ideology (independent/predictor) & MOCRI Pre-test dprime (dependent/outcome)
+
+```{r}
+m <- lm(MOCRI_dprime_Pre ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MOCRI dprime pre-test", x="Political Identification")
+```
+
+
+## self-identified political ideology (independent/predictor) & MOCRI difference dprime post-pre (dependent/outcome)
+
+```{r}
+m <- lm(MOCRI_dprime_Diff ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MOCRI dprime difference post-pre", x="Political Identification")
+```
+
+## self-identified political ideology (independent/predictor) & MOCRI difference correct post-pre (dependent/outcome)
+
+```{r}
+m <- lm(MOCRI_correct_Diff ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MOCRI correct difference post-pre", x="Political Identification")
+```
 
 ## Gender (independent/predictor) & MIST COVID (% Correct difference post-pre) (dependent/outcome)
 
@@ -476,7 +635,6 @@ estimate_means(m, by = c("Gender")) |>
 
 ## Education (independent/predictor) & MIST COVID (% Correct difference post-pre) (dependent/outcome)
 
-##this one is not working right at the moment, bachelor refuses to show up for me for some reason now
 
 ```{r}
 # Categorical
@@ -497,9 +655,6 @@ estimate_means(m, by = c("Education")) |>
 ```
 
 ## Education (independent/predictor) & MIST COVID (% Correct pretest) (dependent/outcome)
-
-##this one is not working right at the moment, bachelor refuses to show up for me for some reason now
-
 
 ```{r}
 # Categorical
@@ -552,6 +707,39 @@ estimate_relation(m, length=30) |>
   labs(y="MIST-Covid (% Correct difference post-pre)", x="Age")
 ```
 
+## Intervention vs Control (independent/predictor) & MOCRI (% Correct difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MOCRI_correct_Diff ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MOCRI (% Correct difference post-pre)", x="Intervention vs Control")
+```
+
+## Intervention vs Control (independent/predictor) & MOCRI (% dprime difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MOCRI_dprime_Diff ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MOCRI (% dprime difference post-pre)", x="Intervention vs Control")
+```
+
+
 ## Intervention vs Control (independent/predictor) & MIST COVID (% Correct difference post-pre) (dependent/outcome)
 
 ```{r}
@@ -567,6 +755,23 @@ estimate_means(m, by = "Intervention") |>
   geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
   labs(y="MIST-Covid (% Correct difference post-pre)", x="Intervention vs Control")
 ```
+
+## Intervention vs Control (independent/predictor) & MIST COVID (dprime difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MIST_dprime_Diff_covid ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-Covid (dprime difference post-pre)", x="Intervention vs Control")
+```
+
 
 ## Intervention vs Control (independent/predictor) & MIST general (% Correct difference post-pre) (dependent/outcome)
 
@@ -584,11 +789,28 @@ estimate_means(m, by = "Intervention") |>
   labs(y="MIST-general (% Correct difference post-pre)", x="Intervention vs Control")
 ```
 
+## Intervention vs Control (independent/predictor) & MIST general (dprime difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MIST_dprime_Diff_general ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-general (dprime difference post-pre)", x="Intervention vs Control")
+```
+
+
 ## Intervention vs Control (independent/predictor) & MIST total (% Correct difference post-pre) (dependent/outcome)
 
 ```{r}
 # Categorical
-m <- lm(total_performance ~ Intervention, 
+m <- lm(MIST_correct_Diff ~ Intervention, 
         data=df)
 
 display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
@@ -598,6 +820,60 @@ estimate_means(m, by = "Intervention") |>
   geom_line(aes(group=1)) + 
   geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
   labs(y="MIST-TOTAL (% Correct difference post-pre)", x="Intervention vs Control")
+```
+
+
+## Intervention vs Control (independent/predictor) & MIST total (dprime difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MIST_dprime_Diff ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-TOTAL (dprime difference post-pre)", x="Intervention vs Control")
+```
+
+
+## ONLY SELF-IDENTIFIED REPUBLICANS [party affiliation] Intervention vs Control (independent/predictor) & MOCRI (% Correct difference post-pre) (dependent/outcome)
+
+```{r}
+df_republicans <- df[df$Political_Affiliation == "Republican", ]
+
+m <- lm(MOCRI_correct_Diff ~ Intervention, 
+        data=df_republicans)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MOCRI (% Correct difference post-pre)", x="Intervention vs Control")
+
+```
+
+## ONLY SELF-IDENTIFIED REPUBLICANS [party affiliation] Intervention vs Control (independent/predictor) & MOCRI (dprime difference post-pre) (dependent/outcome)
+
+```{r}
+df_republicans <- df[df$Political_Affiliation == "Republican", ]
+
+m <- lm(MOCRI_dprime_Diff ~ Intervention, 
+        data=df_republicans)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MOCRI (dprime difference post-pre)", x="Intervention vs Control")
+
 ```
 
 ## ONLY SELF-IDENTIFIED REPUBLICANS [party affiliation] Intervention vs Control (independent/predictor) & MIST COVID (% Correct difference post-pre) (dependent/outcome)
@@ -618,6 +894,25 @@ estimate_means(m, by = "Intervention") |>
 
 ```
 
+## ONLY SELF-IDENTIFIED REPUBLICANS [party affiliation] Intervention vs Control (independent/predictor) & MIST COVID (dprime difference post-pre) (dependent/outcome)
+
+```{r}
+df_republicans <- df[df$Political_Affiliation == "Republican", ]
+
+m <- lm(MIST_dprime_Diff_covid ~ Intervention, 
+        data=df_republicans)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-Covid (dprime difference post-pre)", x="Intervention vs Control")
+
+```
+
+
 ## ONLY SELF-IDENTIFIED REPUBLICANS [party affiliation] Intervention vs Control (independent/predictor) & MIST GENERAL (% Correct difference post-pre) (dependent/outcome)
 
 ```{r}
@@ -635,12 +930,31 @@ estimate_means(m, by = "Intervention") |>
   labs(y="MIST-general (% Correct difference post-pre)", x="Intervention vs Control")
 ```
 
+
+## ONLY SELF-IDENTIFIED REPUBLICANS [party affiliation] Intervention vs Control (independent/predictor) & MIST GENERAL (dprime difference post-pre) (dependent/outcome)
+
+```{r}
+df_republicans <- df[df$Political_Affiliation == "Republican", ]
+
+m <- lm(MIST_dprime_Diff_general ~ Intervention, 
+        data=df_republicans)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-general (dprime difference post-pre)", x="Intervention vs Control")
+```
+
+
 ## ONLY SELF-IDENTIFIED REPUBLICANS [party affiliation] Intervention vs Control (independent/predictor) & MIST TOTAL (% Correct difference post-pre) (dependent/outcome)
 
 ```{r}
 df_republicans <- df[df$Political_Affiliation == "Republican", ]
 
-m <- lm(total_performance ~ Intervention, 
+m <- lm(MIST_correct_Diff ~ Intervention, 
         data=df_republicans)
 
 display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
@@ -652,6 +966,22 @@ estimate_means(m, by = "Intervention") |>
   labs(y="MIST-TOTAL (% Correct difference post-pre)", x="Intervention vs Control")
 ```
 
+## ONLY SELF-IDENTIFIED REPUBLICANS [party affiliation] Intervention vs Control (independent/predictor) & MIST TOTAL (dprime difference post-pre) (dependent/outcome)
+
+```{r}
+df_republicans <- df[df$Political_Affiliation == "Republican", ]
+
+m <- lm(MIST_dprime_Diff ~ Intervention, 
+        data=df_republicans)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-TOTAL (dprime difference post-pre)", x="Intervention vs Control")
+```
 
 
 ## ONLY SELF-IDENTIFIED CONSERVATIVES [ideology affiliation] Intervention vs Control (independent/predictor) & MIST COVID (% Correct difference post-pre) (dependent/outcome)
@@ -695,7 +1025,7 @@ estimate_means(m, by = "Intervention") |>
 ```{r}
 df_conservatives <- df[df$Political_LiberalConservative >= 5 & df$Political_LiberalConservative <= 7, ]
 
-m <- lm(total_performance ~ Intervention, 
+m <- lm(MIST_correct_Diff ~ Intervention, 
         data=df_conservatives)
 
 display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
