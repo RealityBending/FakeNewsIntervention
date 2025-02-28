@@ -1170,27 +1170,157 @@ estimate_means(m_intervention, by = "Intervention") |>
 
 ```
 
+## confidence posttest intervention vs control
 
 ```{r}
-# # Subset the data for just the Intervention group
-# df_intervention <- filter(df, Intervention == "Intervention")
-# 
-# # Pivot the data to long format so 'Time' can be a factor
-# df_intervention_long <- df_intervention %>%
-#   pivot_longer(cols = c(MIST_Confidence_Pretest, MIST_Confidence_Posttest),
-#                names_to = "Time", values_to = "Confidence")
-# 
-# # Linear model for MIST Confidence difference within the Intervention group
-# m_intervention <- lm(Confidence ~ Time, data = df_intervention_long)
-# 
-# # Print the model summary to see if the difference between pretest and posttest is significant
-# summary(m_intervention)
-# 
-# # Plotting the difference between pretest and posttest confidence for the Intervention group
-# ggplot(df_intervention_long, aes(x = Time, y = Confidence)) + 
-#   geom_boxplot() +
-#   labs(y = "MIST Confidence", x = "Test Phase (Pretest vs Posttest)") + 
-#   ggtitle("MIST Confidence in Intervention Group (Pretest vs Posttest)")
+# Categorical
+m <- lm((MIST_Confidence_Posttest) ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="Confidence (posttest ONLY)", x="Intervention vs Control")
+```
+
+## t-test intervention group ONLY, pretest vs posttest confidence
+
+```{r}
+# Subset the data for just the BadNews intervention group
+df_badnews <- filter(df, Intervention == "BadNews")
+
+# Paired t-test comparing pretest and posttest confidence
+t.test(df_badnews$MIST_Confidence_Pretest, 
+       df_badnews$MIST_Confidence_Posttest, 
+       paired = TRUE)
+
+```
+
+## CRITERION overall difference post-pre intervention vs control
+
+```{r}
+# Create a new column for the overall criterion post-pre difference (averaging covid and general)
+df$Criterion_Difference <- (df$MIST_criterion_Diff_covid + df$MIST_criterion_Diff_general) / 2
+
+# Linear Model for Criterion Difference (Post - Pre) by Intervention
+m_criterion_diff <- lm(Criterion_Difference ~ Intervention, data = df)
+
+# Displaying the estimated contrasts for the 'Intervention' variable
+display(estimate_contrasts(m_criterion_diff, contrast = "Intervention", p_adjust = "none"))
+
+# Estimate means by 'Intervention' group
+estimate_means(m_criterion_diff, by = "Intervention") |> 
+  ggplot(aes(x = Intervention, y = Mean)) +
+  geom_line(aes(group = 1)) + 
+  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
+  labs(y = "Criterion Difference (Post - Pre)", x = "Intervention vs Control") + 
+  ggtitle("Effect of Intervention on Overall Criterion Difference (Post - Pre)")
+
+```
+
+## CRITERION MIST-COVID difference post-pre intervention vs control
+
+```{r}
+
+# Linear Model for Criterion Difference (Post - Pre) by Intervention
+m <- lm(MIST_criterion_Diff_covid ~ Intervention, data = df)
+
+# Displaying the estimated contrasts for the 'Intervention' variable
+display(estimate_contrasts(m, contrast = "Intervention", p_adjust = "none"))
+
+# Estimate means by 'Intervention' group
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x = Intervention, y = Mean)) +
+  geom_line(aes(group = 1)) + 
+  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
+  labs(y = "Criterion Difference (Post - Pre)", x = "Intervention vs Control") + 
+  ggtitle("Effect of Intervention on MIST-COVID Criterion Difference (Post - Pre)")
+
+```
+
+## CRITERION MIST-GENERAL difference post-pre intervention vs control
+
+## this appears to show opposing results in the visual graph and printed modelling results. I interpret the results as saying the badnews group performed worse, but the graph seems to show them performing better. not sure what's up here. I did a series of verifications but never found an error
+
+```{r}
+
+# Linear Model for Criterion Difference (Post - Pre) by Intervention
+m <- lm(MIST_criterion_Diff_general ~ Intervention, data = df)
+
+# Displaying the estimated contrasts for the 'Intervention' variable
+display(estimate_contrasts(m, contrast = "Intervention", p_adjust = "none"))
+
+# Estimate means by 'Intervention' group
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x = Intervention, y = Mean)) +
+  geom_line(aes(group = 1)) + 
+  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
+  labs(y = "Criterion Difference (Post - Pre)", x = "Intervention vs Control") + 
+  ggtitle("Effect of Intervention on MIST-general Criterion Difference (Post - Pre)")
+
+```
+
+## Criterion and political ideology
+
+##I'm not sure how to interpret this, think there may be errors somewhere involved? Also, at the moment contagion measures ignore fake vs real questions, which I think may just be an oversight but i'm not sure how to correct it in the cleaning script
+
+```{r}
+df_long <- df |> 
+  pivot_longer(cols = starts_with("MIST_criterion_"), 
+               names_to = "Category", values_to = "Criterion") |> 
+  mutate(TestPhase = ifelse(grepl("Pretest", Category), "Pretest", "Posttest"))
+
+# Filter pretest data
+df_pre <- filter(df_long, TestPhase == "Pretest")
+
+# Run model for pretest criterion
+m_pre <- lm(Criterion ~ poly(Political_LiberalConservative, 2) * Category, 
+            data = filter(df_pre, !is.na(Political_LiberalConservative)))
+
+# Print model summary (this will show the p-values)
+summary(m_pre)
+
+# Print the summary of the pretest model, including overall significance
+summary(m_pre)
+
+# Print the p-value for the F-statistic (overall model)
+summary(m_pre)$fstatistic
+
+# Predict values
+preds_pre <- estimate_relation(m_pre, length=30)
+
+# Plot
+ggplot(preds_pre, aes(x=Political_LiberalConservative, y=Predicted, color=Category)) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Category), alpha=0.1) +
+  geom_line(size=1) +
+  labs(y="Criterion", x="Political Identification", title="Pretest Criterion") +
+  theme_minimal()
+
+
+##___________________________________________________________
+
+# Filter posttest data
+df_post <- filter(df_long, TestPhase == "Posttest")
+
+# Run model for posttest criterion
+m_post <- lm(Criterion ~ poly(Political_LiberalConservative, 2) * Category, 
+             data = filter(df_post, !is.na(Political_LiberalConservative)))
+
+# Print model summary (this will show the p-values)
+summary(m_post)
+
+# Predict values
+preds_post <- estimate_relation(m_post, length=30)
+
+# Plot
+ggplot(preds_post, aes(x=Political_LiberalConservative, y=Predicted, color=Category)) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Category), alpha=0.1) +
+  geom_line(size=1) +
+  labs(y="Criterion", x="Political Identification", title="Posttest Criterion") +
+  theme_minimal()
 
 ```
 
