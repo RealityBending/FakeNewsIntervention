@@ -477,7 +477,7 @@ estimate_relation(m, length=30) |>
 ## self-identified political ideology (independent/predictor) & MIST COVID (dprime difference Post-Pre) (dependent/outcome)
 
 ```{r}
-m <- lm(MIST_dprime_Diff_covid ~ poly(Political_LiberalConservative, 2), 
+m <- lm(MIST_dprime_Diff_covid ~ Intervention/poly(Political_LiberalConservative, 2), 
         data=filter(df, !is.na(Political_LiberalConservative)))
 
 display(parameters(m))
@@ -486,8 +486,8 @@ estimate_relation(m, length=30) |>
   ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
   # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
   #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
-  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
-  geom_line() +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high,fill=Intervention), alpha=0.2) +
+  geom_line(aes(colour=Intervention)) +
   labs(y="MIST COVID (dprime difference Post-Pre)", x="Political Identification")
 ```
 
@@ -565,8 +565,10 @@ estimate_relation(m, length=30) |>
 
 ## self-identified political ideology (independent/predictor) & MOCRI difference dprime post-pre (dependent/outcome)
 
+#LOOK HERE, ROB!
+
 ```{r}
-m <- lm(MOCRI_dprime_Diff ~ poly(Political_LiberalConservative, 2), 
+m <- lm(MOCRI_dprime_Diff ~ Intervention/poly(Political_LiberalConservative, 2), 
         data=filter(df, !is.na(Political_LiberalConservative)))
 
 display(parameters(m))
@@ -575,8 +577,8 @@ estimate_relation(m, length=30) |>
   ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
   # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
   #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
-  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
-  geom_line() +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high,fill=Intervention), alpha=0.2) +
+  geom_line(aes(color=Intervention)) +
   labs(y="MOCRI dprime difference post-pre", x="Political Identification")
 ```
 
@@ -1321,6 +1323,24 @@ ggplot(preds_post, aes(x=Political_LiberalConservative, y=Predicted, color=Categ
   geom_line(size=1) +
   labs(y="Criterion", x="Political Identification", title="Posttest Criterion") +
   theme_minimal()
+
+```
+
+
+```{r}
+dflong <- read.csv("../data/data_mist.csv")
+
+
+model <- glmmTMB::glmmTMB(Correct ~ QuestionType / Topic  / (Condition * Intervention) + (1|Participant), data=dflong, family="binomial")
+
+estimate_relation(model) |> 
+  ggplot(aes(x=Condition, y=Predicted)) +
+  geom_line(aes(color=Intervention, group=Intervention)) + 
+  geom_pointrange(aes(color=Intervention, ymin=CI_low, ymax=CI_high)) +
+  facet_wrap(~QuestionType * Topic, scales="free")
+
+
+estimate_contrasts(model, contrast=c("Condition"), by=c("Topic","Intervention"))
 
 ```
 
