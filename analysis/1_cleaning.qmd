@@ -183,7 +183,7 @@ modelsummary::datasummary_skim(GCBS)
 ### MOCRI
 
 ```{r}
-## does this give us useful data for both the pre- and post-intervention MOCRI, or do I need to split my coding to be between the bold and nonbold (as this is how the MOCRI is split pre- and post-)?
+
 mocri  <- select(df, Participant, starts_with("MOCRI_"), -ends_with("Duration")) 
 df <- select(df, -starts_with("MOCRI"))
 
@@ -290,7 +290,6 @@ df |>
   geom_point(aes(x = MOCRI_correct_Post, y = MOCRI_dprime_Post, color = "Post")) +
   geom_smooth(aes(x = MOCRI_correct_Post, y = MOCRI_dprime_Post, color = "Post"), method = "lm", se = FALSE) +
   labs(title = "MOCRI Correct vs. dprime", x = "Correct", y = "dprime")
-
 
 ```
 
@@ -444,6 +443,7 @@ ggplot(df, aes(x = Education)) +
 ```{r}
 write.csv(df, "../data/data.csv", row.names = FALSE)
 write.csv(dfmist, "../data/data_mist.csv", row.names = FALSE)
+write.csv(mocri, "../data/data_mocri.csv", row.names = FALSE)
 ```
 
 ```{r}

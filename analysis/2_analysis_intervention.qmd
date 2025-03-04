@@ -29,6 +29,7 @@ library(ggside)
 
 df <- read.csv("../data/data.csv")
 dfmist <- read.csv("../data/data_mist.csv")
+dfmocri <- read.csv("../data/data_mocri.csv")
 
 ```
 
