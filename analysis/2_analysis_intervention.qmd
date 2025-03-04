@@ -1,0 +1,707 @@
+---
+title: "FaceNewsIntervention - Data Analysis"
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    output-file: "analysis_intervention_report.html"
+    code-fold: true
+    self-contained: true
+    toc: true
+---
+
+## Data Preparation
+
+```{r}
+#| message: false
+#| warning: false
+
+library(emmeans)
+library(tidyverse)
+library(easystats)
+library(patchwork)
+library(ggside)
+```
+
+```{r}
+#| code-fold: false
+
+df <- read.csv("../data/data.csv")
+dfmist <- read.csv("../data/data_mist.csv")
+
+```
+
+::: panel-tabset
+
+# Examples
+
+## Example for Continuous Variable
+
+```{r}
+
+m <- lm(MIST_correct_Pretest_covid ~ poly(Political_LiberalConservative, 2), 
+        data=filter(df, !is.na(Political_LiberalConservative)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Political_LiberalConservative, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST-Covid (% Correct Pretest)", x="Political Identification")
+```
+
+## Example for Categorical Variable
+
+```{r}
+# Categorical
+m <- lm(MIST_correct_Pretest_covid ~ Political_Affiliation, 
+        data=filter(df, Political_Affiliation != "None or Independent"))
+
+display(estimate_contrasts(m, contrast="Political_Affiliation", p_adjust="none"))
+
+estimate_means(m, by = c("Political_Affiliation")) |> 
+  ggplot(aes(x=Political_Affiliation, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-Covid (% Correct Pretest)", x="Political Affiliation")
+```
+
+------------------------------------------------------------------------
+
+## Example for Multivariate Model
+
+```{r}
+# model <- glmmTMB::glmmTMB(Correct ~ Intervention * Condition * Topic + (1|Participant) + (1|QuestionID), 
+#                           data=dfmist, family=binomial())
+# 
+# model_means <- modelbased::estimate_means(model, by=c("Intervention", "Condition", "Topic"))
+# 
+# model_means |> 
+#   mutate(Condition = fct_rev(Condition)) |> 
+#   ggplot(aes(x=Condition, y=Probability, color=Intervention)) +
+#   geom_line(aes(group=Intervention), position=position_dodge(width=0.1)) +
+#   geom_pointrange(aes(ymin=CI_low, ymax=CI_high), position=position_dodge(width=0.1)) +
+#   facet_wrap(~Topic)
+```
+
+------------------------------------------------------------------------
+
+# MIST difference vs pre-test
+
+## MIST (% Correct difference Post-Pre) (independent/predictor) & MIST (% Correct Pretest)
+
+```{r}
+df <- df %>%
+  mutate(MIST_correct_Pretest_avg = (MIST_correct_Pretest_covid + MIST_correct_Pretest_general) / 2)
+
+
+m <- lm(MIST_correct_Diff ~ Intervention * MIST_correct_Pretest_covid + Intervention * MIST_correct_Pretest_general, 
+        data = filter(df, !is.na(MIST_correct_Pretest_covid) & !is.na(MIST_correct_Pretest_general)))
+
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=MIST_correct_Pretest_covid, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Intervention), alpha=0.2) +
+  geom_line(aes(color=Intervention)) +
+  labs(x="MIST (% Correct pre-test)", y="MIST (% Correct difference Post-Pre)")
+
+```
+
+
+## MIST COVID (% Correct difference Post-Pre) (independent/predictor) & MIST COVID (% Correct Pretest)
+
+```{r}
+m <- lm(MIST_correct_Diff_covid ~ Intervention/MIST_correct_Pretest_covid, 
+        data=filter(df, !is.na(MIST_correct_Pretest_covid)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=MIST_correct_Pretest_covid, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Intervention), alpha=0.2) +
+  geom_line(aes(color=Intervention)) +
+  labs(x="MIST COVID (% Correct pre-test)", y="MIST COVID (% Correct difference Post-Pre)")
+```
+
+## MIST General (% Correct difference Post-Pre) (independent/predictor) & MIST General (% Correct Pretest)
+
+```{r}
+m <- lm(MIST_correct_Diff_general ~ Intervention/MIST_correct_Pretest_general, 
+        data=filter(df, !is.na(MIST_correct_Pretest_general)))
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=MIST_correct_Pretest_general, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Intervention), alpha=0.2) +
+  geom_line(aes(colour=Intervention)) +
+  labs(x="MIST General (% Correct pre-test)", y="MIST General (% Correct difference Post-Pre)")
+```
+
+
+
+# Gender
+
+## Gender (independent/predictor) & MIST (% Correct difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+df$Gender <- as.factor(df$Gender)
+m <- lm(MIST_correct_Diff ~ Gender, 
+        data=filter(df, Gender != "Non-Binary" & Gender != "Prefer not to answer"))
+
+
+display(estimate_contrasts(m, contrast="Gender", p_adjust="none"))
+
+estimate_means(m, by = c("Gender")) |> 
+  ggplot(aes(x=Gender, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST (% Correct difference post-pre)", x="Gender")
+```
+
+## Gender (independent/predictor) & MIST (% Correct pretest) (dependent/outcome)
+
+```{r}
+# Categorical
+df$Gender <- as.factor(df$Gender)
+m <- lm(MIST_correct_Pretest_avg ~ Gender, 
+        data=filter(df, Gender != "Non-Binary" & Gender != "Prefer not to answer"))
+
+
+display(estimate_contrasts(m, contrast="Gender", p_adjust="none"))
+
+estimate_means(m, by = c("Gender")) |> 
+  ggplot(aes(x=Gender, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST (% Correct Pre-test)", x="Gender")
+```
+
+# Education
+
+## Education (independent/predictor) & MIST (% Correct difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+df$Education <- as.factor(df$Education)
+df <- df %>% filter(!is.na(Education))
+unique(trimws(df$Education))
+
+m <- lm(MIST_correct_Diff ~ Education, 
+        data=filter(df, Education != "Other"))
+
+display(estimate_contrasts(m, contrast="Education", p_adjust="none"))
+
+estimate_means(m, by = c("Education")) |> 
+  ggplot(aes(x=Education, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST (% Correct difference post-pre)", x="Education")
+```
+
+## Education (independent/predictor) & MIST (% Correct pretest) (dependent/outcome)
+
+```{r}
+# Categorical
+df$Education <- as.factor(df$Education)
+m <- lm(MIST_correct_Pretest_avg ~ Education, 
+        data=filter(df, Education != "Other"))
+
+display(estimate_contrasts(m, contrast="Education", p_adjust="none"))
+
+estimate_means(m, by = c("Education")) |> 
+  ggplot(aes(x=Education, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST (% Correct Pre-test)", x="Education")
+```
+
+# Age
+
+## Age (independent/predictor) & MIST (% Correct pretest) (dependent/outcome)
+
+```{r}
+m <- lm(MIST_correct_Pretest_avg ~ Age, 
+        data=df)
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Age, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST (% Correct Pretest)", x="Age")
+```
+
+## Age (independent/predictor) & MIST (% Correct difference post-pre) (dependent/outcome)
+
+## why does this one show essentially no change in intervention effect size whatsoever? Feels like I made a mistake here somewhere
+
+```{r}
+m <- lm(MIST_correct_Diff ~ Age, 
+        data=df)
+
+display(parameters(m))
+
+estimate_relation(m, length=30) |> 
+  ggplot(aes(x=Age, y=Predicted)) +
+  # geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), 
+  #             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.2) +
+  geom_line() +
+  labs(y="MIST (% Correct difference post-pre)", x="Age")
+```
+
+# Intervention vs Control
+
+## Intervention vs Control (independent/predictor) & MOCRI (% Correct difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MOCRI_correct_Diff ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MOCRI (% Correct difference post-pre)", x="Intervention vs Control")
+```
+
+## Intervention vs Control (independent/predictor) & MOCRI (% dprime difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MOCRI_dprime_Diff ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MOCRI (% dprime difference post-pre)", x="Intervention vs Control")
+```
+
+## Intervention vs Control (independent/predictor) & MIST COVID (% Correct difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MIST_correct_Diff_covid ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-Covid (% Correct difference post-pre)", x="Intervention vs Control")
+```
+
+## Intervention vs Control (independent/predictor) & MIST COVID (dprime difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MIST_dprime_Diff_covid ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-Covid (dprime difference post-pre)", x="Intervention vs Control")
+```
+
+## Intervention vs Control (independent/predictor) & MIST general (% Correct difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MIST_correct_Diff_general ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-general (% Correct difference post-pre)", x="Intervention vs Control")
+```
+
+## Intervention vs Control (independent/predictor) & MIST general (dprime difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MIST_dprime_Diff_general ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-general (dprime difference post-pre)", x="Intervention vs Control")
+```
+
+## Intervention vs Control (independent/predictor) & MIST total (% Correct difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MIST_correct_Diff ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-TOTAL (% Correct difference post-pre)", x="Intervention vs Control")
+```
+
+## Intervention vs Control (independent/predictor) & MIST total (dprime difference post-pre) (dependent/outcome)
+
+```{r}
+# Categorical
+m <- lm(MIST_dprime_Diff ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="MIST-TOTAL (dprime difference post-pre)", x="Intervention vs Control")
+```
+
+# Confidence
+
+## CONFIDENCE \[political ideology\]
+
+```{r}
+df_long <- df |> 
+  pivot_longer(cols = starts_with("MIST_Confidence_"), 
+               names_to = "Category", values_to = "Confidence") |> 
+  mutate(TestPhase = ifelse(grepl("Pretest", Category), "Pretest", "Posttest"))
+
+# Filter pretest data
+df_pre <- filter(df_long, TestPhase == "Pretest")
+
+# Run model
+m_pre <- lm(Confidence ~ poly(Political_LiberalConservative, 2) * Category, 
+            data = filter(df_pre, !is.na(Political_LiberalConservative)))
+
+# Print model summary (this will show the p-values)
+summary(m_pre)
+
+# Print the summary of the pretest model, including overall significance
+summary(m_pre)
+
+# Print the p-value for the F-statistic (overall model)
+summary(m_pre)$fstatistic
+
+
+# Predict values
+preds_pre <- estimate_relation(m_pre, length=30)
+
+# Plot
+ggplot(preds_pre, aes(x=Political_LiberalConservative, y=Predicted, color=Category)) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Category), alpha=0.1) +
+  geom_line(size=1) +
+  labs(y="Confidence", x="Political Identification", title="Pretest Confidence") +
+  theme_minimal()
+
+
+##___________________________________________________________
+
+# Filter posttest data
+df_post <- filter(df_long, TestPhase == "Posttest")
+
+# Run model
+m_post <- lm(Confidence ~ poly(Political_LiberalConservative, 2) * Category, 
+             data = filter(df_post, !is.na(Political_LiberalConservative)))
+
+# Print model summary (this will show the p-values)
+summary(m_post)
+
+# Predict values
+preds_post <- estimate_relation(m_post, length=30)
+
+# Plot
+ggplot(preds_post, aes(x=Political_LiberalConservative, y=Predicted, color=Category)) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Category), alpha=0.1) +
+  geom_line(size=1) +
+  labs(y="Confidence", x="Political Identification", title="Posttest Confidence") +
+  theme_minimal()
+
+
+```
+
+## CONFIDENCE \[intervention vs control\] pretest and posttest
+
+```{r}
+df_long <- df |> 
+  pivot_longer(cols = starts_with("MIST_Confidence_"), 
+               names_to = "Category", values_to = "Confidence") |> 
+  mutate(TestPhase = ifelse(grepl("Pretest", Category), "Pretest", "Posttest"))
+
+# Filter pretest data
+df_pre <- filter(df_long, TestPhase == "Pretest")
+
+# Run model for pretest, using 'Intervention' instead of political ideology
+m_pre <- lm(Confidence ~ Intervention * Category, 
+            data = filter(df_pre, !is.na(Intervention)))
+
+# Print model summary for pretest
+summary(m_pre)
+
+# Predict values for pretest
+preds_pre <- estimate_relation(m_pre, length=30)
+
+# Plot for pretest
+ggplot(preds_pre, aes(x=Intervention, y=Predicted, fill=Category)) +
+  geom_boxplot() +
+  labs(y="Confidence", x="Intervention Group", title="Pretest Confidence by Intervention Group") +
+  theme_minimal()
+
+##___________________________________________________________
+
+# Filter posttest data
+df_post <- filter(df_long, TestPhase == "Posttest")
+
+# Run model for posttest, using 'Intervention' instead of political ideology
+m_post <- lm(Confidence ~ Intervention * Category, 
+             data = filter(df_post, !is.na(Intervention)))
+
+# Print model summary for posttest
+summary(m_post)
+
+# Predict values for posttest
+preds_post <- estimate_relation(m_post, length=30)
+
+# Plot for posttest
+ggplot(preds_post, aes(x=Intervention, y=Predicted, fill=Category)) +
+  geom_boxplot() +
+  labs(y="Confidence", x="Intervention Group", title="Posttest Confidence by Intervention Group") +
+  theme_minimal()
+
+```
+
+## CONFIDENCE \[intervention group only\] confidence and time
+
+```{r}
+# Linear model for MIST Confidence difference based on Intervention, Pretest to Posttest
+m_intervention <- lm(MIST_Confidence_Posttest - MIST_Confidence_Pretest ~ Intervention, 
+                     data = df)
+
+# Estimate contrasts (for significance testing between intervention and control)
+display(estimate_contrasts(m_intervention, contrast="Intervention", p_adjust="none"))
+
+# Estimate means by intervention group
+estimate_means(m_intervention, by = "Intervention") |> 
+  ggplot(aes(x = Intervention, y = Mean)) +
+  geom_line(aes(group = 1)) + 
+  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
+  labs(y = "MIST Confidence Difference (Posttest - Pretest)", x = "Intervention vs Control")
+
+```
+
+## confidence posttest intervention vs control
+
+```{r}
+# Categorical
+m <- lm((MIST_Confidence_Posttest) ~ Intervention, 
+        data=df)
+
+display(estimate_contrasts(m, contrast="Intervention", p_adjust="none"))
+
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x=Intervention, y=Mean)) +
+  geom_line(aes(group=1)) + 
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high)) +
+  labs(y="Confidence (posttest ONLY)", x="Intervention vs Control")
+```
+
+## t-test intervention group ONLY, pretest vs posttest confidence
+
+```{r}
+# Subset the data for just the BadNews intervention group
+df_badnews <- filter(df, Intervention == "BadNews")
+
+# Paired t-test comparing pretest and posttest confidence
+t.test(df_badnews$MIST_Confidence_Pretest, 
+       df_badnews$MIST_Confidence_Posttest, 
+       paired = TRUE)
+
+```
+
+# Criterion
+
+## CRITERION overall difference post-pre intervention vs control
+
+```{r}
+# Create a new column for the overall criterion post-pre difference (averaging covid and general)
+df$Criterion_Difference <- (df$MIST_criterion_Diff_covid + df$MIST_criterion_Diff_general) / 2
+
+# Linear Model for Criterion Difference (Post - Pre) by Intervention
+m_criterion_diff <- lm(Criterion_Difference ~ Intervention, data = df)
+
+# Displaying the estimated contrasts for the 'Intervention' variable
+display(estimate_contrasts(m_criterion_diff, contrast = "Intervention", p_adjust = "none"))
+
+# Estimate means by 'Intervention' group
+estimate_means(m_criterion_diff, by = "Intervention") |> 
+  ggplot(aes(x = Intervention, y = Mean)) +
+  geom_line(aes(group = 1)) + 
+  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
+  labs(y = "Criterion Difference (Post - Pre)", x = "Intervention vs Control") + 
+  ggtitle("Effect of Intervention on Overall Criterion Difference (Post - Pre)")
+
+```
+
+## CRITERION MIST-COVID difference post-pre intervention vs control
+
+```{r}
+
+# Linear Model for Criterion Difference (Post - Pre) by Intervention
+m <- lm(MIST_criterion_Diff_covid ~ Intervention, data = df)
+
+# Displaying the estimated contrasts for the 'Intervention' variable
+display(estimate_contrasts(m, contrast = "Intervention", p_adjust = "none"))
+
+# Estimate means by 'Intervention' group
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x = Intervention, y = Mean)) +
+  geom_line(aes(group = 1)) + 
+  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
+  labs(y = "Criterion Difference (Post - Pre)", x = "Intervention vs Control") + 
+  ggtitle("Effect of Intervention on MIST-COVID Criterion Difference (Post - Pre)")
+
+```
+
+## CRITERION MIST-GENERAL difference post-pre intervention vs control
+
+## this appears to show opposing results in the visual graph and printed modelling results. I interpret the results as saying the badnews group performed worse, but the graph seems to show them performing better. not sure what's up here. I did a series of verifications but never found an error
+
+```{r}
+
+# Linear Model for Criterion Difference (Post - Pre) by Intervention
+m <- lm(MIST_criterion_Diff_general ~ Intervention, data = df)
+
+# Displaying the estimated contrasts for the 'Intervention' variable
+display(estimate_contrasts(m, contrast = "Intervention", p_adjust = "none"))
+
+# Estimate means by 'Intervention' group
+estimate_means(m, by = "Intervention") |> 
+  ggplot(aes(x = Intervention, y = Mean)) +
+  geom_line(aes(group = 1)) + 
+  geom_pointrange(aes(ymin = CI_low, ymax = CI_high)) +
+  labs(y = "Criterion Difference (Post - Pre)", x = "Intervention vs Control") + 
+  ggtitle("Effect of Intervention on MIST-general Criterion Difference (Post - Pre)")
+
+```
+
+## Criterion and political ideology
+
+##I'm not sure how to interpret this, think there may be errors somewhere involved? Also, at the moment contagion measures ignore fake vs real questions, which I think may just be an oversight but i'm not sure how to correct it in the cleaning script
+
+```{r}
+df_long <- df |> 
+  pivot_longer(cols = starts_with("MIST_criterion_"), 
+               names_to = "Category", values_to = "Criterion") |> 
+  mutate(TestPhase = ifelse(grepl("Pretest", Category), "Pretest", "Posttest"))
+
+# Filter pretest data
+df_pre <- filter(df_long, TestPhase == "Pretest")
+
+# Run model for pretest criterion
+m_pre <- lm(Criterion ~ poly(Political_LiberalConservative, 2) * Category, 
+            data = filter(df_pre, !is.na(Political_LiberalConservative)))
+
+# Print model summary (this will show the p-values)
+summary(m_pre)
+
+# Print the summary of the pretest model, including overall significance
+summary(m_pre)
+
+# Print the p-value for the F-statistic (overall model)
+summary(m_pre)$fstatistic
+
+# Predict values
+preds_pre <- estimate_relation(m_pre, length=30)
+
+# Plot
+ggplot(preds_pre, aes(x=Political_LiberalConservative, y=Predicted, color=Category)) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Category), alpha=0.1) +
+  geom_line(size=1) +
+  labs(y="Criterion", x="Political Identification", title="Pretest Criterion") +
+  theme_minimal()
+
+
+##___________________________________________________________
+
+# Filter posttest data
+df_post <- filter(df_long, TestPhase == "Posttest")
+
+# Run model for posttest criterion
+m_post <- lm(Criterion ~ poly(Political_LiberalConservative, 2) * Category, 
+             data = filter(df_post, !is.na(Political_LiberalConservative)))
+
+# Print model summary (this will show the p-values)
+summary(m_post)
+
+# Predict values
+preds_post <- estimate_relation(m_post, length=30)
+
+# Plot
+ggplot(preds_post, aes(x=Political_LiberalConservative, y=Predicted, color=Category)) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Category), alpha=0.1) +
+  geom_line(size=1) +
+  labs(y="Criterion", x="Political Identification", title="Posttest Criterion") +
+  theme_minimal()
+
+```
+# Multivariate Model
+```{r}
+
+model <- glmmTMB::glmmTMB(Correct ~ QuestionType / Topic  / (Condition * Intervention) + (1|Participant), data=dfmist, family="binomial")
+
+estimate_relation(model) |> 
+  ggplot(aes(x=Condition, y=Predicted)) +
+  geom_line(aes(color=Intervention, group=Intervention)) + 
+  geom_pointrange(aes(color=Intervention, ymin=CI_low, ymax=CI_high)) +
+  facet_wrap(~QuestionType * Topic, scales="free")
+
+
+estimate_contrasts(model, contrast=c("Condition"), by=c("Topic","Intervention"))
+
+```
+:::
+
+```{r}
+#browseURL("analysis_report.html")  # Use this in the analysis file
+
+```
