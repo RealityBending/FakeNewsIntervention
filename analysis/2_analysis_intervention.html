@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -3085,6 +3085,42 @@ vertical-align: -.125em;
    
   <ul>
   <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link active" data-scroll-target="#data-preparation">Data Preparation</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  <li><a href="#mist-difference-vs-pre-test" id="toc-mist-difference-vs-pre-test" class="nav-link" data-scroll-target="#mist-difference-vs-pre-test">MIST difference vs pre-test</a></li>
+  <li><a href="#gender" id="toc-gender" class="nav-link" data-scroll-target="#gender">Gender</a></li>
+  <li><a href="#education" id="toc-education" class="nav-link" data-scroll-target="#education">Education</a></li>
+  <li><a href="#age" id="toc-age" class="nav-link" data-scroll-target="#age">Age</a>
+  <ul class="collapse">
+  <li><a href="#age-independentpredictor-mist-correct-pretest-dependentoutcome" id="toc-age-independentpredictor-mist-correct-pretest-dependentoutcome" class="nav-link" data-scroll-target="#age-independentpredictor-mist-correct-pretest-dependentoutcome">Age (independent/predictor) &amp; MIST (% Correct pretest) (dependent/outcome)</a></li>
+  <li><a href="#age-independentpredictor-mist-correct-difference-post-pre-dependentoutcome" id="toc-age-independentpredictor-mist-correct-difference-post-pre-dependentoutcome" class="nav-link" data-scroll-target="#age-independentpredictor-mist-correct-difference-post-pre-dependentoutcome">Age (independent/predictor) &amp; MIST (% Correct difference post-pre) (dependent/outcome)</a></li>
+  </ul></li>
+  <li><a href="#intervention-vs-control" id="toc-intervention-vs-control" class="nav-link" data-scroll-target="#intervention-vs-control">Intervention vs Control</a>
+  <ul class="collapse">
+  <li><a href="#intervention-vs-control-independentpredictor-mocri-correct-difference-post-pre-dependentoutcome" id="toc-intervention-vs-control-independentpredictor-mocri-correct-difference-post-pre-dependentoutcome" class="nav-link" data-scroll-target="#intervention-vs-control-independentpredictor-mocri-correct-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MOCRI (% Correct difference post-pre) (dependent/outcome)</a></li>
+  <li><a href="#intervention-vs-control-independentpredictor-mocri-dprime-difference-post-pre-dependentoutcome" id="toc-intervention-vs-control-independentpredictor-mocri-dprime-difference-post-pre-dependentoutcome" class="nav-link" data-scroll-target="#intervention-vs-control-independentpredictor-mocri-dprime-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MOCRI (% dprime difference post-pre) (dependent/outcome)</a></li>
+  <li><a href="#intervention-vs-control-independentpredictor-mist-covid-correct-difference-post-pre-dependentoutcome" id="toc-intervention-vs-control-independentpredictor-mist-covid-correct-difference-post-pre-dependentoutcome" class="nav-link" data-scroll-target="#intervention-vs-control-independentpredictor-mist-covid-correct-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST COVID (% Correct difference post-pre) (dependent/outcome)</a></li>
+  <li><a href="#intervention-vs-control-independentpredictor-mist-covid-dprime-difference-post-pre-dependentoutcome" id="toc-intervention-vs-control-independentpredictor-mist-covid-dprime-difference-post-pre-dependentoutcome" class="nav-link" data-scroll-target="#intervention-vs-control-independentpredictor-mist-covid-dprime-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST COVID (dprime difference post-pre) (dependent/outcome)</a></li>
+  <li><a href="#intervention-vs-control-independentpredictor-mist-general-correct-difference-post-pre-dependentoutcome" id="toc-intervention-vs-control-independentpredictor-mist-general-correct-difference-post-pre-dependentoutcome" class="nav-link" data-scroll-target="#intervention-vs-control-independentpredictor-mist-general-correct-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST general (% Correct difference post-pre) (dependent/outcome)</a></li>
+  <li><a href="#intervention-vs-control-independentpredictor-mist-general-dprime-difference-post-pre-dependentoutcome" id="toc-intervention-vs-control-independentpredictor-mist-general-dprime-difference-post-pre-dependentoutcome" class="nav-link" data-scroll-target="#intervention-vs-control-independentpredictor-mist-general-dprime-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST general (dprime difference post-pre) (dependent/outcome)</a></li>
+  <li><a href="#intervention-vs-control-independentpredictor-mist-total-correct-difference-post-pre-dependentoutcome" id="toc-intervention-vs-control-independentpredictor-mist-total-correct-difference-post-pre-dependentoutcome" class="nav-link" data-scroll-target="#intervention-vs-control-independentpredictor-mist-total-correct-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST total (% Correct difference post-pre) (dependent/outcome)</a></li>
+  <li><a href="#intervention-vs-control-independentpredictor-mist-total-dprime-difference-post-pre-dependentoutcome" id="toc-intervention-vs-control-independentpredictor-mist-total-dprime-difference-post-pre-dependentoutcome" class="nav-link" data-scroll-target="#intervention-vs-control-independentpredictor-mist-total-dprime-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST total (dprime difference post-pre) (dependent/outcome)</a></li>
+  </ul></li>
+  <li><a href="#confidence" id="toc-confidence" class="nav-link" data-scroll-target="#confidence">Confidence</a>
+  <ul class="collapse">
+  <li><a href="#confidence-political-ideology" id="toc-confidence-political-ideology" class="nav-link" data-scroll-target="#confidence-political-ideology">CONFIDENCE [political ideology]</a></li>
+  <li><a href="#confidence-intervention-vs-control-pretest-and-posttest" id="toc-confidence-intervention-vs-control-pretest-and-posttest" class="nav-link" data-scroll-target="#confidence-intervention-vs-control-pretest-and-posttest">CONFIDENCE [intervention vs control] pretest and posttest</a></li>
+  <li><a href="#confidence-intervention-group-only-confidence-and-time" id="toc-confidence-intervention-group-only-confidence-and-time" class="nav-link" data-scroll-target="#confidence-intervention-group-only-confidence-and-time">CONFIDENCE [intervention group only] confidence and time</a></li>
+  <li><a href="#confidence-posttest-intervention-vs-control" id="toc-confidence-posttest-intervention-vs-control" class="nav-link" data-scroll-target="#confidence-posttest-intervention-vs-control">confidence posttest intervention vs control</a></li>
+  <li><a href="#t-test-intervention-group-only-pretest-vs-posttest-confidence" id="toc-t-test-intervention-group-only-pretest-vs-posttest-confidence" class="nav-link" data-scroll-target="#t-test-intervention-group-only-pretest-vs-posttest-confidence">t-test intervention group ONLY, pretest vs posttest confidence</a></li>
+  </ul></li>
+  <li><a href="#criterion" id="toc-criterion" class="nav-link" data-scroll-target="#criterion">Criterion</a>
+  <ul class="collapse">
+  <li><a href="#criterion-overall-difference-post-pre-intervention-vs-control" id="toc-criterion-overall-difference-post-pre-intervention-vs-control" class="nav-link" data-scroll-target="#criterion-overall-difference-post-pre-intervention-vs-control">CRITERION overall difference post-pre intervention vs control</a></li>
+  <li><a href="#criterion-mist-covid-difference-post-pre-intervention-vs-control" id="toc-criterion-mist-covid-difference-post-pre-intervention-vs-control" class="nav-link" data-scroll-target="#criterion-mist-covid-difference-post-pre-intervention-vs-control">CRITERION MIST-COVID difference post-pre intervention vs control</a></li>
+  <li><a href="#criterion-mist-general-difference-post-pre-intervention-vs-control" id="toc-criterion-mist-general-difference-post-pre-intervention-vs-control" class="nav-link" data-scroll-target="#criterion-mist-general-difference-post-pre-intervention-vs-control">CRITERION MIST-GENERAL difference post-pre intervention vs control</a></li>
+  </ul></li>
+  <li><a href="#criterion-and-political-ideology" id="toc-criterion-and-political-ideology" class="nav-link" data-scroll-target="#criterion-and-political-ideology">Criterion and political ideology</a></li>
+  <li><a href="#multivariate-model" id="toc-multivariate-model" class="nav-link" data-scroll-target="#multivariate-model">Multivariate Model</a></li>
   </ul>
 </nav>
 </div>
@@ -3122,15 +3158,18 @@ vertical-align: -.125em;
 </details>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../data/data.csv&quot;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dfmist <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../data/data_mist.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../data/data.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Intervention =</span> <span class="fu">as.factor</span>(Intervention))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>dfmist <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../data/data_mist.csv&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>dfmocri <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../data/data_mocri.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="examples" class="level2">
+<h2 class="anchored" data-anchor-id="examples">Examples</h2>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href>Examples</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href>MIST difference vs pre-test</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href>Gender</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href>Education</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href>Age</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href>Intervention vs Control</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false" href>Confidence</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-8-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-8" role="tab" aria-controls="tabset-1-8" aria-selected="false" href>Criterion</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href>Example for Continuous Variable</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href>Example for Categorical Variable</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href>Example for Multivariate Model</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<section id="example-for-continuous-variable" class="level2">
-<h2 class="anchored" data-anchor-id="example-for-continuous-variable">Example for Continuous Variable</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3205,9 +3244,8 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-</section>
-<section id="example-for-categorical-variable" class="level2">
-<h2 class="anchored" data-anchor-id="example-for-categorical-variable">Example for Categorical Variable</h2>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3225,25 +3263,25 @@ vertical-align: -.125em;
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(174)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Democrat</td>
 <td style="text-align: left;">Republican</td>
-<td style="text-align: right;">0.04</td>
-<td style="text-align: left;">(0.00, 0.08)</td>
-<td style="text-align: left;">0.02</td>
-<td style="text-align: right;">2.18</td>
-<td style="text-align: left;">0.031</td>
+<td style="text-align: left;">Democrat</td>
+<td style="text-align: right;">-0.04</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">(-0.08, 0.00)</td>
+<td style="text-align: right;">-2.18</td>
+<td style="text-align: right;">0.031</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Political_Affiliation p-values are uncorrected.</p>
+<p>Variable predicted: MIST_correct_Pretest_covid Predictors contrasted: Political_Affiliation p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -3261,10 +3299,8 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-<hr>
-</section>
-<section id="example-for-multivariate-model" class="level2">
-<h2 class="anchored" data-anchor-id="example-for-multivariate-model">Example for Multivariate Model</h2>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3281,12 +3317,16 @@ vertical-align: -.125em;
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   facet_wrap(~Topic)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<hr>
-</section>
 </div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<section id="mist-correct-difference-post-pre-independentpredictor-mist-correct-pretest" class="level2">
-<h2 class="anchored" data-anchor-id="mist-correct-difference-post-pre-independentpredictor-mist-correct-pretest">MIST (% Correct difference Post-Pre) (independent/predictor) &amp; MIST (% Correct Pretest)</h2>
+</div>
+</div>
+</section>
+<section id="mist-difference-vs-pre-test" class="level2">
+<h2 class="anchored" data-anchor-id="mist-difference-vs-pre-test">MIST difference vs pre-test</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href>%Correct difference Post-Pre &amp; %Correct Pretest</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href>COVID (%Correct difference Post-Pre) (independent/predictor) &amp; COVID (%Correct Pretest)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href>General (% Correct difference Post-Pre) (independent/predictor) &amp; General (% Correct Pretest)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3294,7 +3334,7 @@ vertical-align: -.125em;
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MIST_correct_Pretest_avg =</span> (MIST_correct_Pretest_covid <span class="sc">+</span> MIST_correct_Pretest_general) <span class="sc">/</span> <span class="dv">2</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(MIST_correct_Diff <span class="sc">~</span> Intervention <span class="sc">*</span> MIST_correct_Pretest_covid <span class="sc">+</span> Intervention <span class="sc">*</span> MIST_correct_Pretest_general, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(MIST_correct_Diff <span class="sc">~</span> Intervention <span class="sc">/</span> MIST_correct_Pretest_avg, </span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> <span class="fu">filter</span>(df, <span class="sc">!</span><span class="fu">is.na</span>(MIST_correct_Pretest_covid) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(MIST_correct_Pretest_general)))</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
@@ -3303,7 +3343,7 @@ vertical-align: -.125em;
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 50%">
+<col style="width: 49%">
 <col style="width: 12%">
 <col style="width: 5%">
 <col style="width: 15%">
@@ -3316,58 +3356,42 @@ vertical-align: -.125em;
 <th style="text-align: center;">Coefficient</th>
 <th style="text-align: center;">SE</th>
 <th style="text-align: center;">95% CI</th>
-<th style="text-align: center;">t(260)</th>
+<th style="text-align: center;">t(262)</th>
 <th style="text-align: center;">p</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: center;">0.39</td>
+<td style="text-align: center;">0.41</td>
 <td style="text-align: center;">0.04</td>
-<td style="text-align: center;">(0.31, 0.47)</td>
-<td style="text-align: center;">9.64</td>
+<td style="text-align: center;">(0.33, 0.49)</td>
+<td style="text-align: center;">9.83</td>
 <td style="text-align: center;">&lt; .001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Intervention (Tetris)</td>
-<td style="text-align: center;">-0.04</td>
+<td style="text-align: center;">-0.05</td>
 <td style="text-align: center;">0.07</td>
-<td style="text-align: center;">(-0.18, 0.10)</td>
-<td style="text-align: center;">-0.59</td>
-<td style="text-align: center;">0.554</td>
+<td style="text-align: center;">(-0.19, 0.09)</td>
+<td style="text-align: center;">-0.74</td>
+<td style="text-align: center;">0.462</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">MIST correct Pretest covid</td>
-<td style="text-align: center;">-0.50</td>
-<td style="text-align: center;">0.05</td>
-<td style="text-align: center;">(-0.60, -0.39)</td>
-<td style="text-align: center;">-9.31</td>
+<td style="text-align: left;">Intervention (BadNews) × MIST correct Pretest avg</td>
+<td style="text-align: center;">-0.65</td>
+<td style="text-align: center;">0.07</td>
+<td style="text-align: center;">(-0.78, -0.51)</td>
+<td style="text-align: center;">-9.47</td>
 <td style="text-align: center;">&lt; .001</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">MIST correct Pretest general</td>
-<td style="text-align: center;">-0.14</td>
-<td style="text-align: center;">0.06</td>
-<td style="text-align: center;">(-0.25, -0.03)</td>
-<td style="text-align: center;">-2.55</td>
-<td style="text-align: center;">0.011</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Intervention (Tetris) × MIST correct Pretest covid</td>
-<td style="text-align: center;">0.08</td>
+<td style="text-align: left;">Intervention (Tetris) × MIST correct Pretest avg</td>
+<td style="text-align: center;">-0.59</td>
 <td style="text-align: center;">0.09</td>
-<td style="text-align: center;">(-0.11, 0.26)</td>
-<td style="text-align: center;">0.81</td>
-<td style="text-align: center;">0.417</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Intervention (Tetris) × MIST correct Pretest general</td>
-<td style="text-align: center;">-0.04</td>
-<td style="text-align: center;">0.09</td>
-<td style="text-align: center;">(-0.22, 0.14)</td>
-<td style="text-align: center;">-0.42</td>
-<td style="text-align: center;">0.673</td>
+<td style="text-align: center;">(-0.77, -0.42)</td>
+<td style="text-align: center;">-6.54</td>
+<td style="text-align: center;">&lt; .001</td>
 </tr>
 </tbody>
 </table>
@@ -3375,7 +3399,7 @@ vertical-align: -.125em;
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_relation</span>(m, <span class="at">length=</span><span class="dv">30</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>MIST_correct_Pretest_covid, <span class="at">y=</span>Predicted)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>MIST_correct_Pretest_avg, <span class="at">y=</span>Predicted)) <span class="sc">+</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># geom_jitter(data=filter(df, !is.na(Political_LiberalConservative)), </span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#             aes(y=MIST_correct_Pretest_covid), alpha=0.2, size=3) +</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>CI_low, <span class="at">ymax=</span>CI_high, <span class="at">fill=</span>Intervention), <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
@@ -3385,14 +3409,13 @@ vertical-align: -.125em;
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img role="img" src="data:image/png;base64,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" class="img-fluid figure-img" width="672"></p>
+<p><img role="img" src="data:image/png;base64,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" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-<section id="mist-covid-correct-difference-post-pre-independentpredictor-mist-covid-correct-pretest" class="level2">
-<h2 class="anchored" data-anchor-id="mist-covid-correct-difference-post-pre-independentpredictor-mist-covid-correct-pretest">MIST COVID (% Correct difference Post-Pre) (independent/predictor) &amp; MIST COVID (% Correct Pretest)</h2>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3475,9 +3498,8 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-</section>
-<section id="mist-general-correct-difference-post-pre-independentpredictor-mist-general-correct-pretest" class="level2">
-<h2 class="anchored" data-anchor-id="mist-general-correct-difference-post-pre-independentpredictor-mist-general-correct-pretest">MIST General (% Correct difference Post-Pre) (independent/predictor) &amp; MIST General (% Correct Pretest)</h2>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3560,11 +3582,16 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-</section>
 </div>
-<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<section id="gender-independentpredictor-mist-correct-difference-post-pre-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="gender-independentpredictor-mist-correct-difference-post-pre-dependentoutcome">Gender (independent/predictor) &amp; MIST (% Correct difference post-pre) (dependent/outcome)</h2>
+</div>
+</div>
+</section>
+<section id="gender" class="level2">
+<h2 class="anchored" data-anchor-id="gender">Gender</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href>MIST (% Correct difference post-pre)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href>Gender (independent/predictor) &amp; MIST (% Correct pretest) (dependent/outcome)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3582,27 +3609,27 @@ vertical-align: -.125em;
 <thead>
 <tr class="header">
 <th style="text-align: left;">Level1</th>
-<th style="text-align: right;">Level2</th>
+<th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(258)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: left;">Woman</td>
 <td style="text-align: left;">Man</td>
-<td style="text-align: right;">Woman</td>
-<td style="text-align: right;">-0.02</td>
-<td style="text-align: left;">(-0.05, 0.01)</td>
-<td style="text-align: left;">0.01</td>
-<td style="text-align: right;">-1.19</td>
-<td style="text-align: left;">0.237</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">(-0.01, 0.05)</td>
+<td style="text-align: right;">1.19</td>
+<td style="text-align: right;">0.237</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Gender p-values are uncorrected.</p>
+<p>Variable predicted: MIST_correct_Diff Predictors contrasted: Gender p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -3620,9 +3647,8 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-</section>
-<section id="gender-independentpredictor-mist-correct-pretest-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="gender-independentpredictor-mist-correct-pretest-dependentoutcome">Gender (independent/predictor) &amp; MIST (% Correct pretest) (dependent/outcome)</h2>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3640,27 +3666,27 @@ vertical-align: -.125em;
 <thead>
 <tr class="header">
 <th style="text-align: left;">Level1</th>
-<th style="text-align: right;">Level2</th>
+<th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(258)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: left;">Woman</td>
 <td style="text-align: left;">Man</td>
-<td style="text-align: right;">Woman</td>
-<td style="text-align: right;">0.02</td>
-<td style="text-align: left;">(-0.01, 0.05)</td>
-<td style="text-align: left;">0.01</td>
-<td style="text-align: right;">1.46</td>
-<td style="text-align: left;">0.145</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">(-0.05, 0.01)</td>
+<td style="text-align: right;">-1.46</td>
+<td style="text-align: right;">0.145</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Gender p-values are uncorrected.</p>
+<p>Variable predicted: MIST_correct_Pretest_avg Predictors contrasted: Gender p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -3678,11 +3704,16 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-</section>
 </div>
-<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<section id="education-independentpredictor-mist-correct-difference-post-pre-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="education-independentpredictor-mist-correct-difference-post-pre-dependentoutcome">Education (independent/predictor) &amp; MIST (% Correct difference post-pre) (dependent/outcome)</h2>
+</div>
+</div>
+</section>
+<section id="education" class="level2">
+<h2 class="anchored" data-anchor-id="education">Education</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href>Education (independent/predictor) &amp; MIST (% Correct difference post-pre) (dependent/outcome)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href>Education (independent/predictor) &amp; MIST (% Correct pretest) (dependent/outcome)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3708,80 +3739,80 @@ vertical-align: -.125em;
 <col style="width: 17%">
 <col style="width: 17%">
 <col style="width: 16%">
-<col style="width: 20%">
 <col style="width: 7%">
+<col style="width: 20%">
 <col style="width: 10%">
 <col style="width: 8%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Level1</th>
-<th style="text-align: right;">Level2</th>
+<th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(245)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: left;">Doctorate</td>
 <td style="text-align: left;">Bachelor</td>
-<td style="text-align: right;">Doctorate</td>
-<td style="text-align: right;">-0.02</td>
-<td style="text-align: left;">(-0.10, 0.06)</td>
-<td style="text-align: left;">0.04</td>
-<td style="text-align: right;">-0.43</td>
-<td style="text-align: left;">0.667</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Bachelor</td>
-<td style="text-align: right;">High School</td>
 <td style="text-align: right;">0.02</td>
-<td style="text-align: left;">(-0.01, 0.06)</td>
-<td style="text-align: left;">0.02</td>
-<td style="text-align: right;">1.43</td>
-<td style="text-align: left;">0.155</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Bachelor</td>
-<td style="text-align: right;">Master</td>
 <td style="text-align: right;">0.04</td>
-<td style="text-align: left;">( 0.00, 0.08)</td>
-<td style="text-align: left;">0.02</td>
-<td style="text-align: right;">1.82</td>
-<td style="text-align: left;">0.070</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Doctorate</td>
-<td style="text-align: right;">High School</td>
-<td style="text-align: right;">0.04</td>
-<td style="text-align: left;">(-0.04, 0.12)</td>
-<td style="text-align: left;">0.04</td>
-<td style="text-align: right;">1.03</td>
-<td style="text-align: left;">0.303</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Doctorate</td>
-<td style="text-align: right;">Master</td>
-<td style="text-align: right;">0.06</td>
-<td style="text-align: left;">(-0.03, 0.14)</td>
-<td style="text-align: left;">0.04</td>
-<td style="text-align: right;">1.33</td>
-<td style="text-align: left;">0.184</td>
+<td style="text-align: right;">(-0.06, 0.10)</td>
+<td style="text-align: right;">0.43</td>
+<td style="text-align: right;">0.667</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">High School</td>
-<td style="text-align: right;">Master</td>
+<td style="text-align: left;">Bachelor</td>
+<td style="text-align: right;">-0.02</td>
 <td style="text-align: right;">0.02</td>
-<td style="text-align: left;">(-0.03, 0.06)</td>
-<td style="text-align: left;">0.02</td>
-<td style="text-align: right;">0.73</td>
-<td style="text-align: left;">0.465</td>
+<td style="text-align: right;">(-0.06, 0.01)</td>
+<td style="text-align: right;">-1.43</td>
+<td style="text-align: right;">0.155</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Master</td>
+<td style="text-align: left;">Bachelor</td>
+<td style="text-align: right;">-0.04</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">(-0.08, 0.00)</td>
+<td style="text-align: right;">-1.82</td>
+<td style="text-align: right;">0.070</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">High School</td>
+<td style="text-align: left;">Doctorate</td>
+<td style="text-align: right;">-0.04</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">(-0.12, 0.04)</td>
+<td style="text-align: right;">-1.03</td>
+<td style="text-align: right;">0.303</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Master</td>
+<td style="text-align: left;">Doctorate</td>
+<td style="text-align: right;">-0.06</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">(-0.14, 0.03)</td>
+<td style="text-align: right;">-1.33</td>
+<td style="text-align: right;">0.184</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Master</td>
+<td style="text-align: left;">High School</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">(-0.06, 0.03)</td>
+<td style="text-align: right;">-0.73</td>
+<td style="text-align: right;">0.465</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Education p-values are uncorrected.</p>
+<p>Variable predicted: MIST_correct_Diff Predictors contrasted: Education p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -3799,9 +3830,8 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-</section>
-<section id="education-independentpredictor-mist-correct-pretest-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="education-independentpredictor-mist-correct-pretest-dependentoutcome">Education (independent/predictor) &amp; MIST (% Correct pretest) (dependent/outcome)</h2>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3819,80 +3849,80 @@ vertical-align: -.125em;
 <col style="width: 17%">
 <col style="width: 17%">
 <col style="width: 16%">
-<col style="width: 20%">
 <col style="width: 7%">
+<col style="width: 20%">
 <col style="width: 10%">
 <col style="width: 8%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Level1</th>
-<th style="text-align: right;">Level2</th>
+<th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(245)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Bachelor</td>
-<td style="text-align: right;">Doctorate</td>
-<td style="text-align: right;">-0.03</td>
-<td style="text-align: left;">(-0.11, 0.04)</td>
-<td style="text-align: left;">0.04</td>
-<td style="text-align: right;">-0.91</td>
-<td style="text-align: left;">0.364</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Bachelor</td>
-<td style="text-align: right;">High School</td>
-<td style="text-align: right;">-0.01</td>
-<td style="text-align: left;">(-0.04, 0.02)</td>
-<td style="text-align: left;">0.02</td>
-<td style="text-align: right;">-0.86</td>
-<td style="text-align: left;">0.391</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Bachelor</td>
-<td style="text-align: right;">Master</td>
-<td style="text-align: right;">-1.83e-03</td>
-<td style="text-align: left;">(-0.04, 0.04)</td>
-<td style="text-align: left;">0.02</td>
-<td style="text-align: right;">-0.09</td>
-<td style="text-align: left;">0.928</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">Doctorate</td>
-<td style="text-align: right;">High School</td>
-<td style="text-align: right;">0.02</td>
-<td style="text-align: left;">(-0.05, 0.10)</td>
-<td style="text-align: left;">0.04</td>
-<td style="text-align: right;">0.56</td>
-<td style="text-align: left;">0.575</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Doctorate</td>
-<td style="text-align: right;">Master</td>
+<td style="text-align: left;">Bachelor</td>
 <td style="text-align: right;">0.03</td>
-<td style="text-align: left;">(-0.05, 0.11)</td>
-<td style="text-align: left;">0.04</td>
-<td style="text-align: right;">0.83</td>
-<td style="text-align: left;">0.409</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">(-0.04, 0.11)</td>
+<td style="text-align: right;">0.91</td>
+<td style="text-align: right;">0.364</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">High School</td>
-<td style="text-align: right;">Master</td>
+<td style="text-align: left;">Bachelor</td>
 <td style="text-align: right;">0.01</td>
-<td style="text-align: left;">(-0.03, 0.05)</td>
-<td style="text-align: left;">0.02</td>
-<td style="text-align: right;">0.61</td>
-<td style="text-align: left;">0.543</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">(-0.02, 0.04)</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">0.391</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Master</td>
+<td style="text-align: left;">Bachelor</td>
+<td style="text-align: right;">1.83e-03</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">(-0.04, 0.04)</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.928</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">High School</td>
+<td style="text-align: left;">Doctorate</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">(-0.10, 0.05)</td>
+<td style="text-align: right;">-0.56</td>
+<td style="text-align: right;">0.575</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Master</td>
+<td style="text-align: left;">Doctorate</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">(-0.11, 0.05)</td>
+<td style="text-align: right;">-0.83</td>
+<td style="text-align: right;">0.409</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Master</td>
+<td style="text-align: left;">High School</td>
+<td style="text-align: right;">-0.01</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">(-0.05, 0.03)</td>
+<td style="text-align: right;">-0.61</td>
+<td style="text-align: right;">0.543</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Education p-values are uncorrected.</p>
+<p>Variable predicted: MIST_correct_Pretest_avg Predictors contrasted: Education p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -3910,11 +3940,14 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-</section>
 </div>
-<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
-<section id="age-independentpredictor-mist-correct-pretest-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="age-independentpredictor-mist-correct-pretest-dependentoutcome">Age (independent/predictor) &amp; MIST (% Correct pretest) (dependent/outcome)</h2>
+</div>
+</div>
+</section>
+<section id="age" class="level2">
+<h2 class="anchored" data-anchor-id="age">Age</h2>
+<section id="age-independentpredictor-mist-correct-pretest-dependentoutcome" class="level3">
+<h3 class="anchored" data-anchor-id="age-independentpredictor-mist-correct-pretest-dependentoutcome">Age (independent/predictor) &amp; MIST (% Correct pretest) (dependent/outcome)</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3982,11 +4015,9 @@ vertical-align: -.125em;
 </div>
 </div>
 </section>
-<section id="age-independentpredictor-mist-correct-difference-post-pre-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="age-independentpredictor-mist-correct-difference-post-pre-dependentoutcome">Age (independent/predictor) &amp; MIST (% Correct difference post-pre) (dependent/outcome)</h2>
-</section>
-<section id="why-does-this-one-show-essentially-no-change-in-intervention-effect-size-whatsoever-feels-like-i-made-a-mistake-here-somewhere" class="level2">
-<h2 class="anchored" data-anchor-id="why-does-this-one-show-essentially-no-change-in-intervention-effect-size-whatsoever-feels-like-i-made-a-mistake-here-somewhere">why does this one show essentially no change in intervention effect size whatsoever? Feels like I made a mistake here somewhere</h2>
+<section id="age-independentpredictor-mist-correct-difference-post-pre-dependentoutcome" class="level3">
+<h3 class="anchored" data-anchor-id="age-independentpredictor-mist-correct-difference-post-pre-dependentoutcome">Age (independent/predictor) &amp; MIST (% Correct difference post-pre) (dependent/outcome)</h3>
+<!-- why does this one show essentially no change in intervention effect size whatsoever? Feels like I made a mistake here somewhere -->
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4054,10 +4085,11 @@ vertical-align: -.125em;
 </div>
 </div>
 </section>
-</div>
-<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
-<section id="intervention-vs-control-independentpredictor-mocri-correct-difference-post-pre-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mocri-correct-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MOCRI (% Correct difference post-pre) (dependent/outcome)</h2>
+</section>
+<section id="intervention-vs-control" class="level2">
+<h2 class="anchored" data-anchor-id="intervention-vs-control">Intervention vs Control</h2>
+<section id="intervention-vs-control-independentpredictor-mocri-correct-difference-post-pre-dependentoutcome" class="level3">
+<h3 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mocri-correct-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MOCRI (% Correct difference post-pre) (dependent/outcome)</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4075,10 +4107,10 @@ vertical-align: -.125em;
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -4086,14 +4118,14 @@ vertical-align: -.125em;
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">-9.01e-04</td>
-<td style="text-align: left;">(-0.03, 0.03)</td>
-<td style="text-align: left;">0.02</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">(-0.03, 0.03)</td>
 <td style="text-align: right;">-0.06</td>
-<td style="text-align: left;">0.952</td>
+<td style="text-align: right;">0.952</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: MOCRI_correct_Diff Predictors contrasted: Intervention p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -4112,8 +4144,8 @@ vertical-align: -.125em;
 </div>
 </div>
 </section>
-<section id="intervention-vs-control-independentpredictor-mocri-dprime-difference-post-pre-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mocri-dprime-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MOCRI (% dprime difference post-pre) (dependent/outcome)</h2>
+<section id="intervention-vs-control-independentpredictor-mocri-dprime-difference-post-pre-dependentoutcome" class="level3">
+<h3 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mocri-dprime-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MOCRI (% dprime difference post-pre) (dependent/outcome)</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4131,10 +4163,10 @@ vertical-align: -.125em;
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -4142,14 +4174,14 @@ vertical-align: -.125em;
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">0.11</td>
-<td style="text-align: left;">(-0.15, 0.37)</td>
-<td style="text-align: left;">0.13</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">(-0.15, 0.37)</td>
 <td style="text-align: right;">0.84</td>
-<td style="text-align: left;">0.403</td>
+<td style="text-align: right;">0.403</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: MOCRI_dprime_Diff Predictors contrasted: Intervention p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -4168,8 +4200,8 @@ vertical-align: -.125em;
 </div>
 </div>
 </section>
-<section id="intervention-vs-control-independentpredictor-mist-covid-correct-difference-post-pre-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mist-covid-correct-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST COVID (% Correct difference post-pre) (dependent/outcome)</h2>
+<section id="intervention-vs-control-independentpredictor-mist-covid-correct-difference-post-pre-dependentoutcome" class="level3">
+<h3 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mist-covid-correct-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST COVID (% Correct difference post-pre) (dependent/outcome)</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4187,10 +4219,10 @@ vertical-align: -.125em;
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -4198,14 +4230,14 @@ vertical-align: -.125em;
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">-0.06</td>
-<td style="text-align: left;">(-0.10, -0.01)</td>
-<td style="text-align: left;">0.02</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">(-0.10, -0.01)</td>
 <td style="text-align: right;">-2.42</td>
-<td style="text-align: left;">0.016</td>
+<td style="text-align: right;">0.016</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: MIST_correct_Diff_covid Predictors contrasted: Intervention p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -4224,8 +4256,8 @@ vertical-align: -.125em;
 </div>
 </div>
 </section>
-<section id="intervention-vs-control-independentpredictor-mist-covid-dprime-difference-post-pre-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mist-covid-dprime-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST COVID (dprime difference post-pre) (dependent/outcome)</h2>
+<section id="intervention-vs-control-independentpredictor-mist-covid-dprime-difference-post-pre-dependentoutcome" class="level3">
+<h3 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mist-covid-dprime-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST COVID (dprime difference post-pre) (dependent/outcome)</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4243,10 +4275,10 @@ vertical-align: -.125em;
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -4254,14 +4286,14 @@ vertical-align: -.125em;
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">-0.32</td>
-<td style="text-align: left;">(-0.57, -0.06)</td>
-<td style="text-align: left;">0.13</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">(-0.57, -0.06)</td>
 <td style="text-align: right;">-2.46</td>
-<td style="text-align: left;">0.014</td>
+<td style="text-align: right;">0.014</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: MIST_dprime_Diff_covid Predictors contrasted: Intervention p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -4280,8 +4312,8 @@ vertical-align: -.125em;
 </div>
 </div>
 </section>
-<section id="intervention-vs-control-independentpredictor-mist-general-correct-difference-post-pre-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mist-general-correct-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST general (% Correct difference post-pre) (dependent/outcome)</h2>
+<section id="intervention-vs-control-independentpredictor-mist-general-correct-difference-post-pre-dependentoutcome" class="level3">
+<h3 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mist-general-correct-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST general (% Correct difference post-pre) (dependent/outcome)</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4299,10 +4331,10 @@ vertical-align: -.125em;
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -4310,14 +4342,14 @@ vertical-align: -.125em;
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">-0.03</td>
-<td style="text-align: left;">(-0.06, 0.00)</td>
-<td style="text-align: left;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">(-0.06, 0.00)</td>
 <td style="text-align: right;">-1.88</td>
-<td style="text-align: left;">0.061</td>
+<td style="text-align: right;">0.061</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: MIST_correct_Diff_general Predictors contrasted: Intervention p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -4336,8 +4368,8 @@ vertical-align: -.125em;
 </div>
 </div>
 </section>
-<section id="intervention-vs-control-independentpredictor-mist-general-dprime-difference-post-pre-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mist-general-dprime-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST general (dprime difference post-pre) (dependent/outcome)</h2>
+<section id="intervention-vs-control-independentpredictor-mist-general-dprime-difference-post-pre-dependentoutcome" class="level3">
+<h3 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mist-general-dprime-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST general (dprime difference post-pre) (dependent/outcome)</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4355,10 +4387,10 @@ vertical-align: -.125em;
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -4366,14 +4398,14 @@ vertical-align: -.125em;
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">-0.19</td>
-<td style="text-align: left;">(-0.37, -0.01)</td>
-<td style="text-align: left;">0.09</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">(-0.37, -0.01)</td>
 <td style="text-align: right;">-2.13</td>
-<td style="text-align: left;">0.034</td>
+<td style="text-align: right;">0.034</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: MIST_dprime_Diff_general Predictors contrasted: Intervention p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -4392,8 +4424,8 @@ vertical-align: -.125em;
 </div>
 </div>
 </section>
-<section id="intervention-vs-control-independentpredictor-mist-total-correct-difference-post-pre-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mist-total-correct-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST total (% Correct difference post-pre) (dependent/outcome)</h2>
+<section id="intervention-vs-control-independentpredictor-mist-total-correct-difference-post-pre-dependentoutcome" class="level3">
+<h3 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mist-total-correct-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST total (% Correct difference post-pre) (dependent/outcome)</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4411,10 +4443,10 @@ vertical-align: -.125em;
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -4422,14 +4454,14 @@ vertical-align: -.125em;
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">-0.04</td>
-<td style="text-align: left;">(-0.07, -0.01)</td>
-<td style="text-align: left;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">(-0.07, -0.01)</td>
 <td style="text-align: right;">-2.96</td>
-<td style="text-align: left;">0.003</td>
+<td style="text-align: right;">0.003</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: MIST_correct_Diff Predictors contrasted: Intervention p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -4448,8 +4480,8 @@ vertical-align: -.125em;
 </div>
 </div>
 </section>
-<section id="intervention-vs-control-independentpredictor-mist-total-dprime-difference-post-pre-dependentoutcome" class="level2">
-<h2 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mist-total-dprime-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST total (dprime difference post-pre) (dependent/outcome)</h2>
+<section id="intervention-vs-control-independentpredictor-mist-total-dprime-difference-post-pre-dependentoutcome" class="level3">
+<h3 class="anchored" data-anchor-id="intervention-vs-control-independentpredictor-mist-total-dprime-difference-post-pre-dependentoutcome">Intervention vs Control (independent/predictor) &amp; MIST total (dprime difference post-pre) (dependent/outcome)</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4467,10 +4499,10 @@ vertical-align: -.125em;
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -4478,14 +4510,14 @@ vertical-align: -.125em;
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">-0.25</td>
-<td style="text-align: left;">(-0.41, -0.10)</td>
-<td style="text-align: left;">0.08</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">(-0.41, -0.10)</td>
 <td style="text-align: right;">-3.15</td>
-<td style="text-align: left;">0.002</td>
+<td style="text-align: right;">0.002</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: MIST_dprime_Diff Predictors contrasted: Intervention p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -4504,10 +4536,11 @@ vertical-align: -.125em;
 </div>
 </div>
 </section>
-</div>
-<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
-<section id="confidence-political-ideology" class="level2">
-<h2 class="anchored" data-anchor-id="confidence-political-ideology">CONFIDENCE [political ideology]</h2>
+</section>
+<section id="confidence" class="level2">
+<h2 class="anchored" data-anchor-id="confidence">Confidence</h2>
+<section id="confidence-political-ideology" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-political-ideology">CONFIDENCE [political ideology]</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4892,8 +4925,8 @@ F-statistic: 19.82 on 14 and 1305 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="confidence-intervention-vs-control-pretest-and-posttest" class="level2">
-<h2 class="anchored" data-anchor-id="confidence-intervention-vs-control-pretest-and-posttest">CONFIDENCE [intervention vs control] pretest and posttest</h2>
+<section id="confidence-intervention-vs-control-pretest-and-posttest" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-intervention-vs-control-pretest-and-posttest">CONFIDENCE [intervention vs control] pretest and posttest</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -5088,8 +5121,8 @@ F-statistic: 26.07 on 9 and 1320 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="confidence-intervention-group-only-confidence-and-time" class="level2">
-<h2 class="anchored" data-anchor-id="confidence-intervention-group-only-confidence-and-time">CONFIDENCE [intervention group only] confidence and time</h2>
+<section id="confidence-intervention-group-only-confidence-and-time" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-intervention-group-only-confidence-and-time">CONFIDENCE [intervention group only] confidence and time</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -5108,10 +5141,10 @@ F-statistic: 26.07 on 9 and 1320 DF,  p-value: &lt; 2.2e-16</code></pre>
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -5119,14 +5152,14 @@ F-statistic: 26.07 on 9 and 1320 DF,  p-value: &lt; 2.2e-16</code></pre>
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">-0.02</td>
-<td style="text-align: left;">(-0.05, 0.02)</td>
-<td style="text-align: left;">0.02</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">(-0.05, 0.02)</td>
 <td style="text-align: right;">-1.02</td>
-<td style="text-align: left;">0.307</td>
+<td style="text-align: right;">0.307</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: MIST_Confidence_Posttest - MIST_Confidence_Pretest Predictors contrasted: Intervention Predictors averaged: MIST_Confidence_Posttest (0.37), MIST_Confidence_Pretest (0.34) p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -5146,8 +5179,8 @@ F-statistic: 26.07 on 9 and 1320 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="confidence-posttest-intervention-vs-control" class="level2">
-<h2 class="anchored" data-anchor-id="confidence-posttest-intervention-vs-control">confidence posttest intervention vs control</h2>
+<section id="confidence-posttest-intervention-vs-control" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-posttest-intervention-vs-control">confidence posttest intervention vs control</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -5165,10 +5198,10 @@ F-statistic: 26.07 on 9 and 1320 DF,  p-value: &lt; 2.2e-16</code></pre>
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -5176,14 +5209,14 @@ F-statistic: 26.07 on 9 and 1320 DF,  p-value: &lt; 2.2e-16</code></pre>
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">4.90e-03</td>
-<td style="text-align: left;">(-0.04, 0.05)</td>
-<td style="text-align: left;">0.02</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">(-0.04, 0.05)</td>
 <td style="text-align: right;">0.22</td>
-<td style="text-align: left;">0.824</td>
+<td style="text-align: right;">0.824</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: MIST_Confidence_Posttest Predictors contrasted: Intervention p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -5202,8 +5235,8 @@ F-statistic: 26.07 on 9 and 1320 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="t-test-intervention-group-only-pretest-vs-posttest-confidence" class="level2">
-<h2 class="anchored" data-anchor-id="t-test-intervention-group-only-pretest-vs-posttest-confidence">t-test intervention group ONLY, pretest vs posttest confidence</h2>
+<section id="t-test-intervention-group-only-pretest-vs-posttest-confidence" class="level3">
+<h3 class="anchored" data-anchor-id="t-test-intervention-group-only-pretest-vs-posttest-confidence">t-test intervention group ONLY, pretest vs posttest confidence</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -5230,10 +5263,11 @@ mean difference
 </div>
 </div>
 </section>
-</div>
-<div id="tabset-1-8" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-8-tab">
-<section id="criterion-overall-difference-post-pre-intervention-vs-control" class="level2">
-<h2 class="anchored" data-anchor-id="criterion-overall-difference-post-pre-intervention-vs-control">CRITERION overall difference post-pre intervention vs control</h2>
+</section>
+<section id="criterion" class="level2">
+<h2 class="anchored" data-anchor-id="criterion">Criterion</h2>
+<section id="criterion-overall-difference-post-pre-intervention-vs-control" class="level3">
+<h3 class="anchored" data-anchor-id="criterion-overall-difference-post-pre-intervention-vs-control">CRITERION overall difference post-pre intervention vs control</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -5254,10 +5288,10 @@ mean difference
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -5265,14 +5299,14 @@ mean difference
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">-0.08</td>
-<td style="text-align: left;">(-0.17, 0.00)</td>
-<td style="text-align: left;">0.04</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">(-0.17, 0.00)</td>
 <td style="text-align: right;">-1.86</td>
-<td style="text-align: left;">0.063</td>
+<td style="text-align: right;">0.063</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: Criterion_Difference Predictors contrasted: Intervention p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -5293,8 +5327,8 @@ mean difference
 </div>
 </div>
 </section>
-<section id="criterion-mist-covid-difference-post-pre-intervention-vs-control" class="level2">
-<h2 class="anchored" data-anchor-id="criterion-mist-covid-difference-post-pre-intervention-vs-control">CRITERION MIST-COVID difference post-pre intervention vs control</h2>
+<section id="criterion-mist-covid-difference-post-pre-intervention-vs-control" class="level3">
+<h3 class="anchored" data-anchor-id="criterion-mist-covid-difference-post-pre-intervention-vs-control">CRITERION MIST-COVID difference post-pre intervention vs control</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -5312,10 +5346,10 @@ mean difference
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -5323,14 +5357,14 @@ mean difference
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">-6.89e-03</td>
-<td style="text-align: left;">(-0.14, 0.13)</td>
-<td style="text-align: left;">0.07</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">(-0.14, 0.13)</td>
 <td style="text-align: right;">-0.10</td>
-<td style="text-align: left;">0.921</td>
+<td style="text-align: right;">0.921</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: MIST_criterion_Diff_covid Predictors contrasted: Intervention p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -5351,11 +5385,9 @@ mean difference
 </div>
 </div>
 </section>
-<section id="criterion-mist-general-difference-post-pre-intervention-vs-control" class="level2">
-<h2 class="anchored" data-anchor-id="criterion-mist-general-difference-post-pre-intervention-vs-control">CRITERION MIST-GENERAL difference post-pre intervention vs control</h2>
-</section>
-<section id="this-appears-to-show-opposing-results-in-the-visual-graph-and-printed-modelling-results.-i-interpret-the-results-as-saying-the-badnews-group-performed-worse-but-the-graph-seems-to-show-them-performing-better.-not-sure-whats-up-here.-i-did-a-series-of-verifications-but-never-found-an-error" class="level2">
-<h2 class="anchored" data-anchor-id="this-appears-to-show-opposing-results-in-the-visual-graph-and-printed-modelling-results.-i-interpret-the-results-as-saying-the-badnews-group-performed-worse-but-the-graph-seems-to-show-them-performing-better.-not-sure-whats-up-here.-i-did-a-series-of-verifications-but-never-found-an-error">this appears to show opposing results in the visual graph and printed modelling results. I interpret the results as saying the badnews group performed worse, but the graph seems to show them performing better. not sure what’s up here. I did a series of verifications but never found an error</h2>
+<section id="criterion-mist-general-difference-post-pre-intervention-vs-control" class="level3">
+<h3 class="anchored" data-anchor-id="criterion-mist-general-difference-post-pre-intervention-vs-control">CRITERION MIST-GENERAL difference post-pre intervention vs control</h3>
+<p><!-- this appears to show opposing results in the visual graph and printed modelling results. I interpret the results as saying the badnews group performed worse, but the graph seems to show them performing better. not sure what's up here. I did a series of verifications but never found an error --></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -5373,10 +5405,10 @@ mean difference
 <th style="text-align: left;">Level1</th>
 <th style="text-align: left;">Level2</th>
 <th style="text-align: right;">Difference</th>
-<th style="text-align: left;">95% CI</th>
-<th style="text-align: left;">SE</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">95% CI</th>
 <th style="text-align: right;">t(264)</th>
-<th style="text-align: left;">p</th>
+<th style="text-align: right;">p</th>
 </tr>
 </thead>
 <tbody>
@@ -5384,14 +5416,14 @@ mean difference
 <td style="text-align: left;">Tetris</td>
 <td style="text-align: left;">BadNews</td>
 <td style="text-align: right;">-0.16</td>
-<td style="text-align: left;">(-0.26, -0.06)</td>
-<td style="text-align: left;">0.05</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">(-0.26, -0.06)</td>
 <td style="text-align: right;">-3.09</td>
-<td style="text-align: left;">0.002</td>
+<td style="text-align: right;">0.002</td>
 </tr>
 </tbody>
 </table>
-<p>Marginal contrasts estimated at Intervention p-values are uncorrected.</p>
+<p>Variable predicted: MIST_criterion_Diff_general Predictors contrasted: Intervention p-values are uncorrected.</p>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -5412,9 +5444,10 @@ mean difference
 </div>
 </div>
 </section>
+</section>
 <section id="criterion-and-political-ideology" class="level2">
 <h2 class="anchored" data-anchor-id="criterion-and-political-ideology">Criterion and political ideology</h2>
-<p>##I’m not sure how to interpret this, think there may be errors somewhere involved? Also, at the moment contagion measures ignore fake vs real questions, which I think may just be an oversight but i’m not sure how to correct it in the cleaning script</p>
+<!-- I'm not sure how to interpret this, think there may be errors somewhere involved? Also, at the moment contagion measures ignore fake vs real questions, which I think may just be an oversight but i'm not sure how to correct it in the cleaning script -->
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -5689,6 +5722,9 @@ F-statistic: 29.56 on 11 and 1044 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
+</section>
+<section id="multivariate-model" class="level2">
+<h2 class="anchored" data-anchor-id="multivariate-model">Multivariate Model</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -5711,51 +5747,29 @@ F-statistic: 29.56 on 11 and 1044 DF,  p-value: &lt; 2.2e-16</code></pre>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_contrasts</span>(model, <span class="at">contrast=</span><span class="fu">c</span>(<span class="st">&quot;Condition&quot;</span>), <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;Topic&quot;</span>,<span class="st">&quot;Intervention&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>NOTE: A nesting structure was detected in the fitted model:
-    Topic %in% QuestionType, Condition %in% (QuestionType*Topic), Intervention %in% (QuestionType*Topic)</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Note: Grouping factor(s) for &#39;Topic&#39; have been added to the &#39;by&#39; list.</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Marginal Contrasts Analysis
 
-Level1  |   Level2 |   Topic | Intervention | QuestionType | Difference
------------------------------------------------------------------------
-Pretest | Posttest |   covid |      BadNews |         fake |      -0.14
-Pretest | Posttest |   covid |      BadNews |         real |      -0.13
-Pretest | Posttest |   covid |       Tetris |         fake |       0.09
-Pretest | Posttest |   covid |       Tetris |         real |       0.25
-Pretest | Posttest | general |      BadNews |         fake |      -0.31
-Pretest | Posttest | general |      BadNews |         real |       0.13
-Pretest | Posttest | general |       Tetris |         fake |       0.03
-Pretest | Posttest | general |       Tetris |         real |       0.06
+Level1  | Level2   | Topic   | Intervention | Difference |       SE
+-------------------------------------------------------------------
+Pretest | Posttest | covid   | BadNews      |      -0.03 |     0.02
+Pretest | Posttest | general | BadNews      |      -0.02 | 9.82e-03
+Pretest | Posttest | covid   | Tetris       |       0.03 |     0.02
+Pretest | Posttest | general | Tetris       |       0.01 |     0.01
 
-Level1  |         95% CI |   SE |  df |     z |      p
-------------------------------------------------------
-Pretest | [-0.36,  0.07] | 0.11 | Inf | -1.34 | 0.179 
-Pretest | [-0.37,  0.11] | 0.12 | Inf | -1.05 | 0.293 
-Pretest | [-0.16,  0.34] | 0.13 | Inf |  0.70 | 0.485 
-Pretest | [-0.04,  0.55] | 0.15 | Inf |  1.70 | 0.089 
-Pretest | [-0.44, -0.19] | 0.06 | Inf | -4.84 | &lt; .001
-Pretest | [ 0.01,  0.25] | 0.06 | Inf |  2.10 | 0.036 
-Pretest | [-0.12,  0.18] | 0.08 | Inf |  0.39 | 0.699 
-Pretest | [-0.08,  0.20] | 0.07 | Inf |  0.88 | 0.378 
+Level1  |        95% CI |     z |     p
+---------------------------------------
+Pretest | [-0.06, 0.00] | -1.70 | 0.088
+Pretest | [-0.04, 0.00] | -1.87 | 0.061
+Pretest | [-0.01, 0.07] |  1.64 | 0.101
+Pretest | [-0.01, 0.03] |  0.91 | 0.365
 
-Marginal contrasts estimated at Condition
-p-value adjustment method: Holm (1979)</code></pre>
+Variable predicted: Correct
+Predictors contrasted: Condition
+Predictors averaged: QuestionType, Participant
+p-values are uncorrected.
+Contrasts are on the response-scale.</code></pre>
 </div>
-</div>
-</section>
-</div>
-</div>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co">#browseURL(&quot;analysis_report.html&quot;)  # Use this in the analysis file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 

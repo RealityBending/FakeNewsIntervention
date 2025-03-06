@@ -5,13 +5,11 @@ editor_options:
   chunk_output_type: console
 format:
   html:
-    output-file: "analysis_covariates_report.html"
     code-fold: true
     self-contained: true
     toc: true
 ---
 
-## 
 
 ## Data Preparation
 
