@@ -390,8 +390,6 @@ df$MIST_Confidence_Posttest <- (df$MIST_Confidence_Posttest_fake_covid +
                                 df$MIST_Confidence_Posttest_real_covid) / 4
 
 
-# look at chatGPT history to consider how criterion difference post-pre can also be used to examine skepticism changes via the intervention
-# remember that for much of these comparisons we're only really interested in the intervention group, or intervention group vs control group, but unless directly comparing intervention vs control we likely want to first filter for intervention group
 ```
 
 ```{r}
