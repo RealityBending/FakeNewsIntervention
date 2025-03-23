@@ -1,0 +1,436 @@
+---
+title: "FaceNewsIntervention - Data Analysis"
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: false
+    toc: true
+execute:
+  cache: true
+---
+
+
+## Data Preparation
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(easystats)
+library(patchwork)
+library(ggside)
+library(glmmTMB)
+```
+
+
+```{r}
+#| code-fold: false
+
+df <- read.csv("../data/data_participants.csv") |> 
+  mutate(
+    # Political_Affiliation = fct_relevel(Political_Affiliation, "Green", "Labour", "Democrat", "None", "None or Independent", "Liberal-Democrats", "Conservative", "Republican"),
+    Political_Ideology = fct_relevel(Political_Ideology, "Extremely Liberal", "Liberal", "Slightly Liberal", "Moderate", "Don't Know", "Slightly Conservative", "Conservative", "Extremely Conservative"))
+
+dfmist <- read.csv("../data/data_mist.csv") |> 
+  mutate(Condition = ifelse(Condition == "Pretest", "Pre-test", "Post-test"),
+         Condition = fct_relevel(Condition, "Pre-test", "Post-test"),
+         Intervention = ifelse(Intervention == "Tetris", "Tetris", "Bad News"),
+         Intervention = fct_relevel(Intervention, "Bad News", "Tetris"),
+         Topic = ifelse(Topic == "Covid", "Covid items", "General items"),
+         Topic = fct_relevel(Topic, "General items", "Covid items"),
+         Belief = ifelse(Realness > 0.5, 0, 1),
+         Fakeness = 1 - Realness,
+         Confidence = abs(datawizard::rescale(Fakeness, to = c(-1, 1), range = c(0, 1)))) |> 
+  full_join(select(df, Participant, Sample, Political_IdeologyNumeric, starts_with("BFI"), starts_with("GCBS"), starts_with("VSA")), by = "Participant") |> 
+  filter(Sample == "USA")
+
+dfmocri <- read.csv("../data/data_mocri.csv") |> 
+  full_join(select(df, Participant, Sample, Intervention, Political_IdeologyNumeric, starts_with("BFI"), starts_with("GCBS"), starts_with("VSA")), by = "Participant") |> 
+  mutate(Condition = fct_relevel(Condition, "Pre-test", "Post-test"),
+         Intervention = ifelse(Intervention == "Tetris", "Tetris", "Bad News"),
+         Intervention = fct_relevel(Intervention, "Bad News", "Tetris")) |> 
+  filter(Sample == "USA")
+```
+
+## Intervention 
+
+### MIST - Beliefs
+
+```{r}
+#| code-fold: false
+
+dfmist |> 
+  ggplot(aes(x=Realness)) +
+  geom_histogram(aes(fill=Nature), alpha=0.6, position="identity", bins=30)
+
+m1 <- glmmTMB(
+  Belief ~ Intervention * Condition * Nature * Topic + (Condition * Nature|Participant) + (1|Item ),
+  data = dfmist,
+  family = "binomial"
+)
+
+means1 <- estimate_means(m1, by=c("Nature", "Condition", "Intervention", "Topic"))
+means1$Topic <- paste0("MIST (", means1$Topic, ")")
+
+estimate_contrasts(m1, contrast="Condition", by=c("Topic", "Nature", "Intervention"), p_adjust="holm")
+estimate_contrasts(m1, contrast="Intervention", by=c("Topic", "Nature", "Condition='Pre-test'"), p_adjust="holm")
+
+dfsub <- estimate_grouplevel(m1) 
+
+left_join(dfsub, select(df, Level=Participant, Intervention), by = "Level") |>
+  filter(Intervention == "BadNewsGame") |> 
+  performance::performance_dvour()
+# dfsub |> 
+#   filter(Group != "Item", Parameter %in% c("(Intercept)", "ConditionPre-test:NatureReal")) 
+```
+
+
+```{r}
+# m <- glmmTMB(
+#   Fakeness ~ Intervention / Condition / Nature * Topic + (Nature / Condition|Participant) + (1|Item ),
+#   data = dfmist,
+#   family = ordbeta()
+# )
+# 
+# means <- estimate_means(m, by=c("Nature", "Condition", "Intervention", "Topic"))
+# p_mist2 <- means |> 
+#   ggplot(aes(x=Condition, y=Proportion, color=Nature, group=interaction(Nature, Intervention))) +
+#   geom_line(aes(linetype=Intervention), position=position_dodge2(width=0.2)) +
+#   geom_pointrange(aes(ymin=CI_low, ymax=CI_high), position=position_dodge2(width=0.2)) +
+#   facet_wrap(~Topic) +
+#   scale_color_manual(values=c("Fake"="#F44336", "Real"="#4CAF50")) +
+#   scale_y_continuous(labels=scales::percent) + 
+#   theme_minimal() + 
+#   labs(y="Belief\nReal vs. Fake", title = "MIST") +
+#   theme(axis.title.x=element_blank(),
+#         strip.background = element_rect(fill="lightgrey", color="white"))
+# p_mist2
+# 
+# # p_mist1 / p_mist2
+# 
+# estimate_contrasts(m, contrast="Condition", by=c("Topic", "Nature", "Intervention"), p_adjust="holm")
+# estimate_contrasts(m, contrast="Intervention", by=c("Topic", "Nature", "Condition='Pre-test'"), p_adjust="holm")
+```
+
+
+### MIST - Confidence
+
+```{r}
+#| code-fold: false
+
+dfmist |> 
+  ggplot(aes(x=Confidence)) +
+  geom_histogram(aes(fill=Nature), alpha=0.6, position="identity", bins=30)
+
+
+m2 <- glmmTMB(
+  Confidence ~ Intervention * Condition * Nature * Topic + (Nature * Condition|Participant) + (1|Item ),
+  data = filter(dfmist, Correct == 1),
+  family = ordbeta()
+)
+
+means2 <- estimate_means(m2, by=c("Nature", "Condition", "Intervention", "Topic"))
+means2$Topic <- paste0("MIST (", means2$Topic, ")")
+
+p_mist2 <- means2 |>
+  ggplot(aes(x=Condition, y=Proportion, color=Nature, group=interaction(Nature, Intervention))) +
+  geom_line(aes(linetype=Intervention), position=position_dodge2(width=0.2)) +
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high), position=position_dodge2(width=0.2)) +
+  facet_wrap(~Topic) +
+  scale_color_manual(values=c("Fake"="#F44336", "Real"="#4CAF50")) +
+  scale_y_continuous(labels=scales::percent) +
+  theme_minimal() +
+  labs(y="Correct Responses - Confidence", color="Items") +
+  theme(axis.title.x=element_blank(),
+        strip.background = element_rect(fill="lightgrey", color="white"))
+p_mist2
+# 
+# # p_mist1 / p_mist2
+# 
+estimate_contrasts(m2, contrast="Condition", by=c("Topic", "Nature", "Intervention"), p_adjust="holm")
+estimate_contrasts(m2, contrast="Intervention", by=c("Topic", "Nature", "Condition='Pre-test'"), p_adjust="holm")
+```
+
+
+### MOCRI
+
+```{r}
+#| code-fold: false
+
+m3 <- glmmTMB(
+  Manipulative ~ Intervention * Nature * Condition + (Nature | Participant) + (1|Item ),
+  data = dfmocri,
+  family = "binomial"
+)
+
+means3 <- estimate_means(m3, by=c("Nature", "Condition", "Intervention"))
+means3$Topic <- "MOCRI"
+
+estimate_contrasts(m3, contrast="Condition", by=c("Nature", "Intervention"), p_adjust="holm")
+estimate_contrasts(m3, contrast="Intervention", by=c("Nature", "Condition='Pre-test'"), p_adjust="holm")
+```
+
+```{r}
+p1 <- rbind(means1, means3) |> 
+  ggplot(aes(x=Condition, y=Probability, color=Nature, group=interaction(Nature, Intervention))) +
+  geom_hline(yintercept=0.5, color="lightgrey") +
+  geom_line(aes(linetype=Intervention), position=position_dodge2(width=0.2), linewidth = 1) +
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high), position=position_dodge2(width=0.2), size = 1) +
+  scale_color_manual(values=c("Fake"="#F44336", "Real"="#4CAF50", "Manipulative"="#F44336", "NonManipulative"="#4CAF50"), 
+                       breaks = c("Fake", "Real"), 
+                       labels = c("Fake / Manipulative", "Real / Non-Manipulative")) +
+  scale_y_continuous(labels=scales::percent) + 
+  theme_minimal() + 
+  labs(y="Probability of Believing an Item Fake/Manipulative", color="Items") +
+  facet_wrap(~Topic) +
+  theme(strip.background = element_rect(fill="lightgrey", color="white"),
+        axis.title.x=element_blank()) +
+  geom_text(data = rbind(
+    data.frame(x = 1.48, y = 0.42, Nature="Fake", Intervention="Bad News", Topic = "MIST (Covid items)", label = c("*")),
+    data.frame(x = 1.48, y = 0.7, Nature="Fake", Intervention="Bad News", Topic = "MIST (General items)", label = c("**")),
+    data.frame(x = 0.98, y = 0.69, Nature="Fake", Intervention="Bad News", Topic = "MIST (General items)", label = c("**")),
+    data.frame(x = 0.98, y = 0.75, Nature="Fake", Intervention="Bad News", Topic = "MOCRI", label = c(""))
+  ),
+    aes(x = x, y = y, label = label)
+  )
+p1
+```
+
+## Determinants
+
+::: panel-tabset
+
+### Political Ideology
+
+```{r}
+make_covariatemodel <- function(covariate="Political_IdeologyNumeric") {
+  # MIST ---------------------------------------------------------------------
+  f <- paste0("Belief ~ Nature / poly(", 
+              covariate, 
+              ", 2) * Topic + (Nature|Participant) + (1|Item)")
+  
+  m <- glmmTMB(
+    as.formula(f),
+    data = dfmist[!is.na(dfmist[[covariate]]) & dfmist$Condition == "Pre-test",],
+    family = "binomial"
+  )
+  
+  # m <- glmmTMB(
+  #   Fakeness ~ Nature / poly(Political_IdeologyNumeric, 2) * Topic + (Nature|Participant) + (1|Item ),
+  #   data = filter(dfmist, Condition == "Pre-test", !is.na(Political_IdeologyNumeric)),
+  #   family = ordbeta()
+  # )
+  
+  # parameters::parameters(m)
+
+  
+  pred <- estimate_relation(m, by=c("Nature", covariate, "Topic"), length = 20) 
+  pred$x <- pred[[covariate]]
+  pred$Topic <- paste0("MIST (", pred$Topic, ")")
+  
+  # Benchmark
+  trends1 <- estimate_slopes(m, trend=covariate, by=c(covariate, "Nature", "Topic"), length=5, backend = "emmeans")
+  
+  # Confidence ----------------------------------------------------------------
+  f <- paste0("Confidence ~ Nature / poly(", 
+              covariate, 
+              ", 2) * Topic + (Nature|Participant) + (1|Item)")
+  
+  m <- glmmTMB(
+    as.formula(f),
+    data = dfmist[!is.na(dfmist[[covariate]]) & dfmist$Condition == "Pre-test" & dfmist$Correct == 1,],
+    family = ordbeta()
+  )
+  
+  pred2 <- estimate_relation(m, by=c("Nature", covariate, "Topic"), length = 20) 
+  pred2$x <- pred2[[covariate]]
+  pred2$Topic <- paste0("MIST (", pred2$Topic, ")")
+  
+  p_conf <- pred2 |> 
+    ggplot(aes(x=x, y=Predicted)) +
+    geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Nature), alpha=0.3) +
+    geom_line(aes(color=Nature)) +
+    scale_color_manual(values=c("Fake"="#F44336", "Real"="#4CAF50", "Manipulative"="#F44336", "NonManipulative"="#4CAF50"), 
+                       breaks = c("Fake", "Real"), 
+                       labels = c("Fake / Manipulative", "Real / Non-Manipulative")) +
+    scale_fill_manual(values=c("Fake"="#F44336", "Real"="#4CAF50", "Manipulative"="#F44336", "NonManipulative"="#4CAF50"), 
+                       breaks = c("Fake", "Real"), 
+                       labels = c("Fake / Manipulative", "Real / Non-Manipulative")) +
+    scale_y_continuous(labels=scales::percent) + 
+    theme_minimal() +
+    facet_wrap(~Topic) +
+    labs(x = covariate, y="Correct Responses - Confidence") +
+    theme(strip.background = element_rect(fill="lightgrey", color="white"),
+          axis.title.x = element_text(face="bold"))
+  
+  trends_conf <- estimate_slopes(m, trend=covariate, by=c(covariate, "Nature", "Topic"), length=5, backend="emmeans")
+  
+  # MOCRI --------------------------------------------------------------------
+  f <- paste0("Manipulative ~ Nature / poly(", 
+              covariate, 
+              ", 2) + (Nature|Participant) + (1|Item)")
+  
+  m <- glmmTMB(
+    as.formula(f),
+    data = dfmocri[!is.na(dfmocri[[covariate]]) & dfmocri$Condition == "Pre-test",], 
+    family = "binomial"
+  )
+  
+  pred3 <- estimate_relation(m, by=c("Nature", covariate), length = 20) 
+  pred3$x <- pred3[[covariate]]
+  pred3$Topic <- "MOCRI"
+  
+  p <- rbind(pred, pred3) |> 
+    ggplot(aes(x=x, y=Predicted)) +
+    geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Nature), alpha=0.3) +
+    geom_line(aes(color=Nature)) +
+    scale_color_manual(values=c("Fake"="#F44336", "Real"="#4CAF50", "Manipulative"="#F44336", "NonManipulative"="#4CAF50"), 
+                       breaks = c("Fake", "Real"), 
+                       labels = c("Fake / Manipulative", "Real / Non-Manipulative")) +
+    scale_fill_manual(values=c("Fake"="#F44336", "Real"="#4CAF50", "Manipulative"="#F44336", "NonManipulative"="#4CAF50"), 
+                       breaks = c("Fake", "Real"), 
+                       labels = c("Fake / Manipulative", "Real / Non-Manipulative")) +
+    scale_y_continuous(labels=scales::percent) + 
+    theme_minimal() +
+    facet_wrap(~Topic) +
+    labs(x = covariate, y = "Probability of Believing an Item Fake/Manipulative") +
+    theme(strip.background = element_rect(fill="lightgrey", color="white"),
+          axis.title.x = element_text(face="bold"))
+  
+  trends2 <- estimate_slopes(m, trend=covariate, by=c(covariate, "Nature"), length=5, backend="emmeans")
+  trends2$Topic <- "MOCRI"
+  
+  list(p=p, trends=rbind(trends1, trends2), p_conf = p_conf, trends_conf=trends_conf)
+}
+
+rez_ideology <- make_covariatemodel(covariate="Political_IdeologyNumeric")
+rez_ideology$p
+filter(rez_ideology$trends, p < .05)
+
+rez_ideology$p_conf
+filter(rez_ideology$trends_conf, p < .05)
+```
+
+### Authoritarianism
+
+```{r}
+rez_vsa <- make_covariatemodel(covariate="VSA_General")
+rez_vsa$p
+rez_vsa$trends |> 
+  filter(p < .05)
+
+rez_vsa$p_conf
+rez_vsa$trends_conf |> 
+  filter(p < .05)
+```
+
+### Personality
+
+```{r}
+rez_neuro <- make_covariatemodel(covariate="BFI_Neuroticism")
+rez_neuro$p
+rez_neuro$trends |>
+  filter(p < .05)
+
+rez_neuro$p_conf
+rez_neuro$trends_conf |>
+  filter(p < .05)
+```
+
+```{r}
+rez_consc <- make_covariatemodel(covariate="BFI_Conscientiousness")
+rez_consc$p
+rez_consc$trends |>
+  filter(p < .05)
+
+rez_consc$p_conf
+rez_consc$trends_conf |>
+  filter(p < .05)
+```
+
+```{r}
+rez_agre <- make_covariatemodel(covariate="BFI_Agreeableness")
+rez_agre$p
+rez_agre$trends |>
+  filter(p < .05)
+
+rez_agre$p_conf
+rez_agre$trends_conf |>
+  filter(p < .05)
+```
+
+```{r}
+rez_open <- make_covariatemodel(covariate="BFI_Openness")
+rez_open$p
+rez_open$trends |>
+  filter(p < .05)
+
+rez_open$p_conf
+# rez_open$trends_conf |>
+#   filter(p < .1)
+```
+
+```{r}
+rez_extr <- make_covariatemodel(covariate="BFI_Extraversion")
+rez_extr$p
+rez_extr$trends |>
+  filter(p < .05)
+
+rez_extr$p_conf
+# rez_extr$trends_conf |>
+#   filter(p < .2)
+```
+
+### Conspiracy
+
+```{r}
+rez_gcbsg <- make_covariatemodel(covariate="GCBS_General")
+rez_gcbsg$p
+rez_gcbsg$trends |>
+  filter(p < .05)
+
+rez_gcbsg$p_conf
+rez_gcbsg$trends_conf |>
+  filter(p < .05)
+```
+
+```{r}
+rez_gcbs2 <- make_covariatemodel(covariate="GCBS_GovernmentMalfeasance")
+rez_gcbs2$p
+rez_gcbs2$trends |>
+  filter(p < .05)
+
+rez_gcbs2$p_conf
+rez_gcbs2$trends_conf |>
+  filter(p < .05)
+```
+
+
+:::
+
+
+## Figures
+
+```{r}
+#| fig-width: 10
+#| fig-height: 13
+
+((p1 + labs(title = "A. Effect Intervention")) /
+  (rez_vsa$p + labs(x = "Authoritarianism", title = "B. Effect of Individual Characteristics")) /
+  (rez_gcbsg$p + labs(x = "Conspiracy Beliefs") + theme(strip.text = element_blank())) /
+  (rez_neuro$p + labs(x = "Neuroticism") + theme(strip.text = element_blank()))) +
+  plot_layout(heights = c(1, 0.4, 0.4, 0.4), guides = "collect", axis_titles = "collect")
+```
+
+```{r}
+#| fig-width: 10
+#| fig-height: 7
+
+p_mist2 
+#   rez_vsa$p_conf /
+#   rez_gcbs2$p_conf
+```

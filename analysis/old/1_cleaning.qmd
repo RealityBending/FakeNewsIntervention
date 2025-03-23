@@ -1,0 +1,451 @@
+---
+title: "FaceNewsIntervention - Data Cleaning"
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    output-file: "cleaning_report.html"
+    code-fold: true
+    self-contained: true
+    toc: true
+---
+
+
+## Data Preparation
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(easystats)
+library(patchwork)
+library(ggside)
+library(modelsummary)
+```
+
+
+```{r}
+#| code-fold: false
+
+df <- read.csv("../data/rawdata.csv") 
+
+dfmist <- read.csv("../data/rawdata_mist.csv")
+```
+
+The initial sample consisted of `r report::report_participants(df, age="Age", gender="Gender", education="Education")`, for a total trial number of `r nrow(df)`.
+
+
+## Exclusion 
+
+```{r}
+# Ensure 'Intervention_Duration' is numeric and remove invalid rows
+df$Intervention_Duration <- as.numeric(df$Intervention_Duration)
+df_clean <- na.omit(df)  # Remove rows with NA in any column
+
+# Identify participants with Intervention_Duration < 12
+participants_to_remove <- df$Participant[df$Intervention_Duration < 12]
+
+# Filter df to remove those rows
+df <- df[df$Intervention_Duration >= 12, ]
+
+# Remove matching participants from dfmist
+dfmist <- dfmist[!dfmist$Participant %in% participants_to_remove, ]
+
+# Generate summary statistics for 'Intervention_Duration' by 'Intervention'
+library(dplyr)
+summary_stats <- df_clean %>%
+  group_by(Intervention) %>%
+  summarise(
+    Mean = mean(Intervention_Duration, na.rm = TRUE),
+    SD = sd(Intervention_Duration, na.rm = TRUE),
+    Min = min(Intervention_Duration, na.rm = TRUE),
+    Max = max(Intervention_Duration, na.rm = TRUE)
+  )
+
+# Display the summary statistics
+print(summary_stats)
+
+# Compute the mean and SD for each group
+summary_stats <- df_clean %>%
+  group_by(Intervention) %>%
+  summarise(
+    Mean = mean(Intervention_Duration, na.rm = TRUE),
+    SD = sd(Intervention_Duration, na.rm = TRUE)
+  )
+
+# Merge the summary statistics back with the original data
+df_clean <- df_clean %>%
+  left_join(summary_stats, by = "Intervention") %>%
+  mutate(
+  ) %>%
+  select(-Mean, -SD)  # Remove the temporary mean and SD columns
+
+
+```
+
+
+
+### Intervention Duration
+
+```{r}
+df |> 
+  ggplot(aes(x=Intervention_Duration, fill=Intervention)) +
+  geom_density(alpha=0.6) +
+  theme_minimal()
+```
+
+
+## Questionnaires
+
+### Political Identification
+
+
+```{r}
+df$Political_LiberalConservative <- ifelse(df$ANES_1 == 4, NA, df$ANES_1)
+df$Political_LiberalConservative <- ifelse(df$Political_LiberalConservative > 3, 
+                                           df$Political_LiberalConservative - 1, 
+                                           df$Political_LiberalConservative)
+df$Political_Affiliation <- case_when(df$ANES_2 == 0 ~ "Democrat", 
+                                      df$ANES_2 == 1 ~ "Republican", 
+                                      df$ANES_2 == 2 ~ "None or Independent", 
+                                      .default = "Other")
+ 
+df <- select(df, -starts_with("ANES"))
+```
+
+`r report(df[, c("Political_LiberalConservative", "Political_Affiliation")], n_entries=4)`
+
+```{r}
+df |> 
+  filter(!is.na(Political_LiberalConservative) & Political_Affiliation != "None or Independent") |> 
+  ggplot(aes(x=Political_LiberalConservative, fill=Political_Affiliation)) +
+  geom_density(alpha=0.6) 
+```
+
+
+### Authoritarianism (VSA)
+
+Total Right-Wing Authoritarianism score: the sum of all items divided by 6. Note:Item  1 and 2 measure Conservatism or Authoritarian Submission. Items 3 and 4 measure Traditionalism or Conventionalism. Items 5 and 6 measure Authoritarianism or Authoritarian Aggression.
+
+
+```{r}
+vsa <- select(df, starts_with("VSA_"), -VSA_Duration) 
+
+plot(summary(correlation(vsa)))
+
+df$VSA_Conservatism <- (datawizard::reverse_scale(df$VSA_1, range = c(0, 8)) + df$VSA_2) / 2
+df$VSA_Traditionalism <- (df$VSA_3 + datawizard::reverse_scale(df$VSA_4, range = c(0, 8))) / 2
+df$VSA_Authoritarianism <- (datawizard::reverse_scale(df$VSA_5, range = c(0, 8)) + df$VSA_6) / 2
+df$VSA_General <- rowMeans(df[, c("VSA_Conservatism", "VSA_Traditionalism", "VSA_Authoritarianism")], na.rm = TRUE)
+
+modelsummary::datasummary_skim(select(df, starts_with("VSA_")))
+```
+
+
+### BFI
+
+```{r}
+#| code-fold: false
+
+df$BFI_Agreeableness <- (df$BFI10_2 + (6-df$BFI10_7)) / 2
+df$BFI_Extraversion <- (df$BFI10_6 + (6-df$BFI10_1)) / 2
+df$BFI_Conscientiousness <- (df$BFI10_8 + (6-df$BFI10_3)) / 2
+df$BFI_Neuroticism <- (df$BFI10_9 + (6-df$BFI10_4)) / 2
+df$BFI_Openness <- (df$BFI10_10 + (6-df$BFI10_5)) / 2
+```
+
+```{r}
+modelsummary::datasummary_skim(select(df, starts_with("BFI_")))
+```
+
+### GCBS
+
+
+```{r}
+GCBS <- select(df, starts_with("GCBS"))
+
+df$GCBS_GovernmentMalfeasance <- (df$GCBS15_1 + df$GCBS15_6 + df$GCBS15_11) / 3
+df$GCBS_Extraterrestrial <- (df$GCBS15_3 + df$GCBS15_8 + df$GCBS15_13) / 3
+df$GCBS_Malevolent <- (df$GCBS15_2 + df$GCBS15_7 + df$GCBS15_12) / 3
+df$GCBS_Wellbeing <- (df$GCBS15_4 + df$GCBS15_9 + df$GCBS15_14) / 3
+df$GCBS_Control <- (df$GCBS15_5 + df$GCBS15_10 + df$GCBS15_15) / 3
+df$GCBS_General <- rowMeans(select(df, starts_with("GCBS_"), -GCBS_Duration), na.rm = TRUE)
+
+plot(summary(correlation(select(df, starts_with("GCBS_"), -GCBS_Duration))))
+
+
+modelsummary::datasummary_skim(GCBS)
+```
+
+
+### MOCRI
+
+```{r}
+
+mocri  <- select(df, Participant, starts_with("MOCRI_"), -ends_with("Duration")) 
+df <- select(df, -starts_with("MOCRI"))
+
+names(mocri) <- str_replace(names(mocri), "_MOCRI_BOLD_", "_MOCRI_")
+  
+mocri <- mocri |> 
+  pivot_longer(-Participant) |> 
+  separate(name, into = c("extra", "Type", "extra2", "QuestionID", "Answer"), sep = "_") |> 
+  select(-extra, -extra2) |>
+  mutate(
+    Type = ifelse(Type == "BOLD", "Pre", "Post"),
+    Correct = ifelse(Answer == "Manipulative" & value == 0, 1, 0),
+    True_Positive = ifelse(Answer == "Manipulative" & value == 0, 1, 0),
+    True_Negative = ifelse(Answer == "NonManipulative" & value == 1, 1, 0),
+    False_Positive = ifelse(Answer == "NonManipulative" & value == 0, 1, 0),
+    False_Negative = ifelse(Answer == "Manipulative" & value == 1, 1, 0)
+    )
+```
+
+#### Scores
+
+```{r}
+compute_dprime <- function(data) {
+  # Calculate hit rate and false alarm rate
+  H <- (data$True_Positive + 0.5) / (data$True_Positive + data$False_Negative + 1)  # Adjusted Hit Rate
+  FA <- (data$False_Positive + 0.5) / (data$False_Positive + data$True_Negative + 1) # Adjusted False Alarm Rate
+  
+  # Parametric ----
+  # Compute z-scores
+  zH <- qnorm(H) # z-score for hit rate
+  zFA <- qnorm(FA) # z-score for false alarm rate
+  
+  # d' and criterion
+  d_prime <- zH - zFA
+  criterion <- -0.5 * (zH + zFA)
+  
+  # Non-parametric ----
+  # A' (A-prime)
+  A_prime <- ifelse(
+    H > FA,
+    0.5 + ((H - FA) * (1 + H - FA)) / (4 * H * (1 - FA)),
+    ifelse(
+      H < FA,
+      0.5 + ((FA - H) * (1 + FA - H)) / (4 * FA * (1 - H)),
+      0.5
+    )
+  )
+  
+  # B''d
+  B_double_prime <- ifelse(
+    H != FA,
+    ((1 - H) * (1 - FA) - H * FA) / ((1 - H) * (1 - FA) + H * FA),
+    0
+  )
+  
+  # Combine results
+  cbind(data, data.frame(
+    "dprime" = d_prime,
+    "criterion" = criterion,
+    "aprime" = A_prime,
+    "bppd" = B_double_prime
+  ))
+}
+
+
+# Participant scores
+df <- mocri |> 
+  summarise(
+    correct = sum(Correct) / n(),
+    True_Positive = sum(True_Positive),
+    True_Negative = sum(True_Negative),
+    False_Positive = sum(False_Positive),
+    False_Negative = sum(False_Negative),
+    .by = c("Participant", "Type")
+  ) |> 
+  compute_dprime() |>  
+  select(Participant, Type, correct, dprime, criterion, aprime, bppd) |>
+  pivot_wider(names_from=c("Type"), 
+              values_from=c("correct", "dprime", "criterion", "aprime", "bppd"),
+              names_vary = "fastest") |> 
+  mutate(correct_Diff = correct_Post - correct_Pre,
+         dprime_Diff = dprime_Post - dprime_Pre,
+         criterion_Diff = criterion_Post - criterion_Pre,
+         bppd_Diff = bppd_Post - bppd_Pre) |>
+  datawizard::data_addprefix("MOCRI_", select=-Participant) |>  
+  full_join(df, by="Participant")
+
+
+df |> 
+  summarise(
+    dprime_Pre_avg = mean(MOCRI_dprime_Pre, na.rm = TRUE), 
+    dprime_Pre_min = min(MOCRI_dprime_Pre, na.rm = TRUE), 
+    dprime_Pre_max = max(MOCRI_dprime_Pre, na.rm = TRUE),
+    dprime_Post_avg = mean(MOCRI_dprime_Post, na.rm = TRUE), 
+    dprime_Post_min = min(MOCRI_dprime_Post, na.rm = TRUE), 
+    dprime_Post_max = max(MOCRI_dprime_Post, na.rm = TRUE)
+  )
+
+
+df |> 
+  ggplot(aes(x = MOCRI_correct_Pre, y = MOCRI_dprime_Pre, color = "Pre")) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_point(aes(x = MOCRI_correct_Post, y = MOCRI_dprime_Post, color = "Post")) +
+  geom_smooth(aes(x = MOCRI_correct_Post, y = MOCRI_dprime_Post, color = "Post"), method = "lm", se = FALSE) +
+  labs(title = "MOCRI Correct vs. dprime", x = "Correct", y = "dprime")
+
+```
+
+
+### MIST
+
+```{r}
+dfmist <- dfmist |>
+  full_join(df[, c("Participant", "Intervention")], by = "Participant") |>
+  mutate(temp = Item) |> 
+  separate(temp, into = c("extra", "QuestionType", "Topic", "QuestionID"), sep = "_")  |> 
+  select(-extra, -QuestionID) |> 
+    mutate(
+    Correct = case_when(
+      MIST > 50 & QuestionType == "real" ~ 1,
+      MIST < 50 & QuestionType == "fake" ~ 1,
+      .default = 0
+    ),
+    True_Positive = ifelse(MIST > 50 & QuestionType == "real", 1, 0),
+    True_Negative = ifelse(MIST < 50 & QuestionType == "fake", 1, 0),
+    False_Positive = ifelse(MIST > 50 & QuestionType == "fake", 1, 0),
+    False_Negative = ifelse(MIST < 50 & QuestionType == "real", 1, 0)
+    )
+```
+
+#### Items
+
+```{r}
+# Participant scores
+dfmist |> 
+  summarise(p_Correct = sum(Correct) / n(), .by=c("Item")) |> 
+  arrange(p_Correct) |> 
+  gt::gt() |> 
+  gt::fmt_number(columns = "p_Correct", decimals = 2) |> 
+  gt::data_color(columns = "p_Correct", palette=c("red", "green"))
+```
+
+#### Scores
+
+##### True vs. Fake (Binary)
+
+```{r}
+# Participant scores
+df <- dfmist |> 
+  summarise(
+    correct = sum(Correct) / n(),
+    True_Positive = sum(True_Positive),
+    True_Negative = sum(True_Negative),
+    False_Positive = sum(False_Positive),
+    False_Negative = sum(False_Negative),
+    .by = c("Participant", "Condition", "Topic")
+  ) |> 
+  compute_dprime() |>  
+  select(Participant, Condition, Topic, correct, dprime, criterion, aprime, bppd) |>
+  pivot_wider(names_from=c("Condition", "Topic"), 
+              values_from=c("correct", "dprime", "criterion", "aprime", "bppd"),
+              names_vary = "slowest") |> 
+  mutate(correct_Diff_covid = correct_Posttest_covid - correct_Pretest_covid,
+         correct_Diff_general = correct_Posttest_general - correct_Pretest_general,
+         dprime_Diff_covid =  dprime_Posttest_covid - dprime_Pretest_covid,
+         dprime_Diff_general = dprime_Posttest_general - dprime_Pretest_general,
+         criterion_Diff_covid = criterion_Posttest_covid - criterion_Pretest_covid,
+         criterion_Diff_general = criterion_Posttest_general - criterion_Pretest_general,
+         aprime_Diff_covid = aprime_Posttest_covid - aprime_Pretest_covid,
+         aprime_Diff_general = aprime_Posttest_general - aprime_Pretest_general,
+         bppd_Diff_covid = bppd_Posttest_covid - bppd_Pretest_covid,
+         bppd_Diff_general = bppd_Posttest_general - bppd_Pretest_general) |>
+  datawizard::data_addprefix("MIST_", select=-Participant) |>  
+  full_join(df, by="Participant")
+
+df$MIST_correct_Diff <- (df$MIST_correct_Diff_covid + df$MIST_correct_Diff_general) / 2
+df$MIST_dprime_Diff <- (df$MIST_dprime_Diff_covid + df$MIST_dprime_Diff_general) / 2
+
+```
+
+##### Confidence
+
+```{r}
+# Confidence
+df <- dfmist |> 
+  # filter(Correct == 1) |> 
+  summarise(
+    Confidence = abs(mean(MIST) - 50) / 50,
+    .by = c("Participant", "Condition", "QuestionType", "Topic")
+  ) |>
+  pivot_wider(names_from=c("Condition", "QuestionType", "Topic"), 
+              values_from=c("Confidence"),
+              names_vary = "slowest") |> 
+  datawizard::data_addprefix("MIST_Confidence_", select=-Participant) |>  
+  full_join(df, by="Participant")
+
+# Compute some average scores IF NEED BE
+df$MIST_Confidence_Pretest <- (df$MIST_Confidence_Pretest_fake_covid + df$MIST_Confidence_Pretest_fake_general + df$MIST_Confidence_Pretest_real_general + df$MIST_Confidence_Pretest_real_covid) / 4
+
+df$MIST_Confidence_Posttest <- (df$MIST_Confidence_Posttest_fake_covid + 
+                                df$MIST_Confidence_Posttest_fake_general + 
+                                df$MIST_Confidence_Posttest_real_general + 
+                                df$MIST_Confidence_Posttest_real_covid) / 4
+
+
+```
+
+```{r}
+df |> 
+  select(starts_with("MIST_Confidence"), -MIST_Confidence_Pretest) |> 
+  pivot_longer(everything()) |> 
+  separate(name, into = c("X1", "X2", "Condition", "QuestionType", "Topic"), sep = "_") |>
+  ggplot(aes(x=value, color=QuestionType, linetype=Topic)) +
+  geom_density(linewidth=1) +
+  theme_minimal() +
+  facet_wrap(~Condition)
+```
+
+
+## Final Sample 
+
+### Gender
+
+```{r}
+ggplot(df, aes(x = Gender)) +
+    geom_bar(fill = "skyblue") +
+    labs(title = "Distribution of Gender", x = "Gender", y = "Count")
+```
+
+```{r}
+## RACE
+# this won't currently work as it's pulling from the self-identification ethnicity column which has far too many distinct entries to be represented well visually. I am not sure how we could get the basic racial data from prolific but it's also not useful for any actual testing we want to do, so probably wouldn't worry about it
+#ggplot(df, aes(x = Ethnicity)) +
+ # geom_bar(fill = "lightgreen") +
+ # labs(title = "Distribution of Race", x = "Race", y = "Count")
+
+```
+
+### Education
+
+```{r}
+# Create the bar chart for Education
+ggplot(df, aes(x = Education)) +
+  geom_bar(fill = "lightblue") +
+  labs(title = "Distribution of Education Level",
+       x = "Education Level",
+       y = "Count") +
+  theme_minimal()  # Optional: Adds a minimal theme for better aesthetics
+```
+
+
+## Save
+
+```{r}
+write.csv(df, "../data/data.csv", row.names = FALSE)
+write.csv(dfmist, "../data/data_mist.csv", row.names = FALSE)
+write.csv(mocri, "../data/data_mocri.csv", row.names = FALSE)
+```
+
+```{r}
+#browseURL("cleaning_report.html")  # Use this in the cleaning file
+
+```
+
