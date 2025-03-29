@@ -65,7 +65,9 @@ dfmocri <- read.csv("../data/data_mocri.csv") |>
 
 dfmist |> 
   ggplot(aes(x=Realness)) +
-  geom_histogram(aes(fill=Nature), alpha=0.6, position="identity", bins=30)
+  geom_histogram(aes(fill=Nature), alpha=0.6, position="identity", bins=30) +
+  theme_minimal()  +
+  scale_fill_manual(values=c("Fake"="#F44336", "Real"="#4CAF50"))
 
 m1 <- glmmTMB(
   Belief ~ Intervention * Condition * Nature * Topic + (Condition * Nature|Participant) + (1|Item ),
@@ -76,14 +78,44 @@ m1 <- glmmTMB(
 means1 <- estimate_means(m1, by=c("Nature", "Condition", "Intervention", "Topic"))
 means1$Topic <- paste0("MIST (", means1$Topic, ")")
 
-estimate_contrasts(m1, contrast="Condition", by=c("Topic", "Nature", "Intervention"), p_adjust="holm")
-estimate_contrasts(m1, contrast="Intervention", by=c("Topic", "Nature", "Condition='Pre-test'"), p_adjust="holm")
 
+
+display_contrasts <- function(m) {
+  
+  if("Topic" %in% insight::find_predictors(m)$conditional) {
+    by <- c("Topic", "Nature")
+  } else {
+    by <- c("Nature")
+  }
+  
+  c1 <- estimate_contrasts(m, contrast="Condition", by=c(by, "Intervention"), p_adjust="holm") |> 
+    select(-SE, -z) |> 
+    insight::format_table() |> 
+    gt::gt() |> 
+    gt::data_color(columns = "Nature", palette = c("#F44336", "#4CAF50")) |> 
+    gt::data_color(columns = "Intervention", palette = c("purple", "yellow"))
+  
+  c2 <- estimate_contrasts(m, contrast="Intervention", by=c(by, "Condition='Pre-test'"), p_adjust="holm") |> 
+    select(-SE, -z) |>  
+    insight::format_table() |> 
+    gt::gt() |> 
+    gt::data_color(columns = "Nature", palette = c("#F44336", "#4CAF50"))
+  
+  list(c1=c1, c2=c2)
+}
+
+c <- display_contrasts(m1)
+c$c1
+c$c2
+```
+
+```{r}
 dfsub <- estimate_grouplevel(m1) 
 
 left_join(dfsub, select(df, Level=Participant, Intervention), by = "Level") |>
-  filter(Intervention == "BadNewsGame") |> 
+  filter(Intervention == "BadNewsGame") |>
   performance::performance_dvour()
+
 # dfsub |> 
 #   filter(Group != "Item", Parameter %in% c("(Intercept)", "ConditionPre-test:NatureReal")) 
 ```
@@ -124,7 +156,9 @@ left_join(dfsub, select(df, Level=Participant, Intervention), by = "Level") |>
 
 dfmist |> 
   ggplot(aes(x=Confidence)) +
-  geom_histogram(aes(fill=Nature), alpha=0.6, position="identity", bins=30)
+  geom_histogram(aes(fill=Nature), alpha=0.6, position="identity", bins=30) +
+  theme_minimal()  +
+  scale_fill_manual(values=c("Fake"="#F44336", "Real"="#4CAF50"))
 
 
 m2 <- glmmTMB(
@@ -150,9 +184,10 @@ p_mist2 <- means2 |>
 p_mist2
 # 
 # # p_mist1 / p_mist2
-# 
-estimate_contrasts(m2, contrast="Condition", by=c("Topic", "Nature", "Intervention"), p_adjust="holm")
-estimate_contrasts(m2, contrast="Intervention", by=c("Topic", "Nature", "Condition='Pre-test'"), p_adjust="holm")
+
+c <- display_contrasts(m2)
+c$c1
+c$c2
 ```
 
 
@@ -170,8 +205,9 @@ m3 <- glmmTMB(
 means3 <- estimate_means(m3, by=c("Nature", "Condition", "Intervention"))
 means3$Topic <- "MOCRI"
 
-estimate_contrasts(m3, contrast="Condition", by=c("Nature", "Intervention"), p_adjust="holm")
-estimate_contrasts(m3, contrast="Intervention", by=c("Nature", "Condition='Pre-test'"), p_adjust="holm")
+c <- display_contrasts(m3)
+c$c1
+c$c2
 ```
 
 ```{r}
@@ -267,7 +303,13 @@ make_covariatemodel <- function(covariate="Political_IdeologyNumeric") {
     theme(strip.background = element_rect(fill="lightgrey", color="white"),
           axis.title.x = element_text(face="bold"))
   
-  trends_conf <- estimate_slopes(m, trend=covariate, by=c(covariate, "Nature", "Topic"), length=5, backend="emmeans")
+  trends_conf <- estimate_slopes(m, trend=covariate, by=c(covariate, "Nature", "Topic"), length=5, backend="emmeans") |> 
+    select(-SE, -z, -df_error) |> 
+    insight::format_table() |> 
+    gt::gt() |> 
+    gt::data_color(columns = "Nature", palette = c("#F44336", "#4CAF50")) |> 
+    gt::data_color(columns = covariate, palette = c("lightblue", "blue")) |> 
+    gt::data_color(columns = "p", fn = function(x) ifelse(x < .01, "orange", ifelse(x < .05, "gold", "white")))
   
   # MOCRI --------------------------------------------------------------------
   f <- paste0("Manipulative ~ Nature / poly(", 
@@ -301,18 +343,26 @@ make_covariatemodel <- function(covariate="Political_IdeologyNumeric") {
     theme(strip.background = element_rect(fill="lightgrey", color="white"),
           axis.title.x = element_text(face="bold"))
   
-  trends2 <- estimate_slopes(m, trend=covariate, by=c(covariate, "Nature"), length=5, backend="emmeans")
+  trends2 <- estimate_slopes(m, trend=covariate, by=c(covariate, "Nature"), length=5, backend="emmeans") 
   trends2$Topic <- "MOCRI"
   
-  list(p=p, trends=rbind(trends1, trends2), p_conf = p_conf, trends_conf=trends_conf)
+  trends <- rbind(trends1, trends2) |> 
+    select(-SE, -z, -df_error) |> 
+    insight::format_table() |> 
+    gt::gt() |> 
+    gt::data_color(columns = "Nature", palette = c("#F44336", "#4CAF50")) |> 
+    gt::data_color(columns = covariate, palette = c("lightblue", "blue")) |> 
+    gt::data_color(columns = "p", fn = function(x) ifelse(x < .01, "orange", ifelse(x < .05, "gold", "white")))
+  
+  list(p=p, trends=trends, p_conf = p_conf, trends_conf=trends_conf)
 }
 
 rez_ideology <- make_covariatemodel(covariate="Political_IdeologyNumeric")
 rez_ideology$p
-filter(rez_ideology$trends, p < .05)
+rez_ideology$trends
 
 rez_ideology$p_conf
-filter(rez_ideology$trends_conf, p < .05)
+rez_ideology$trends_conf
 ```
 
 ### Authoritarianism
@@ -320,12 +370,10 @@ filter(rez_ideology$trends_conf, p < .05)
 ```{r}
 rez_vsa <- make_covariatemodel(covariate="VSA_General")
 rez_vsa$p
-rez_vsa$trends |> 
-  filter(p < .05)
+rez_vsa$trends
 
 rez_vsa$p_conf
-rez_vsa$trends_conf |> 
-  filter(p < .05)
+rez_vsa$trends_conf
 ```
 
 ### Personality
@@ -333,56 +381,46 @@ rez_vsa$trends_conf |>
 ```{r}
 rez_neuro <- make_covariatemodel(covariate="BFI_Neuroticism")
 rez_neuro$p
-rez_neuro$trends |>
-  filter(p < .05)
+rez_neuro$trends
 
 rez_neuro$p_conf
-rez_neuro$trends_conf |>
-  filter(p < .05)
+rez_neuro$trends_conf
 ```
 
 ```{r}
 rez_consc <- make_covariatemodel(covariate="BFI_Conscientiousness")
 rez_consc$p
-rez_consc$trends |>
-  filter(p < .05)
+rez_consc$trends
 
 rez_consc$p_conf
-rez_consc$trends_conf |>
-  filter(p < .05)
+rez_consc$trends_conf
 ```
 
 ```{r}
 rez_agre <- make_covariatemodel(covariate="BFI_Agreeableness")
 rez_agre$p
-rez_agre$trends |>
-  filter(p < .05)
+rez_agre$trends
 
 rez_agre$p_conf
-rez_agre$trends_conf |>
-  filter(p < .05)
+rez_agre$trends_conf
 ```
 
 ```{r}
 rez_open <- make_covariatemodel(covariate="BFI_Openness")
 rez_open$p
-rez_open$trends |>
-  filter(p < .05)
+rez_open$trends 
 
 rez_open$p_conf
-# rez_open$trends_conf |>
-#   filter(p < .1)
+rez_open$trends_conf
 ```
 
 ```{r}
 rez_extr <- make_covariatemodel(covariate="BFI_Extraversion")
 rez_extr$p
-rez_extr$trends |>
-  filter(p < .05)
+rez_extr$trends
 
 rez_extr$p_conf
-# rez_extr$trends_conf |>
-#   filter(p < .2)
+rez_extr$trends_conf 
 ```
 
 ### Conspiracy
