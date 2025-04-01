@@ -460,6 +460,17 @@ ggplot(df, aes(x = Education, fill = Education)) +
   theme_minimal()  # Optional: Adds a minimal theme for better aesthetics
 ```
 
+### COVID Vaccination
+
+```{r}
+ggplot(df, aes(x = COVID_Vaccination, fill = Education)) +
+  geom_bar() +
+  labs(x = "COVID Vaccination Status", y = "Count") +
+  theme_minimal()
+
+df$COVID_Vaccination <- ifelse(!df$COVID_Vaccination %in% c("Yes", "No"), NA, df$COVID_Vaccination) 
+```
+
 
 ## Save
 
