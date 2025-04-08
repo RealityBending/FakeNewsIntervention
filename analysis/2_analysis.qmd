@@ -45,11 +45,11 @@ dfmist <- read.csv("../data/data_mist.csv") |>
          Belief = ifelse(Realness > 0.5, 0, 1),
          Fakeness = 1 - Realness,
          Confidence = abs(datawizard::rescale(Fakeness, to = c(-1, 1), range = c(0, 1)))) |> 
-  full_join(select(df, Participant, Sample, Political_IdeologyNumeric, starts_with("BFI"), starts_with("GCBS"), starts_with("VSA")), by = "Participant") |> 
+  full_join(select(df, Participant, Sample, Political_IdeologyNumeric, starts_with("BFI"), starts_with("GCBS"), starts_with("VSA"), COVID_Vaccination, FakeNews_SubjectiveDiscrimination, Intervention_SubjectiveEffect), by = "Participant") |> 
   filter(Sample == "USA")
 
 dfmocri <- read.csv("../data/data_mocri.csv") |> 
-  full_join(select(df, Participant, Sample, Intervention, Political_IdeologyNumeric, starts_with("BFI"), starts_with("GCBS"), starts_with("VSA")), by = "Participant") |> 
+  full_join(select(df, Participant, Sample, Intervention, Political_IdeologyNumeric, starts_with("BFI"), starts_with("GCBS"), starts_with("VSA"), COVID_Vaccination, FakeNews_SubjectiveDiscrimination, Intervention_SubjectiveEffect), by = "Participant") |> 
   mutate(Condition = fct_relevel(Condition, "Pre-test", "Post-test"),
          Intervention = ifelse(Intervention == "Tetris", "Tetris", "Bad News"),
          Intervention = fct_relevel(Intervention, "Bad News", "Tetris")) |> 
@@ -234,6 +234,24 @@ p1 <- rbind(means1, means3) |>
     aes(x = x, y = y, label = label)
   )
 p1
+```
+
+
+### Subjective Effect
+
+```{r}
+#| code-fold: false
+
+m1 <- glmmTMB(
+  Belief ~ Intervention_SubjectiveEffect * Intervention * Condition * Nature * Topic + (Condition * Nature|Participant) + (1|Item ),
+  data = dfmist,
+  family = "binomial"
+)
+
+c <- estimate_contrasts(m1, contrast="Condition", by=c("Intervention_SubjectiveEffect", "Topic", "Nature", "Intervention"), p_adjust="holm")
+c
+
+# TODO: add conf and mocri models from above and add subjectiveeffect to the formula.
 ```
 
 ## Determinants
@@ -451,14 +469,68 @@ rez_gcbs2$trends_conf |>
 ### Vaccination Status
 
 ```{r}
-# rez_gcbs2 <- make_covariatemodel(covariate="COVID_Vaccination")
-# rez_gcbs2$p
-# rez_gcbs2$trends |>
-#   filter(p < .05)
-# 
-# rez_gcbs2$p_conf
-# rez_gcbs2$trends_conf |>
-#   filter(p < .05)
+# MIST 
+m <- glmmTMB(
+  Belief ~ Nature / COVID_Vaccination * Topic + (Nature|Participant) + (1|Item),
+  data = dfmist[!is.na(dfmist$COVID_Vaccination) & dfmist$Condition == "Pre-test",],
+  family = "binomial"
+)
+
+contrasts_mist <- estimate_contrasts(m, contrast = "COVID_Vaccination", by = c("Nature", "Topic"))
+
+pred_mist <- estimate_means(m, by=c("Nature", "COVID_Vaccination", "Topic")) 
+pred_mist$Topic <- paste0("MIST (", pred_mist$Topic, ")")
+  
+
+
+m <- glmmTMB(
+  Confidence ~ Nature / COVID_Vaccination * Topic + (Nature|Participant) + (1|Item),
+  data = dfmist[!is.na(dfmist$COVID_Vaccination) & dfmist$Condition == "Pre-test" & dfmist$Correct == 1,],
+  family = ordbeta()
+)
+
+contrasts_conf <- estimate_contrasts(m, contrast = "COVID_Vaccination", by = c("Nature", "Topic"))
+contrasts_conf$Topic <- paste0("Confidence: ", contrasts_conf$Topic, "")
+
+pred_conf <- estimate_means(m, by=c("Nature", "COVID_Vaccination", "Topic")) 
+pred_conf$Topic <- paste0("MIST (", pred_conf$Topic, ")")
+pred_conf$Probability <- pred_conf$Proportion
+pred_conf$Proportion <- NULL
+  
+# MOCRI
+m <- glmmTMB(
+  Manipulative ~ Nature / COVID_Vaccination + (Nature|Participant) + (1|Item),
+  data = dfmocri[!is.na(dfmocri$COVID_Vaccination) & dfmocri$Condition == "Pre-test",], 
+  family = "binomial")
+    
+contrasts_mocri <- estimate_contrasts(m, contrast = "COVID_Vaccination", by = c("Nature"))
+contrasts_mocri$Topic <- "MOCRI"
+
+pred_mocri <- estimate_means(m, by=c("Nature", "COVID_Vaccination")) 
+pred_mocri$Topic <- "MOCRI"
+
+
+p <- rbind(pred_mist, pred_mocri) |> 
+    ggplot(aes(x=COVID_Vaccination, y=Probability)) +
+    geom_pointrange(aes(ymin=CI_low, ymax=CI_high, color=Nature), position = position_dodge(width = 0.3)) +
+    geom_line(aes(color=Nature, group=Nature), position = position_dodge(width = 0.3)) +
+    scale_color_manual(values=c("Fake"="#F44336", "Real"="#4CAF50", "Manipulative"="#F44336", "NonManipulative"="#4CAF50"), 
+                       breaks = c("Fake", "Real"), 
+                       labels = c("Fake / Manipulative", "Real / Non-Manipulative")) +
+    scale_y_continuous(labels=scales::percent) + 
+    theme_minimal() +
+    facet_wrap(~Topic) +
+    labs(x = "COVID Vaccination Status", y = "Probability of Believing an Item Fake/Manipulative") +
+    theme(strip.background = element_rect(fill="lightgrey", color="white"),
+          axis.title.x = element_text(face="bold"))
+  
+
+table <- rbind(contrasts_mist, contrasts_conf, contrasts_mocri) |> 
+  select(-SE, -z) |> 
+  insight::format_table() |> 
+  gt::gt() |> 
+  gt::data_color(columns = "Nature", palette = c("#F44336", "#4CAF50")) |> 
+  gt::data_color(columns = "p", fn = function(x) ifelse(x < .01, "orange", ifelse(x < .05, "gold", "white")))
 ```
 
 

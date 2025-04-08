@@ -11,23 +11,24 @@ format:
 ---
 
 
+
 ## Data Preparation
 
-```{r}
-#| message: false
-#| warning: false
 
+::: {.cell}
+
+```{.r .cell-code}
 library(tidyverse)
 library(easystats)
 library(patchwork)
 library(ggside)
 library(modelsummary)
 ```
+:::
 
+::: {.cell}
 
-```{r}
-#| code-fold: false
-
+```{.r .cell-code  code-fold="false"}
 df <- read.csv("../data/rawdata_participants.csv") |> 
   mutate(Political_Affiliation = fct_relevel(Political_Affiliation, "Green", "Labour", "Democrat", "None", "None or Independent", "Liberal-Democrats", "Conservative", "Republican"),
          Political_Ideology = fct_relevel(Political_Ideology, "Extremely Liberal", "Liberal", "Slightly Liberal", "Moderate", "Don't Know", "Slightly Conservative", "Conservative", "Extremely Conservative"))
@@ -35,39 +36,78 @@ dfmist <- read.csv("../data/rawdata_mist.csv")
 
 colors_party <- c("Democrat" = "blue", "Republican" = "red", "Labour" = "red", "Conservative" = "blue", "Green" = "green", "None or Independent" = "grey")
 ```
+:::
 
-The initial sample consisted of `r report::report_participants(df, age="Age", gender="Gender", education="Education")``.
+
+The initial sample consisted of 421 participants (Mean age = 43.2, SD = 16.4, range: [17, 83], 0.5% missing; Gender: 52.0% women, 45.8% men, 2.14% non-binary; Education: Bachelor, 34.68%; Doctorate, 4.04%; High School, 38.24%; Master, 17.10%; Other, 5.94%)`.
 
 
 ## Exclusion 
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 outliers <- list()
 ```
+:::
+
 
 
 ### Intervention Duration
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 df |> 
   ggplot(aes(x=Intervention_Duration, fill=Intervention)) +
   geom_density(alpha=0.6) +
   geom_vline(xintercept = 12, linetype="dashed") +
   theme_minimal()
+```
 
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-4-1.png){width=672}
+:::
+
+```{.r .cell-code}
 t.test(Intervention_Duration ~ Intervention, data=df) |> 
   report::report(data=df)
 ```
 
-```{r}
-outliers$Intervention_Duration <- df$Participant[df$Intervention_Duration < 12]
+::: {.cell-output .cell-output-stdout}
+
+```
+Effect sizes were labelled following Cohen's (1988) recommendations.
+
+The Welch Two Sample t-test testing the difference of Intervention_Duration by
+Intervention (mean in group BadNewsGame = 17.01, mean in group Tetris = 13.55)
+suggests that the effect is positive, statistically significant, and medium
+(difference = 3.47, 95% CI [2.18, 4.75], t(414.09) = 5.31, p < .001; Cohen's d
+= 0.52, 95% CI [0.32, 0.71])
 ```
 
-We removed `r length(outliers$Intervention_Duration)` (`insight::format_percent(length(outliers$Intervention_Duration) / nrow(df))`) participants with Intervention Duration < 12 minutes.
+
+:::
+:::
+
+::: {.cell}
+
+```{.r .cell-code}
+outliers$Intervention_Duration <- df$Participant[df$Intervention_Duration < 12]
+```
+:::
+
+
+We removed 127 (`insight::format_percent(length(outliers$Intervention_Duration) / nrow(df))`) participants with Intervention Duration < 12 minutes.
 
 ### Total Duration
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 df |> 
   mutate(Total_Duration = Experiment_Duration - Intervention_Duration) |>
   filter(Experiment_Duration < 120) |>
@@ -77,17 +117,31 @@ df |>
   theme_minimal()
 ```
 
-```{r}
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-6-1.png){width=672}
+:::
+:::
+
+::: {.cell}
+
+```{.r .cell-code}
 outliers$Experiment_Duration <- df$Participant[(df$Experiment_Duration - df$Intervention_Duration) < 10]
 outliers$Experiment_Duration <- outliers$Experiment_Duration[!outliers$Experiment_Duration %in% outliers$Intervention_Duration]
 ```
+:::
 
-We additionally removed `r length(outliers$Experiment_Duration)` (`insight::format_percent(length(outliers$Experiment_Duration) / nrow(df))`) participants with Intervention Duration < 20 minutes.
 
-```{r}
+We additionally removed 7 (`insight::format_percent(length(outliers$Experiment_Duration) / nrow(df))`) participants with Intervention Duration < 20 minutes.
+
+
+::: {.cell}
+
+```{.r .cell-code}
 df <- df[!df$Participant %in% c(outliers$Intervention_Duration, outliers$Experiment_Duration), ]
 dfmist <- dfmist[!dfmist$Participant %in% c(outliers$Intervention_Duration, outliers$Experiment_Duration), ]
 ```
+:::
+
 
 
 ## Questionnaires
@@ -95,7 +149,10 @@ dfmist <- dfmist[!dfmist$Participant %in% c(outliers$Intervention_Duration, outl
 ### Political Identification
 
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 df |> 
   ggplot(aes(x=Political_Affiliation, fill=Political_Ideology)) +
   geom_bar() +
@@ -103,7 +160,13 @@ df |>
   # theme(legend.position = "none") +
   scale_fill_manual(values = c("Extremely Liberal" = "darkred", "Liberal" = "red", "Slightly Liberal" = "pink", "Moderate" = "gold", "Don't Know"="grey", "Slightly Conservative" = "lightblue", "Conservative" = "blue", "Extremely Conservative" = "darkblue")) +
   facet_wrap(~Sample, scales="free")
+```
 
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-9-1.png){width=672}
+:::
+
+```{.r .cell-code}
 df$Political_IdeologyNumeric <- as.numeric(factor(ifelse(df$Political_Ideology == "Don't Know", NA, df$Political_Ideology)))
 
 df |> 
@@ -114,6 +177,21 @@ df |>
   scale_fill_manual(values = colors_party) 
 ```
 
+::: {.cell-output .cell-output-stderr}
+
+```
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+
+:::
+
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-9-2.png){width=672}
+:::
+:::
+
+
 
 
 ### Authoritarianism (VSA)
@@ -121,9 +199,18 @@ df |>
 Total Right-Wing Authoritarianism score: the sum of all items divided by 6. Note:Item  1 and 2 measure Conservatism or Authoritarian Submission. Items 3 and 4 measure Traditionalism or Conventionalism. Items 5 and 6 measure Authoritarianism or Authoritarian Aggression.
 
 
-```{r}
-plot(summary(correlation(select(df, starts_with("VSA_"), -VSA_Duration))))
 
+::: {.cell}
+
+```{.r .cell-code}
+plot(summary(correlation(select(df, starts_with("VSA_"), -VSA_Duration))))
+```
+
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-10-1.png){width=672}
+:::
+
+```{.r .cell-code}
 df$VSA_Conservatism <- (datawizard::reverse_scale(df$VSA_1, range = c(0, 8)) + df$VSA_2) / 2
 df$VSA_Traditionalism <- (df$VSA_3 + datawizard::reverse_scale(df$VSA_4, range = c(0, 8))) / 2
 df$VSA_Authoritarianism <- (datawizard::reverse_scale(df$VSA_5, range = c(0, 8)) + df$VSA_6) / 2
@@ -145,12 +232,19 @@ p1 <- df |>
 p1
 ```
 
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-10-2.png){width=672}
+:::
+:::
+
+
 
 ### BFI
 
-```{r}
-#| code-fold: false
 
+::: {.cell}
+
+```{.r .cell-code  code-fold="false"}
 df$BFI_Agreeableness <- (df$BFI10_2 + (6-df$BFI10_7)) / 2
 df$BFI_Extraversion <- (df$BFI10_6 + (6-df$BFI10_1)) / 2
 df$BFI_Conscientiousness <- (df$BFI10_8 + (6-df$BFI10_3)) / 2
@@ -161,8 +255,11 @@ df$BFI_Openness <- (df$BFI10_10 + (6-df$BFI10_5)) / 2
 df <- df[!grepl("BFI.*[0-9]", names(df))]
 df$BFI_Duration <- NULL
 ```
+:::
 
-```{r}
+::: {.cell}
+
+```{.r .cell-code}
 p1 <- df |> 
   filter(Sample == "USA") |> 
   pivot_longer(starts_with("BFI_")) |> 
@@ -173,10 +270,19 @@ p1 <- df |>
 p1
 ```
 
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-12-1.png){width=672}
+:::
+:::
+
+
 ### GCBS
 
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 df$GCBS_GovernmentMalfeasance <- (df$GCBS15_1 + df$GCBS15_6 + df$GCBS15_11) / 3
 df$GCBS_Extraterrestrial <- (df$GCBS15_3 + df$GCBS15_8 + df$GCBS15_13) / 3
 df$GCBS_Malevolent <- (df$GCBS15_2 + df$GCBS15_7 + df$GCBS15_12) / 3
@@ -189,7 +295,13 @@ df$GCBS_Duration <- NULL
 df$GCBS_General <- rowMeans(select(df, starts_with("GCBS_")), na.rm = TRUE)
 
 plot(summary(correlation(select(df, starts_with("GCBS_")))))
+```
 
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-13-1.png){width=672}
+:::
+
+```{.r .cell-code}
 p1 <- df |> 
   filter(Sample == "USA") |> 
   pivot_longer(starts_with("GCBS_")) |> 
@@ -200,10 +312,19 @@ p1 <- df |>
 p1
 ```
 
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-13-2.png){width=672}
+:::
+:::
+
+
 
 ### MOCRI
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 mocri <- df |> 
   select(Participant, starts_with("MOCRI_"), -ends_with("Duration"))  |> 
   pivot_longer(-Participant) |> 
@@ -226,7 +347,13 @@ mocri |>
   ggplot(aes(x=Nature, y=N)) +
   geom_bar(stat="identity") +
   facet_grid(~Condition) 
+```
 
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-14-1.png){width=672}
+:::
+
+```{.r .cell-code}
 df <- mocri |> 
   summarise(
     MOCRI_Correct = sum(Correct) / n(),
@@ -244,9 +371,11 @@ df <- mocri |>
 # Remove cols that start with MOCRI and contain a digit
 df <- df[!grepl("^MOCRI.*[0-9].*", names(df))]
 ```
+:::
 
+::: {.cell}
 
-```{r}
+```{.r .cell-code}
 # compute_dprime <- function(data) {
 #   # Calculate hit rate and false alarm rate
 #   H <- (data$True_Positive + 0.5) / (data$True_Positive + data$False_Negative + 1)  # Adjusted Hit Rate
@@ -332,12 +461,17 @@ df <- df[!grepl("^MOCRI.*[0-9].*", names(df))]
 #   geom_smooth(aes(x = MOCRI_correct_Post, y = MOCRI_dprime_Post, color = "Post"), method = "lm", se = FALSE) +
 #   labs(title = "MOCRI Correct vs. dprime", x = "Correct", y = "dprime")
 ```
+:::
+
 
 
 ### MIST
 
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 dfmist <- dfmist |>
   full_join(df[, c("Participant", "Intervention")], by = "Participant") |>
   mutate(
@@ -352,12 +486,17 @@ dfmist <- dfmist |>
     False_Negative = ifelse(Realness > 0.5 & Nature == "Fake", 1, 0)
     ) 
 ```
+:::
+
 
 
 
 #### Items
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 p1 <- dfmist |> 
   summarise(Realness = mean(Realness),
             Nature = unique(Nature),
@@ -383,10 +522,19 @@ p2 <- dfmist |>
 p1 / p2
 ```
 
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-17-1.png){width=672}
+:::
+:::
+
+
 #### Scores
 
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 df <- dfmist |> 
   summarise(
     MIST_Correct = sum(Correct) / n(),
@@ -433,13 +581,17 @@ df <- df[!grepl("MIST_.*[0-9].*", names(df))]
 # 
 # df$MIST_correct_Diff <- (df$MIST_correct_Diff_covid + df$MIST_correct_Diff_general) / 2
 # df$MIST_dprime_Diff <- (df$MIST_dprime_Diff_covid + df$MIST_dprime_Diff_general) / 2
-
 ```
+:::
+
 
 ### Self-Assessments
 
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 df <- df |> 
   mutate(Intervention_Questions_Confidence = case_when(
     Intervention_Questions_Confidence == "Unsure/refuse to answer" ~ NA,
@@ -452,33 +604,65 @@ df <- df |>
   ))
 
 table(df$Intervention_Questions_Confidence) / nrow(df) 
+```
 
+::: {.cell-output .cell-output-stdout}
+
+```
+
+        -1          0          1          2          3 
+0.02090592 0.44250871 0.17770035 0.23344948 0.09756098 
+```
+
+
+:::
+
+```{.r .cell-code}
 df |> 
   filter(!is.na(Intervention_Questions_Confidence)) |> 
   mutate(Intervention_Questions_Confidence = as.factor(Intervention_Questions_Confidence)) |> 
   ggplot(aes(x = Intervention_Questions_Confidence, fill = Intervention_Questions_Confidence)) +
   geom_bar() +
   scale_fill_viridis_d(guide = "none") +
-  theme_minimal() +
-  facet_wrap(~Intervention)
+  theme_minimal()
+```
 
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-19-1.png){width=672}
+:::
+
+```{.r .cell-code}
 df$Intervention_SubjectiveEffect <- ifelse(df$Intervention_Questions_Confidence > 0, 1, 0)
 ```
+:::
+
 
 
 ## Final Sample 
 
 ### Gender
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 ggplot(df, aes(x = Gender, fill = Gender)) +
     geom_bar() +
     labs(title = "Distribution of Gender", x = "Gender", y = "Count")
 ```
 
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-20-1.png){width=672}
+:::
+:::
+
+
 ### Education
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 # Create the bar chart for Education
 ggplot(df, aes(x = Education, fill = Education)) +
   geom_bar() +
@@ -488,23 +672,44 @@ ggplot(df, aes(x = Education, fill = Education)) +
   theme_minimal()  # Optional: Adds a minimal theme for better aesthetics
 ```
 
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-21-1.png){width=672}
+:::
+:::
+
+
 ### COVID Vaccination
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 ggplot(df, aes(x = COVID_Vaccination, fill = Education)) +
   geom_bar() +
   labs(x = "COVID Vaccination Status", y = "Count") +
   theme_minimal()
+```
 
+::: {.cell-output-display}
+![](1_cleaning_files/figure-html/unnamed-chunk-22-1.png){width=672}
+:::
+
+```{.r .cell-code}
 df$COVID_Vaccination <- ifelse(!df$COVID_Vaccination %in% c("Yes", "No"), NA, df$COVID_Vaccination) 
 ```
+:::
+
 
 
 ## Save
 
-```{r}
+
+::: {.cell}
+
+```{.r .cell-code}
 write.csv(df, "../data/data_participants.csv", row.names = FALSE)
 write.csv(dfmist, "../data/data_mist.csv", row.names = FALSE)
 write.csv(mocri, "../data/data_mocri.csv", row.names = FALSE)
 ```
+:::
 
