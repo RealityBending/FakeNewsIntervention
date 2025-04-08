@@ -45,11 +45,11 @@ dfmist <- read.csv("../data/data_mist.csv") |>
          Belief = ifelse(Realness > 0.5, 0, 1),
          Fakeness = 1 - Realness,
          Confidence = abs(datawizard::rescale(Fakeness, to = c(-1, 1), range = c(0, 1)))) |> 
-  full_join(select(df, Participant, Sample, Political_IdeologyNumeric, starts_with("BFI"), starts_with("GCBS"), starts_with("VSA"), COVID_Vaccination, FakeNews_SubjectiveDiscrimination, Intervention_SubjectiveEffect), by = "Participant") |> 
+  full_join(select(df, Participant, Sample, Intervention_Valid, Political_IdeologyNumeric, starts_with("BFI"), starts_with("GCBS"), starts_with("VSA"), COVID_Vaccination, FakeNews_SubjectiveDiscrimination, Intervention_SubjectiveEffect), by = "Participant") |> 
   filter(Sample == "USA")
 
 dfmocri <- read.csv("../data/data_mocri.csv") |> 
-  full_join(select(df, Participant, Sample, Intervention, Political_IdeologyNumeric, starts_with("BFI"), starts_with("GCBS"), starts_with("VSA"), COVID_Vaccination, FakeNews_SubjectiveDiscrimination, Intervention_SubjectiveEffect), by = "Participant") |> 
+  full_join(select(df, Participant, Sample, Intervention, Intervention_Valid, Political_IdeologyNumeric, starts_with("BFI"), starts_with("GCBS"), starts_with("VSA"), COVID_Vaccination, FakeNews_SubjectiveDiscrimination, Intervention_SubjectiveEffect), by = "Participant") |> 
   mutate(Condition = fct_relevel(Condition, "Pre-test", "Post-test"),
          Intervention = ifelse(Intervention == "Tetris", "Tetris", "Bad News"),
          Intervention = fct_relevel(Intervention, "Bad News", "Tetris")) |> 
@@ -63,7 +63,7 @@ dfmocri <- read.csv("../data/data_mocri.csv") |>
 ```{r}
 #| code-fold: false
 
-dfmist |> 
+dfmist[dfmist$Intervention_Valid == TRUE, ] |> 
   ggplot(aes(x=Realness)) +
   geom_histogram(aes(fill=Nature), alpha=0.6, position="identity", bins=30) +
   theme_minimal()  +
@@ -71,7 +71,7 @@ dfmist |>
 
 m1 <- glmmTMB(
   Belief ~ Intervention * Condition * Nature * Topic + (Condition * Nature|Participant) + (1|Item ),
-  data = dfmist,
+  data = dfmist[dfmist$Intervention_Valid == TRUE, ],
   family = "binomial"
 )
 
@@ -154,7 +154,7 @@ left_join(dfsub, select(df, Level=Participant, Intervention), by = "Level") |>
 ```{r}
 #| code-fold: false
 
-dfmist |> 
+dfmist[dfmist$Intervention_Valid == TRUE, ] |> 
   ggplot(aes(x=Confidence)) +
   geom_histogram(aes(fill=Nature), alpha=0.6, position="identity", bins=30) +
   theme_minimal()  +
@@ -163,7 +163,7 @@ dfmist |>
 
 m2 <- glmmTMB(
   Confidence ~ Intervention * Condition * Nature * Topic + (Nature * Condition|Participant) + (1|Item ),
-  data = filter(dfmist, Correct == 1),
+  data = filter(dfmist, Correct == 1, Intervention_Valid == TRUE),
   family = ordbeta()
 )
 
@@ -198,7 +198,7 @@ c$c2
 
 m3 <- glmmTMB(
   Manipulative ~ Intervention * Nature * Condition + (Nature | Participant) + (1|Item ),
-  data = dfmocri,
+  data = dfmocri[dfmocri$Intervention_Valid == TRUE, ],
   family = "binomial"
 )
 
@@ -244,7 +244,7 @@ p1
 
 m1 <- glmmTMB(
   Belief ~ Intervention_SubjectiveEffect * Intervention * Condition * Nature * Topic + (Condition * Nature|Participant) + (1|Item ),
-  data = dfmist,
+  data = dfmist[dfmist$Intervention_Valid == TRUE, ],
   family = "binomial"
 )
 

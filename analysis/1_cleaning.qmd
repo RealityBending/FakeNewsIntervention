@@ -62,9 +62,10 @@ t.test(Intervention_Duration ~ Intervention, data=df) |>
 
 ```{r}
 outliers$Intervention_Duration <- df$Participant[df$Intervention_Duration < 10]
+df$Intervention_Valid <- df$Intervention_Duration > 10
 ```
 
-We removed `r length(outliers$Intervention_Duration)` (`insight::format_percent(length(outliers$Intervention_Duration) / nrow(df))`) participants with Intervention Duration < 10 minutes.
+`r length(outliers$Intervention_Duration)` (`insight::format_percent(length(outliers$Intervention_Duration) / nrow(df))`) participants with Intervention Duration < 10 minutes will be removed from the intervention analysis.
 
 ### Total Duration
 
@@ -83,11 +84,11 @@ outliers$Experiment_Duration <- df$Participant[(df$Experiment_Duration - df$Inte
 outliers$Experiment_Duration <- outliers$Experiment_Duration[!outliers$Experiment_Duration %in% outliers$Intervention_Duration]
 ```
 
-We additionally removed `r length(outliers$Experiment_Duration)` (`r `insight::format_percent(length(outliers$Experiment_Duration) / nrow(df))`) participants with Intervention Duration < 20 minutes.
+We removed `r length(outliers$Experiment_Duration)` (`r `insight::format_percent(length(outliers$Experiment_Duration) / nrow(df))`) participants with Intervention Duration < 20 minutes.
 
 ```{r}
-df <- df[!df$Participant %in% c(outliers$Intervention_Duration, outliers$Experiment_Duration), ]
-dfmist <- dfmist[!dfmist$Participant %in% c(outliers$Intervention_Duration, outliers$Experiment_Duration), ]
+df <- df[!df$Participant %in% c(outliers$Experiment_Duration), ]
+dfmist <- dfmist[!dfmist$Participant %in% c(outliers$Experiment_Duration), ]
 ```
 
 

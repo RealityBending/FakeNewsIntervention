@@ -193,10 +193,11 @@ suggests that the effect is positive, statistically significant, and medium
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>outliers<span class="sc">$</span>Intervention_Duration <span class="ot">&lt;-</span> df<span class="sc">$</span>Participant[df<span class="sc">$</span>Intervention_Duration <span class="sc">&lt;</span> <span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>outliers<span class="sc">$</span>Intervention_Duration <span class="ot">&lt;-</span> df<span class="sc">$</span>Participant[df<span class="sc">$</span>Intervention_Duration <span class="sc">&lt;</span> <span class="dv">10</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Intervention_Valid <span class="ot">&lt;-</span> df<span class="sc">$</span>Intervention_Duration <span class="sc">&gt;</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>We removed 93 (<code>insight::format_percent(length(outliers$Intervention_Duration) / nrow(df))</code>) participants with Intervention Duration &lt; 10 minutes.</p>
+<p>93 (<code>insight::format_percent(length(outliers$Intervention_Duration) / nrow(df))</code>) participants with Intervention Duration &lt; 10 minutes will be removed from the intervention analysis.</p>
 </section>
 <section id="total-duration" class="level3">
 <h3 class="anchored" data-anchor-id="total-duration">Total Duration</h3>
@@ -226,12 +227,12 @@ suggests that the effect is positive, statistically significant, and medium
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>outliers<span class="sc">$</span>Experiment_Duration <span class="ot">&lt;-</span> outliers<span class="sc">$</span>Experiment_Duration[<span class="sc">!</span>outliers<span class="sc">$</span>Experiment_Duration <span class="sc">%in%</span> outliers<span class="sc">$</span>Intervention_Duration]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>We additionally removed 9 (<code>r</code>insight::format_percent(length(outliers$Experiment_Duration) / nrow(df))`) participants with Intervention Duration &lt; 20 minutes.</p>
+<p>We removed 9 (<code>r</code>insight::format_percent(length(outliers$Experiment_Duration) / nrow(df))`) participants with Intervention Duration &lt; 20 minutes.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="sc">!</span>df<span class="sc">$</span>Participant <span class="sc">%in%</span> <span class="fu">c</span>(outliers<span class="sc">$</span>Intervention_Duration, outliers<span class="sc">$</span>Experiment_Duration), ]</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dfmist <span class="ot">&lt;-</span> dfmist[<span class="sc">!</span>dfmist<span class="sc">$</span>Participant <span class="sc">%in%</span> <span class="fu">c</span>(outliers<span class="sc">$</span>Intervention_Duration, outliers<span class="sc">$</span>Experiment_Duration), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="sc">!</span>df<span class="sc">$</span>Participant <span class="sc">%in%</span> <span class="fu">c</span>(outliers<span class="sc">$</span>Experiment_Duration), ]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dfmist <span class="ot">&lt;-</span> dfmist[<span class="sc">!</span>dfmist<span class="sc">$</span>Participant <span class="sc">%in%</span> <span class="fu">c</span>(outliers<span class="sc">$</span>Experiment_Duration), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -685,8 +686,8 @@ suggests that the effect is positive, statistically significant, and medium
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-        -1          0          1          2          3 
-0.01840491 0.45705521 0.16871166 0.23006135 0.10122699 </code></pre>
+         -1           0           1           2           3          10 
+0.016706444 0.453460621 0.169451074 0.217183771 0.102625298 0.007159905 </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
