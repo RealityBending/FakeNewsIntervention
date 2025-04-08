@@ -448,6 +448,20 @@ rez_gcbs2$trends_conf |>
 ```
 
 
+### Vaccination Status
+
+```{r}
+# rez_gcbs2 <- make_covariatemodel(covariate="COVID_Vaccination")
+# rez_gcbs2$p
+# rez_gcbs2$trends |>
+#   filter(p < .05)
+# 
+# rez_gcbs2$p_conf
+# rez_gcbs2$trends_conf |>
+#   filter(p < .05)
+```
+
+
 :::
 
 
