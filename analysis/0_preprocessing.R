@@ -5,8 +5,8 @@ library(dplyr)
 
 
 # Define local path to participant files (modify as needed)
-path <- "C:/Users/domma/Box/Data/FakeNewsIntervention/"
-# path <- "C:/Users/dmm56/Box/Data/FakeNewsIntervention/"
+# path <- "C:/Users/domma/Box/Data/FakeNewsIntervention/"
+path <- "C:/Users/dmm56/Box/Data/FakeNewsIntervention/"
 
 
 

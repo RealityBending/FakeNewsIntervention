@@ -146,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>colors_party <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Democrat"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"Republican"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"Labour"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"Conservative"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"Green"</span> <span class="ot">=</span> <span class="st">"green"</span>, <span class="st">"None or Independent"</span> <span class="ot">=</span> <span class="st">"grey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The initial sample consisted of 421 participants (Mean age = 43.2, SD = 16.4, range: [17, 83], 0.5% missing; Gender: 52.0% women, 45.8% men, 2.14% non-binary; Education: Bachelor, 34.68%; Doctorate, 4.04%; High School, 38.24%; Master, 17.10%; Other, 5.94%)`.</p>
+<p>The initial sample consisted of 428 participants (Mean age = 42.9, SD = 16.4, range: [17, 83], 0.5% missing; Gender: 51.9% women, 46.0% men, 2.10% non-binary; Education: Bachelor, 34.81%; Doctorate, 3.97%; High School, 38.32%; Master, 16.82%; Other, 6.07%)`.</p>
 </section>
 <section id="exclusion" class="level2">
 <h2 class="anchored" data-anchor-id="exclusion">Exclusion</h2>
@@ -164,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Intervention_Duration, <span class="at">fill=</span>Intervention)) <span class="sc">+</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">12</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">10</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Sample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -184,10 +184,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Effect sizes were labelled following Cohen's (1988) recommendations.
 
 The Welch Two Sample t-test testing the difference of Intervention_Duration by
-Intervention (mean in group BadNewsGame = 17.01, mean in group Tetris = 13.55)
+Intervention (mean in group BadNewsGame = 16.94, mean in group Tetris = 13.25)
 suggests that the effect is positive, statistically significant, and medium
-(difference = 3.47, 95% CI [2.18, 4.75], t(414.09) = 5.31, p &lt; .001; Cohen's d
-= 0.52, 95% CI [0.32, 0.71])</code></pre>
+(difference = 3.69, 95% CI [2.39, 4.99], t(420.38) = 5.59, p &lt; .001; Cohen's d
+= 0.54, 95% CI [0.35, 0.73])</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -196,7 +196,7 @@ suggests that the effect is positive, statistically significant, and medium
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>outliers<span class="sc">$</span>Intervention_Duration <span class="ot">&lt;-</span> df<span class="sc">$</span>Participant[df<span class="sc">$</span>Intervention_Duration <span class="sc">&lt;</span> <span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>We removed 86 (<code>insight::format_percent(length(outliers$Intervention_Duration) / nrow(df))</code>) participants with Intervention Duration &lt; 10 minutes.</p>
+<p>We removed 93 (<code>insight::format_percent(length(outliers$Intervention_Duration) / nrow(df))</code>) participants with Intervention Duration &lt; 10 minutes.</p>
 </section>
 <section id="total-duration" class="level3">
 <h3 class="anchored" data-anchor-id="total-duration">Total Duration</h3>

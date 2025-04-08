@@ -52,7 +52,7 @@ outliers <- list()
 df |> 
   ggplot(aes(x=Intervention_Duration, fill=Intervention)) +
   geom_density(alpha=0.6) +
-  geom_vline(xintercept = 12, linetype="dashed") +
+  geom_vline(xintercept = 10, linetype="dashed") +
   theme_minimal() +
   facet_wrap(~Sample)
 
