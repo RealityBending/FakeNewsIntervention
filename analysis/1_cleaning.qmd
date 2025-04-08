@@ -53,17 +53,18 @@ df |>
   ggplot(aes(x=Intervention_Duration, fill=Intervention)) +
   geom_density(alpha=0.6) +
   geom_vline(xintercept = 12, linetype="dashed") +
-  theme_minimal()
+  theme_minimal() +
+  facet_wrap(~Sample)
 
 t.test(Intervention_Duration ~ Intervention, data=df) |> 
   report::report(data=df)
 ```
 
 ```{r}
-outliers$Intervention_Duration <- df$Participant[df$Intervention_Duration < 12]
+outliers$Intervention_Duration <- df$Participant[df$Intervention_Duration < 10]
 ```
 
-We removed `r length(outliers$Intervention_Duration)` (`insight::format_percent(length(outliers$Intervention_Duration) / nrow(df))`) participants with Intervention Duration < 12 minutes.
+We removed `r length(outliers$Intervention_Duration)` (`insight::format_percent(length(outliers$Intervention_Duration) / nrow(df))`) participants with Intervention Duration < 10 minutes.
 
 ### Total Duration
 
@@ -82,7 +83,7 @@ outliers$Experiment_Duration <- df$Participant[(df$Experiment_Duration - df$Inte
 outliers$Experiment_Duration <- outliers$Experiment_Duration[!outliers$Experiment_Duration %in% outliers$Intervention_Duration]
 ```
 
-We additionally removed `r length(outliers$Experiment_Duration)` (`insight::format_percent(length(outliers$Experiment_Duration) / nrow(df))`) participants with Intervention Duration < 20 minutes.
+We additionally removed `r length(outliers$Experiment_Duration)` (`r `insight::format_percent(length(outliers$Experiment_Duration) / nrow(df))`) participants with Intervention Duration < 20 minutes.
 
 ```{r}
 df <- df[!df$Participant %in% c(outliers$Intervention_Duration, outliers$Experiment_Duration), ]
@@ -102,7 +103,8 @@ df |>
   theme_minimal() +
   # theme(legend.position = "none") +
   scale_fill_manual(values = c("Extremely Liberal" = "darkred", "Liberal" = "red", "Slightly Liberal" = "pink", "Moderate" = "gold", "Don't Know"="grey", "Slightly Conservative" = "lightblue", "Conservative" = "blue", "Extremely Conservative" = "darkblue")) +
-  facet_wrap(~Sample, scales="free")
+  facet_wrap(~Sample, scales="free") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 
 df$Political_IdeologyNumeric <- as.numeric(factor(ifelse(df$Political_Ideology == "Don't Know", NA, df$Political_Ideology)))
 
