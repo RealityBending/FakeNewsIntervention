@@ -468,6 +468,52 @@ df |>
 df$Intervention_SubjectiveEffect <- ifelse(df$Intervention_Questions_Confidence > 0, 1, 0)
 ```
 
+```{r}
+unique(df$FakeNews_SubjectiveDiscrimination)
+
+df <- df |> 
+  mutate(FakeNews_SubjectiveDiscrimination = case_when(
+    FakeNews_SubjectiveDiscrimination == "Unsure/Refuse to answer" ~ NA,
+    FakeNews_SubjectiveDiscrimination == "very unlikely" ~ -2,
+    FakeNews_SubjectiveDiscrimination == "unlikely" ~ -1,
+    FakeNews_SubjectiveDiscrimination == "likely" ~ 1,
+    FakeNews_SubjectiveDiscrimination == "very likely" ~ 2,
+    .default = 10
+  ))
+
+table(df$FakeNews_SubjectiveDiscrimination) / nrow(df) 
+
+df |> 
+  filter(!is.na(FakeNews_SubjectiveDiscrimination)) |> 
+  mutate(FakeNews_SubjectiveDiscrimination = as.factor(FakeNews_SubjectiveDiscrimination)) |> 
+  ggplot(aes(x = FakeNews_SubjectiveDiscrimination, fill = FakeNews_SubjectiveDiscrimination)) +
+  geom_bar() +
+  scale_fill_viridis_d(guide = "none") +
+  theme_minimal() +
+  facet_wrap(~Intervention)
+
+df$Initial_SubjectiveDiscrimination <- ifelse(df$FakeNews_SubjectiveDiscrimination > 0, 1, 0)
+
+model <- lm(FakeNews_SubjectiveDiscrimination ~ Political_Ideology * Intervention, data = df)
+summary(model)
+modelplot(model)
+
+#I don't know how to finish this task. I wanted to get some visuals and break down this by intervention group but can't seem to get it to work how I want. Did find significance when just looking directly at political ideology and fakenews subjective discrimination but need to step away from this 
+
+# ggplot(df, aes(x = Political_Ideology, y = FakeNews_SubjectiveDiscrimination, color = Intervention)) +
+#   geom_point(alpha = 0.5) +
+#   geom_smooth(method = "lm", se = TRUE) +
+#   theme_minimal()
+# 
+# ggplot(df, aes(x = Political_Ideology, y = FakeNews_SubjectiveDiscrimination, color = Intervention)) +
+#   geom_point(alpha = 0.5) +
+#   geom_smooth(method = "lm", se = TRUE) +
+#   facet_wrap(~ Intervention) + # Separate plots for each Intervention group
+#   theme_minimal() +
+#   labs(title = "Effect of Political Ideology on Fake News Beliefs by Intervention")
+
+```
+
 
 ## Final Sample 
 
@@ -508,6 +554,6 @@ df$COVID_Vaccination <- ifelse(!df$COVID_Vaccination %in% c("Yes", "No"), NA, df
 ```{r}
 write.csv(df, "../data/data_participants.csv", row.names = FALSE)
 write.csv(dfmist, "../data/data_mist.csv", row.names = FALSE)
-write.csv(mocri, "../data/data_mocri.csv", row.names = FALSE)
+write.csv(dfmocri, "../data/data_mocri.csv", row.names = FALSE)
 ```
 

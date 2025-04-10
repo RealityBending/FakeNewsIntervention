@@ -242,6 +242,7 @@ p1
 ```{r}
 #| code-fold: false
 
+#MIST
 m1 <- glmmTMB(
   Belief ~ Intervention_SubjectiveEffect * Intervention * Condition * Nature * Topic + (Condition * Nature|Participant) + (1|Item ),
   data = dfmist[dfmist$Intervention_Valid == TRUE, ],
@@ -250,6 +251,51 @@ m1 <- glmmTMB(
 
 c <- estimate_contrasts(m1, contrast="Condition", by=c("Intervention_SubjectiveEffect", "Topic", "Nature", "Intervention"), p_adjust="holm")
 c
+
+
+#MIST conf
+m2 <- glmmTMB(
+  Confidence ~ Intervention_SubjectiveEffect * Intervention * Condition * Nature * Topic + (Nature * Condition|Participant) + (1|Item ),
+  data = filter(dfmist, Correct == 1, Intervention_Valid == TRUE),
+  family = ordbeta()
+)
+
+means2 <- estimate_means(m2, by=c("Intervention_SubjectiveEffect", "Nature", "Condition", "Intervention", "Topic"))
+means2$Topic <- paste0("MIST (", means2$Topic, ")")
+
+p_mist2 <- means2 |>
+  ggplot(aes(x=Condition, y=Proportion, color=Nature, group=interaction(Nature, Intervention))) +
+  geom_line(aes(linetype=Intervention), position=position_dodge2(width=0.2)) +
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high), position=position_dodge2(width=0.2)) +
+  facet_wrap(~Topic) +
+  scale_color_manual(values=c("Fake"="#F44336", "Real"="#4CAF50")) +
+  scale_y_continuous(labels=scales::percent) +
+  theme_minimal() +
+  labs(y="Correct Responses - Confidence", color="Items") +
+  theme(axis.title.x=element_blank(),
+        strip.background = element_rect(fill="lightgrey", color="white"))
+p_mist2
+# 
+# # p_mist1 / p_mist2
+
+c <- display_contrasts(m2)
+c$c1
+c$c2
+
+
+#MOCRI
+m3 <- glmmTMB(
+  Manipulative ~ Intervention_SubjectiveEffect * Intervention * Nature * Condition + (Nature | Participant) + (1|Item ),
+  data = dfmocri[dfmocri$Intervention_Valid == TRUE, ],
+  family = "binomial"
+)
+
+means3 <- estimate_means(m3, by=c("Intervention_SubjectiveEffect", "Nature", "Condition", "Intervention"))
+means3$Topic <- "MOCRI"
+
+c <- display_contrasts(m3)
+c$c1
+c$c2
 
 # TODO: add conf and mocri models from above and add subjectiveeffect to the formula.
 ```
@@ -465,6 +511,63 @@ rez_gcbs2$trends_conf |>
   filter(p < .05)
 ```
 
+
+### Initial Fakenews Subjective Discrimination 
+
+```{r}
+# I can't get anything to run, so I don't know if this would work. I suspect not. 
+rez_gcbs2 <- make_covariatemodel(covariate="Initial_SubjectiveDiscrimination")
+rez_gcbs2$p
+rez_gcbs2$trends |>
+  filter(p < .05)
+
+rez_gcbs2$p_conf
+rez_gcbs2$trends_conf |>
+  filter(p < .05)
+
+
+#attempting to do it the hard way, in case the easy way isn't viable
+
+#MIST
+m1 <- glmmTMB(
+  Belief ~ Initial_SubjectiveDiscrimination * Intervention * Condition * Nature * Topic + (Condition * Nature|Participant) + (1|Item ),
+  data = dfmist[dfmist$Intervention_Valid == TRUE, ],
+  family = "binomial"
+)
+
+c <- estimate_contrasts(m1, contrast="Condition", by=c("Initial_SubjectiveDiscrimination", "Topic", "Nature", "Intervention"), p_adjust="holm")
+c
+
+
+#MIST conf
+m2 <- glmmTMB(
+  Confidence ~ Initial_SubjectiveDiscrimination * Intervention * Condition * Nature * Topic + (Nature * Condition|Participant) + (1|Item ),
+  data = filter(dfmist, Correct == 1, Intervention_Valid == TRUE),
+  family = ordbeta()
+)
+
+means2 <- estimate_means(m2, by=c("Initial_SubjectiveDiscrimination", "Nature", "Condition", "Intervention", "Topic"))
+means2$Topic <- paste0("MIST (", means2$Topic, ")")
+
+c <- display_contrasts(m2)
+c$c1
+c$c2
+
+
+#MOCRI
+m3 <- glmmTMB(
+  Manipulative ~ Initial_SubjectiveDiscrimination * Intervention * Nature * Condition + (Nature | Participant) + (1|Item ),
+  data = dfmocri[dfmocri$Intervention_Valid == TRUE, ],
+  family = "binomial"
+)
+
+means3 <- estimate_means(m3, by=c("Initial_SubjectiveDiscrimination", "Nature", "Condition", "Intervention"))
+means3$Topic <- "MOCRI"
+
+c <- display_contrasts(m3)
+c$c1
+c$c2
+```
 
 ### Vaccination Status
 
