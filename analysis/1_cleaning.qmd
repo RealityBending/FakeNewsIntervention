@@ -469,8 +469,6 @@ df$Intervention_SubjectiveEffect <- ifelse(df$Intervention_Questions_Confidence 
 ```
 
 ```{r}
-unique(df$FakeNews_SubjectiveDiscrimination)
-
 df <- df |> 
   mutate(FakeNews_SubjectiveDiscrimination = case_when(
     FakeNews_SubjectiveDiscrimination == "Unsure/Refuse to answer" ~ NA,
@@ -492,7 +490,7 @@ df |>
   theme_minimal() +
   facet_wrap(~Intervention)
 
-df$Initial_SubjectiveDiscrimination <- ifelse(df$FakeNews_SubjectiveDiscrimination > 0, 1, 0)
+df$Initial_SubjectiveDiscrimination <- ifelse(df$FakeNews_SubjectiveDiscrimination > 0, "Likely to believe", "Unlikely to believe")
 
 model <- lm(FakeNews_SubjectiveDiscrimination ~ Political_Ideology * Intervention, data = df)
 summary(model)
@@ -512,6 +510,22 @@ modelplot(model)
 #   theme_minimal() +
 #   labs(title = "Effect of Political Ideology on Fake News Beliefs by Intervention")
 
+```
+
+### Correlation
+
+```{r}
+df |> 
+  filter(Sample == "USA") |> 
+  select(Political_IdeologyNumeric, starts_with("VSA_"), starts_with("GCBS_"), starts_with("BFI_")) |> 
+  # select(-VSA_Traditionalism, -VSA_Authoritarianism, -GCBS_Extraterrestrial, -GCBS_Malevolent, -GCBS_Wellbeing, GCBS_Control, -GCBS_Control) |>  
+  correlation::correlation(p_adjust = "holm") |> 
+  summary() |> 
+  plot() +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+  )
 ```
 
 
