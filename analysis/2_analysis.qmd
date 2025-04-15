@@ -36,7 +36,8 @@ df <- read.csv("../data/data_participants.csv") |>
     Political_Ideology = fct_relevel(Political_Ideology, "Extremely Liberal", "Liberal", "Slightly Liberal", "Moderate", "Don't Know", "Slightly Conservative", "Conservative", "Extremely Conservative"))
 
 dfmist <- read.csv("../data/data_mist.csv") |> 
-  mutate(Condition = ifelse(Condition == "Pretest", "Pre-test", "Post-test"),
+  mutate(
+         Condition = ifelse(Condition == "Pretest", "Pre-test", "Post-test"),
          Condition = fct_relevel(Condition, "Pre-test", "Post-test"),
          Intervention = ifelse(Intervention == "Tetris", "Tetris", "Bad News"),
          Intervention = fct_relevel(Intervention, "Bad News", "Tetris"),

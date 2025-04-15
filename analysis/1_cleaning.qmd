@@ -207,7 +207,7 @@ p1
 ### MOCRI
 
 ```{r}
-mocri <- df |> 
+dfmocri <- df |> 
   select(Participant, starts_with("MOCRI_"), -ends_with("Duration"))  |> 
   pivot_longer(-Participant) |> 
   separate(name, into = c("extra", "Condition", "Item", "Nature"), sep = "_") |> 
@@ -224,13 +224,13 @@ mocri <- df |>
     ) |> 
   select(-value)
 
-mocri |> 
+dfmocri |> 
   summarise(N = sum(Manipulative), .by = c("Participant", "Nature", "Condition")) |> 
   ggplot(aes(x=Nature, y=N)) +
   geom_bar(stat="identity") +
   facet_grid(~Condition) 
 
-df <- mocri |> 
+df <- dfmocri |> 
   summarise(
     MOCRI_Correct = sum(Correct) / n(),
     MOCRI_N_Manipulative = sum(True_Positive) + sum(False_Positive),
