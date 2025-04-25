@@ -491,30 +491,14 @@ df |>
   facet_wrap(~Intervention)
 
 df$Initial_SubjectiveDiscrimination <- ifelse(df$FakeNews_SubjectiveDiscrimination > 0, "Likely to believe", "Unlikely to believe")
-
-model <- lm(FakeNews_SubjectiveDiscrimination ~ Political_Ideology * Intervention, data = df)
-summary(model)
-modelplot(model)
-
-#I don't know how to finish this task. I wanted to get some visuals and break down this by intervention group but can't seem to get it to work how I want. Did find significance when just looking directly at political ideology and fakenews subjective discrimination but need to step away from this 
-
-# ggplot(df, aes(x = Political_Ideology, y = FakeNews_SubjectiveDiscrimination, color = Intervention)) +
-#   geom_point(alpha = 0.5) +
-#   geom_smooth(method = "lm", se = TRUE) +
-#   theme_minimal()
-# 
-# ggplot(df, aes(x = Political_Ideology, y = FakeNews_SubjectiveDiscrimination, color = Intervention)) +
-#   geom_point(alpha = 0.5) +
-#   geom_smooth(method = "lm", se = TRUE) +
-#   facet_wrap(~ Intervention) + # Separate plots for each Intervention group
-#   theme_minimal() +
-#   labs(title = "Effect of Political Ideology on Fake News Beliefs by Intervention")
-
 ```
 
 ### Correlation
 
 ```{r}
+#| fig-width: 12
+#| fig-height: 10
+
 df |> 
   filter(Sample == "USA") |> 
   select(Political_IdeologyNumeric, starts_with("VSA_"), starts_with("GCBS_"), starts_with("BFI_")) |> 
