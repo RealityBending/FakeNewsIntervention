@@ -110,6 +110,51 @@ c$c1
 c$c2
 ```
 
+### New Model for intervention effect by political ideology
+
+```{r}
+m9 <- glmmTMB(
+  Belief ~ Intervention * Condition * Nature * Topic * Political_IdeologyNumeric  + (Condition * Nature|Participant) + (1|Item ),
+  data = dfmist[dfmist$Intervention_Valid == TRUE, ],
+  family = "binomial"
+)
+
+saveRDS(m9, "m9_model.rds")
+
+m9 <- readRDS("m9_model.rds")
+
+
+means9 <- estimate_means(
+  m9,
+  at = list(Political_IdeologyNumeric = seq(1, 7, by = 0.5)),
+  by = c("Political_IdeologyNumeric", "Condition", "Intervention")
+)
+
+saveRDS(means9, file = "means9.rds")
+means9 <- readRDS("means9.rds")
+
+
+p9 <- ggplot(means9, aes(x = Political_IdeologyNumeric, y = Probability, 
+                         color = Nature, linetype = Intervention)) +
+  geom_hline(yintercept = 0.5, color = "lightgrey") +
+  geom_line(linewidth = 1) +
+  geom_ribbon(aes(ymin = CI_low, ymax = CI_high, fill = Nature), alpha = 0.2, color = NA) +
+  scale_color_manual(values = c("Fake" = "#F44336", "Real" = "#4CAF50")) +
+  scale_fill_manual(values = c("Fake" = "#F44336", "Real" = "#4CAF50")) +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal() +
+  labs(x = "Political Ideology (1 = Very Liberal, 7 = Very Conservative)",
+       y = "Probability of Believing an Item Fake/Manipulative",
+       color = "Nature", linetype = "Intervention") +
+  facet_wrap(~Topic) +
+  theme(strip.background = element_rect(fill = "lightgrey", color = "white"))
+
+p9
+
+```
+
+
+
 ```{r}
 dfsub <- estimate_grouplevel(m1) 
 
