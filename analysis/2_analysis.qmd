@@ -113,46 +113,127 @@ c$c2
 ### New Model for intervention effect by political ideology
 
 ```{r}
-m9 <- glmmTMB(
-  Belief ~ Intervention * Condition * Nature * Topic * Political_IdeologyNumeric  + (Condition * Nature|Participant) + (1|Item ),
-  data = dfmist[dfmist$Intervention_Valid == TRUE, ],
-  family = "binomial"
-)
-
-saveRDS(m9, "m9_model.rds")
-
-m9 <- readRDS("m9_model.rds")
-
-
-means9 <- estimate_means(
-  m9,
-  at = list(Political_IdeologyNumeric = seq(1, 7, by = 0.5)),
-  by = c("Political_IdeologyNumeric", "Condition", "Intervention")
-)
-
-saveRDS(means9, file = "means9.rds")
-means9 <- readRDS("means9.rds")
-
-
-p9 <- ggplot(means9, aes(x = Political_IdeologyNumeric, y = Probability, 
-                         color = Nature, linetype = Intervention)) +
-  geom_hline(yintercept = 0.5, color = "lightgrey") +
-  geom_line(linewidth = 1) +
-  geom_ribbon(aes(ymin = CI_low, ymax = CI_high, fill = Nature), alpha = 0.2, color = NA) +
-  scale_color_manual(values = c("Fake" = "#F44336", "Real" = "#4CAF50")) +
-  scale_fill_manual(values = c("Fake" = "#F44336", "Real" = "#4CAF50")) +
-  scale_y_continuous(labels = scales::percent) +
-  theme_minimal() +
-  labs(x = "Political Ideology (1 = Very Liberal, 7 = Very Conservative)",
-       y = "Probability of Believing an Item Fake/Manipulative",
-       color = "Nature", linetype = "Intervention") +
-  facet_wrap(~Topic) +
-  theme(strip.background = element_rect(fill = "lightgrey", color = "white"))
-
-p9
+# m9 <- glmmTMB(
+#   Belief ~ Intervention * Condition * Nature * Topic * Political_IdeologyNumeric  + (Condition * Nature|Participant) + (1|Item ),
+#   data = dfmist[dfmist$Intervention_Valid == TRUE, ],
+#   family = "binomial"
+# )
+# 
+# saveRDS(m9, "m9_model.rds")
+# 
+# m9 <- readRDS("m9_model.rds")
+# 
+# 
+# means9 <- estimate_means(
+#   m9,
+#   at = list(Political_IdeologyNumeric = seq(1, 7, by = 0.5)),
+#   by = c("Political_IdeologyNumeric", "Condition", "Intervention")
+# )
+# 
+# saveRDS(means9, file = "means9.rds")
+# means9 <- readRDS("means9.rds")
+# 
+# 
+# p9 <- ggplot(means9, aes(x = Political_IdeologyNumeric, y = Probability, 
+#                          color = Nature, linetype = Intervention)) +
+#   geom_hline(yintercept = 0.5, color = "lightgrey") +
+#   geom_line(linewidth = 1) +
+#   geom_ribbon(aes(ymin = CI_low, ymax = CI_high, fill = Nature), alpha = 0.2, color = NA) +
+#   scale_color_manual(values = c("Fake" = "#F44336", "Real" = "#4CAF50")) +
+#   scale_fill_manual(values = c("Fake" = "#F44336", "Real" = "#4CAF50")) +
+#   scale_y_continuous(labels = scales::percent) +
+#   theme_minimal() +
+#   labs(x = "Political Ideology (1 = Very Liberal, 7 = Very Conservative)",
+#        y = "Probability of Believing an Item Fake/Manipulative",
+#        color = "Nature", linetype = "Intervention") +
+#   facet_wrap(~Topic) +
+#   theme(strip.background = element_rect(fill = "lightgrey", color = "white"))
+# 
+# p9
 
 ```
 
+### New linear model for intervention effect by political ideology
+
+```{r}
+df$MIST_correct_Diff <- df$MIST_Correct_Posttest - df$MIST_Correct_Pretest
+
+df_clean <- df %>%
+  filter(!is.na(Political_IdeologyNumeric), Intervention == "BadNewsGame") 
+
+
+model <- lm(MIST_correct_Diff ~ Political_IdeologyNumeric, data = df_clean)
+summary(model)
+
+
+ggplot(df_clean, aes(x = Political_IdeologyNumeric, y = MIST_correct_Diff)) +
+  geom_jitter(width = 0.2, alpha = 0.6) +        # spread points horizontally
+  stat_summary(fun = mean, geom = "point", color = "red", size = 3) +  # mean points
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", color = "red", width = 0.2) + # CIs
+  geom_smooth(method = "lm", se = TRUE, color = "blue") +
+  labs(
+    x = "Political Ideology (Numeric)",
+    y = "MIST Correct Post-Pre Difference",
+    title = "Relationship between Political Ideology and MIST Difference"
+  ) +
+  theme_minimal()
+
+model_quad <- lm(MIST_correct_Diff ~ Political_IdeologyNumeric + I(Political_IdeologyNumeric^2), data = df_clean)
+
+
+ggplot(df_clean, aes(x = Political_IdeologyNumeric, y = MIST_correct_Diff)) +
+  geom_jitter(width = 0.2, alpha = 0.6) +
+  stat_summary(fun = mean, geom = "point", color = "red", size = 3) +
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", color = "red", width = 0.2) +
+  geom_smooth(method = "lm", formula = y ~ x + I(x^2), se = TRUE, color = "blue") +
+  labs(
+    x = "Political Ideology (Numeric)",
+    y = "MIST Correct Post-Pre Difference",
+    title = "Quadratic Relationship between Political Ideology and MIST Difference"
+  ) +
+  theme_minimal()
+
+
+```
+
+### New linear model for intervention effect (covid fake only) by political ideology
+
+```{r}
+df_filtered <- dfmist%>%
+  filter(Nature == "Fake",
+         Topic == "Covid items",
+         Intervention == "Bad News")
+
+df_summary <- df_filtered %>%
+  group_by(Participant, Condition) %>%
+  summarise(
+    correct_sum = sum(Correct),
+    total_items = n(),
+    prop_correct = correct_sum / total_items
+  ) %>%
+  ungroup()
+
+
+df_summary_wide <- df_summary %>%
+  select(Participant, Condition, prop_correct) %>%
+  pivot_wider(names_from = Condition, values_from = prop_correct) %>%
+  left_join(df %>% select(Participant, Political_IdeologyNumeric), by = "Participant") %>%
+  mutate(prop_diff = `Post-test` - `Pre-test`)
+
+model2 <- lm(prop_diff ~ Political_IdeologyNumeric, data = df_summary_wide)
+summary(model2)
+
+ggplot(df_summary_wide, aes(x = Political_IdeologyNumeric, y = prop_diff)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = TRUE, color = "blue") +
+  labs(
+    x = "Political Ideology (Numeric)",
+    y = "Change in Proportion Correct (Post - Pre)",
+    title = "Relationship between Political Ideology and Improvement"
+  ) +
+  theme_minimal()
+
+```
 
 
 ```{r}
