@@ -520,6 +520,7 @@ df |>
 ```{r}
 ggplot(df, aes(x = Gender, fill = Gender)) +
     geom_bar() +
+    geom_text(stat = "count", aes(label = ..count..), vjust = -0.5) +
     labs(title = "Distribution of Gender", x = "Gender", y = "Count")
 ```
 
@@ -529,6 +530,7 @@ ggplot(df, aes(x = Gender, fill = Gender)) +
 # Create the bar chart for Education
 ggplot(df, aes(x = Education, fill = Education)) +
   geom_bar() +
+      geom_text(stat = "count", aes(label = ..count..), vjust = -0.5) +
   labs(title = "Distribution of Education Level",
        x = "Education Level",
        y = "Count") +
@@ -538,12 +540,43 @@ ggplot(df, aes(x = Education, fill = Education)) +
 ### COVID Vaccination
 
 ```{r}
-ggplot(df, aes(x = COVID_Vaccination, fill = Education)) +
+ggplot(df, aes(x = COVID_Vaccination, fill= COVID_Vaccination)) +
   geom_bar() +
+  geom_text(stat = "count", aes(label = ..count..), vjust = -0.5) +
   labs(x = "COVID Vaccination Status", y = "Count") +
   theme_minimal()
 
 df$COVID_Vaccination <- ifelse(!df$COVID_Vaccination %in% c("Yes", "No"), NA, df$COVID_Vaccination) 
+```
+
+
+### Self-identified Political Ideology 
+
+```{r}
+
+ggplot(df, aes(x = Political_Ideology, fill = Political_Ideology)) +
+  geom_bar() +
+  labs(x = "Political Ideology", y = "Count") +
+  theme_minimal()
+
+```
+
+### Age
+
+
+```{r}
+ggplot(df, aes(x = Age)) +
+  geom_bar() +
+  labs(x = "Age", y = "Count") +
+  theme_minimal()
+summary_stats <- df %>%
+  summarise(across(c(Age), 
+                   list(mean = ~mean(.x, na.rm = TRUE),
+                        median = ~median(.x, na.rm = TRUE),
+                        sd = ~sd(.x, na.rm = TRUE))))
+
+print(summary_stats)
+
 ```
 
 
